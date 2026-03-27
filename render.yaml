@@ -13,4 +13,4 @@ services:
         generateValue: false
         value: https://mansung-web.onrender.com
       - key: PYTHON_VERSION
-        value: "3.11.0"
+        value: "3.11"
