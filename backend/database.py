@@ -25,6 +25,9 @@ def _make_engine(url: str):
     """
     if url.startswith("sqlite"):
         return create_engine(url, connect_args={"check_same_thread": False})
+    # psycopg2 드라이버 호환: postgresql+psycopg:// → postgresql+psycopg2://
+    if url.startswith("postgresql+psycopg://"):
+        url = url.replace("postgresql+psycopg://", "postgresql+psycopg2://", 1)
     return create_engine(url, pool_pre_ping=True, pool_size=5, max_overflow=10)
 
 
