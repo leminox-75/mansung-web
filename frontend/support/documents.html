@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자료실 | 만성코프레이션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* ── 자료실 전용 스타일 ── */
+    .doc-filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .doc-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .doc-tab-btn {
+      padding: 7px 18px;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 600;
+      border: 1.5px solid var(--border);
+      color: var(--gray);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .doc-tab-btn.active,
+    .doc-tab-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+    .board-search {
+      display: flex;
+      gap: 8px;
+    }
+    .board-search input {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .85rem;
+      width: 200px;
+      font-family: var(--font);
+    }
+    .board-search input:focus { outline: none; border-color: var(--primary); }
+    .board-search button {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: .85rem;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background .2s;
+    }
+    .board-search button:hover { background: var(--primary-dark); }
+
+    /* 문서 테이블 */
+    .doc-table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .doc-table thead { background: #f3f8f4; }
+    .doc-table thead th { padding: 13px 16px; text-align: center; font-size: .85rem; font-weight: 700; color: var(--primary-dark); border-bottom: 2px solid var(--border); }
+    .doc-table tbody tr { border-bottom: 1px solid var(--border); transition: background .15s; }
+    .doc-table tbody tr:last-child { border-bottom: none; }
+    .doc-table tbody tr:hover { background: #f5fbf7; }
+    .doc-table td { padding: 14px 16px; font-size: .88rem; color: var(--dark); vertical-align: middle; text-align: center; }
+    .doc-table td.td-title { text-align: left; }
+    .doc-table td.td-num  { color: var(--gray); width: 60px; }
+    .doc-table td.td-date { color: var(--gray); font-size: .83rem; width: 110px; white-space: nowrap; }
+    .doc-table td.td-size { color: var(--gray-light); font-size: .8rem; width: 80px; }
+
+    /* 파일 타입 배지 */
+    .file-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .file-badge.pdf  { background: #fde8e8; color: #c0392b; }
+    .file-badge.xlsx { background: #e8f4e8; color: #1a6b1a; }
+    .file-badge.hwp  { background: #e8eef8; color: #1a3a8f; }
+    .file-badge.zip  { background: #fff3e0; color: #b05000; }
+
+    /* 카테고리 배지 */
+    .cat-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .cat-badge.product   { background: #e6f4eb; color: var(--primary-dark); }
+    .cat-badge.tech      { background: #e8eef8; color: #1a3a8f; }
+    .cat-badge.cert      { background: #fff3e0; color: #b05000; }
+    .cat-badge.price     { background: #fde8e8; color: #c0392b; }
+
+    /* 다운로드 버튼 */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s;
+      font-family: var(--font);
+    }
+    .btn-download:hover { background: var(--primary-dark); color: #fff; }
+
+    /* 섹션 헤더 */
+    .section-header {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .section-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .total-count { font-size: .85rem; color: var(--gray); }
+    .total-count strong { color: var(--primary); }
+
+    /* 페이지네이션 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      margin-top: 28px;
+    }
+    .page-btn {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-card);
+      color: var(--gray);
+      font-size: .88rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .15s;
+    }
+    .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
+
+    @media (max-width: 700px) {
+      .doc-filter-bar { flex-direction: column; align-items: flex-start; }
+      .board-search input { width: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">MS</div>
+      <div class="logo-text">
+        <div class="logo-name">만성코프레이션</div>
+        <div class="logo-sub">MANSUNG CORPORATION</div>
+      </div>
+    </a>
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="/company/greeting" class="gnb-link">회사소개</a>
+        <div class="snb">
+          <a href="/company/greeting">인사말</a>
+          <a href="/company/history">회사연혁</a>
+          <a href="/company/organization">조직도</a>
+          <a href="/company/location">오시는길</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="/products/product01" class="gnb-link">제품소개</a>
+        <div class="snb">
+          <a href="/products/product01">양어장 부속자재</a>
+          <a href="/products/product02">FTA 부속자재</a>
+          <a href="/products/product03">각관60×60 부속자재</a>
+          <a href="/products/product04">각관75×75 부속자재</a>
+          <a href="/products/product05">연단동 부속자재</a>
+          <a href="/products/product06">고설(수경) 부속자재</a>
+        </div>
+      </div>
+      <div class="gnb-item active">
+        <a href="/support/notices" class="gnb-link">고객지원</a>
+        <div class="snb">
+          <a href="/support/notices">공지사항</a>
+          <a href="/support/documents">자료실</a>
+          <a href="/support/contact">문의하기</a>
+          <a href="/support/location">찾아오시는길</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <span class="header-tel">031-000-0000</span>
+      <button class="hamburger" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 모바일 드로어 -->
+<div class="mobile-overlay"></div>
+<nav class="mobile-nav">
+  <span class="mobile-nav-close" aria-label="닫기">✕</span>
+  <div style="clear:both; padding-top: 16px;"></div>
+  <ul class="mobile-nav-menu">
+    <li class="m-menu-item">
+      <span class="m-menu-title">회사소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">제품소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/products/product01">양어장 부속자재</a></li>
+        <li><a href="/products/product02">FTA 부속자재</a></li>
+        <li><a href="/products/product03">각관60×60 부속자재</a></li>
+        <li><a href="/products/product04">각관75×75 부속자재</a></li>
+        <li><a href="/products/product05">연단동 부속자재</a></li>
+        <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">고객지원 ▾</span>
+      <ul class="m-sub-menu open">
+        <li><a href="/support/notices">공지사항</a></li>
+        <li><a href="/support/documents">자료실</a></li>
+        <li><a href="/support/contact">문의하기</a></li>
+        <li><a href="/support/location">찾아오시는길</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div>📞 031-000-0000</div>
+    <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+  </div>
+</nav>
+
+<!-- ════════════ PAGE HERO ════════════ -->
+<section class="page-hero">
+  <div class="container">
+    <span class="page-hero-label">CUSTOMER SUPPORT</span>
+    <h1 class="page-hero-title">자료실</h1>
+    <nav class="breadcrumb">
+      <a href="/">홈</a>
+      <span class="sep">›</span>
+      <a href="/support/notices">고객지원</a>
+      <span class="sep">›</span>
+      <span class="current">자료실</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ════════════ SUB LAYOUT ════════════ -->
+<div class="sub-layout">
+
+  <!-- LNB -->
+  <aside class="lnb">
+    <div class="lnb-title">고객지원</div>
+    <ul>
+      <li><a href="/support/notices">공지사항</a></li>
+      <li><a href="/support/documents" class="active">자료실</a></li>
+      <li><a href="/support/contact">문의하기</a></li>
+      <li><a href="/support/location">찾아오시는길</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="sub-content">
+
+    <div class="section-header">
+      <h2>자료실</h2>
+      <span class="total-count">총 <strong id="total-count">18</strong>건</span>
+    </div>
+
+    <!-- 필터 + 검색 -->
+    <div class="doc-filter-bar">
+      <div class="doc-tabs">
+        <button class="doc-tab-btn active" data-cat="all">전체</button>
+        <button class="doc-tab-btn" data-cat="product">제품자료</button>
+        <button class="doc-tab-btn" data-cat="tech">기술자료</button>
+        <button class="doc-tab-btn" data-cat="cert">인증서</button>
+        <button class="doc-tab-btn" data-cat="price">가격표</button>
+      </div>
+      <div class="board-search">
+        <input type="text" id="search-keyword" placeholder="자료명 검색">
+        <button onclick="searchDocs()">검색</button>
+      </div>
+    </div>
+
+    <!-- 자료 테이블 -->
+    <table class="doc-table" id="doc-table">
+      <thead>
+        <tr>
+          <th style="width:7%">번호</th>
+          <th style="width:12%">분류</th>
+          <th>제목</th>
+          <th style="width:10%">파일형식</th>
+          <th style="width:9%">용량</th>
+          <th style="width:12%">등록일</th>
+          <th style="width:10%">다운로드</th>
+        </tr>
+      </thead>
+      <tbody id="doc-tbody">
+        <!-- JS로 렌더링 -->
+      </tbody>
+    </table>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+      <a class="page-btn" href="#">«</a>
+      <a class="page-btn" href="#">‹</a>
+      <a class="page-btn active" href="#">1</a>
+      <a class="page-btn" href="#">2</a>
+      <a class="page-btn" href="#">›</a>
+      <a class="page-btn" href="#">»</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">MS</div>
+          <div class="logo-text">
+            <div class="logo-name">만성코프레이션</div>
+            <div class="logo-sub">MANSUNG CORPORATION</div>
+          </div>
+        </div>
+        <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+        <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+      </div>
+      <div class="footer-sitemap">
+        <div>
+          <h4>회사소개</h4>
+          <ul>
+            <li><a href="/company/greeting">인사말</a></li>
+            <li><a href="/company/history">회사연혁</a></li>
+            <li><a href="/company/organization">조직도</a></li>
+            <li><a href="/company/location">오시는길</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>제품소개</h4>
+          <ul>
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>고객지원</h4>
+          <ul>
+            <li><a href="/support/notices">공지사항</a></li>
+            <li><a href="/support/documents">자료실</a></li>
+            <li><a href="/support/contact">문의하기</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>바로가기</h4>
+          <ul>
+            <li><a href="/support/location">찾아오시는길</a></li>
+            <li><a href="/support/contact">견적 문의</a></li>
+            <li><a href="tel:031-000-0000">전화 상담</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+      <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+<script>
+  /**
+   * 자료실 샘플 데이터
+   * API 연결 전 프론트엔드 확인용
+   */
+  const sampleDocs = [
+    { id: 18, cat: 'product', catLabel: '제품자료', title: '2024년 만성코프레이션 제품 종합 카탈로그', fileType: 'pdf',  size: '8.2MB', date: '2024-09-10', downloads: 342 },
+    { id: 17, cat: 'product', catLabel: '제품자료', title: '비닐하우스 단동·연동 파이프 규격표 (2024)', fileType: 'xlsx', size: '1.4MB', date: '2024-08-25', downloads: 218 },
+    { id: 16, cat: 'tech',    catLabel: '기술자료', title: '비닐하우스 설치 매뉴얼 — 단동형 표준 시공법', fileType: 'pdf',  size: '5.6MB', date: '2024-08-12', downloads: 186 },
+    { id: 15, cat: 'cert',    catLabel: '인증서',   title: 'ISO 9001:2015 품질경영시스템 인증서',          fileType: 'pdf',  size: '0.8MB', date: '2024-07-20', downloads: 129 },
+    { id: 14, cat: 'tech',    catLabel: '기술자료', title: '프레스 부품 재질 및 강도 시험 성적서',          fileType: 'pdf',  size: '2.3MB', date: '2024-07-08', downloads: 97  },
+    { id: 13, cat: 'price',   catLabel: '가격표',   title: '2024년 3분기 비닐하우스 자재 단가표',          fileType: 'xlsx', size: '0.6MB', date: '2024-07-01', downloads: 401 },
+    { id: 12, cat: 'product', catLabel: '제품자료', title: '프레스 제품 라인업 카탈로그 (냉간단조/스탬핑)', fileType: 'pdf',  size: '6.1MB', date: '2024-06-18', downloads: 155 },
+    { id: 11, cat: 'tech',    catLabel: '기술자료', title: '연동 비닐하우스 구조 설계 가이드',              fileType: 'pdf',  size: '4.8MB', date: '2024-06-05', downloads: 143 },
+    { id: 10, cat: 'cert',    catLabel: '인증서',   title: '친환경 농자재 인증서 — 경기도 인증',           fileType: 'pdf',  size: '1.1MB', date: '2024-05-22', downloads: 88  },
+    { id:  9, cat: 'price',   catLabel: '가격표',   title: '2024년 2분기 프레스 제품 단가표',              fileType: 'xlsx', size: '0.5MB', date: '2024-04-01', downloads: 276 },
+  ];
+
+  const fileTypeIcon = { pdf: '📄', xlsx: '📊', hwp: '📝', zip: '📦' };
+
+  let currentCat = 'all';
+  let currentKeyword = '';
+
+  /**
+   * 자료 목록 테이블 렌더링
+   * @param {Array} data - 자료 배열
+   */
+  function renderDocs(data) {
+    const tbody = document.getElementById('doc-tbody');
+    tbody.innerHTML = '';
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--gray);">검색된 자료가 없습니다.</td></tr>';
+      document.getElementById('total-count').textContent = 0;
+      return;
+    }
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="td-num">${item.id}</td>
+        <td><span class="cat-badge ${item.cat}">${item.catLabel}</span></td>
+        <td class="td-title" style="text-align:left;">
+          <span style="font-weight:600;">${item.title}</span>
+          <span style="font-size:.75rem;color:var(--gray-light);margin-left:8px;">다운로드 ${item.downloads.toLocaleString()}회</span>
+        </td>
+        <td><span class="file-badge ${item.fileType}">${fileTypeIcon[item.fileType] || '📁'} ${item.fileType.toUpperCase()}</span></td>
+        <td class="td-size">${item.size}</td>
+        <td class="td-date">${item.date}</td>
+        <td><a href="#" class="btn-download" onclick="handleDownload(event, ${item.id})">⬇ 다운로드</a></td>
+      `;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('total-count').textContent = data.length;
+  }
+
+  /**
+   * 카테고리 + 검색 키워드 기반 필터링
+   */
+  function filterDocs() {
+    let result = sampleDocs;
+    if (currentCat !== 'all') result = result.filter(d => d.cat === currentCat);
+    if (currentKeyword) result = result.filter(d => d.title.toLowerCase().includes(currentKeyword));
+    renderDocs(result);
+  }
+
+  /**
+   * 검색 실행
+   */
+  function searchDocs() {
+    currentKeyword = document.getElementById('search-keyword').value.trim().toLowerCase();
+    filterDocs();
+  }
+
+  /**
+   * 다운로드 처리 (샘플: 토스트 알림)
+   * @param {Event} e
+   * @param {number} id
+   */
+  function handleDownload(e, id) {
+    e.preventDefault();
+    const doc = sampleDocs.find(d => d.id === id);
+    if (doc) {
+      showToast(`"${doc.title}" 다운로드가 시작됩니다.`, 'success');
+      doc.downloads++;
+    }
+  }
+
+  // 카테고리 탭 이벤트
+  document.querySelectorAll('.doc-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = btn.dataset.cat;
+      filterDocs();
+    });
+  });
+
+  // 검색 엔터 키
+  document.getElementById('search-keyword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') searchDocs();
+  });
+
+  // 초기 렌더링
+  renderDocs(sampleDocs);
+</script>
+</body>
+</html>

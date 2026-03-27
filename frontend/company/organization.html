@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>조직도 | 만성코프레이션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    .org-chart {
+      overflow-x: auto;
+      padding: 16px 0 32px;
+    }
+    .org-chart-inner {
+      min-width: 640px;
+    }
+
+    /* Level rows */
+    .org-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    /* Connector lines container */
+    .org-connectors {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .org-v-line {
+      width: 2px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+    .org-h-branch {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+    .org-h-branch::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
+
+    /* Boxes */
+    .org-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .org-node {
+      border-radius: 8px;
+      padding: 12px 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      min-width: 120px;
+      position: relative;
+      z-index: 1;
+    }
+    .org-node.top {
+      background: var(--primary);
+      color: var(--white);
+      font-size: 1.05rem;
+      padding: 14px 32px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(27,107,58,0.25);
+    }
+    .org-node.dept {
+      background: var(--primary-dark);
+      color: var(--white);
+      min-width: 110px;
+      font-size: 0.9rem;
+    }
+    .org-node.part {
+      background: var(--bg-card);
+      color: var(--primary-dark);
+      border: 2px solid var(--primary-light);
+      font-size: 0.82rem;
+      font-weight: 600;
+      min-width: 100px;
+    }
+
+    /* Level 1: CEO */
+    .level-ceo {
+      margin-bottom: 0;
+    }
+
+    /* Trunk line from CEO down */
+    .trunk-line {
+      width: 2px;
+      height: 32px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* Horizontal line spanning departments */
+    .dept-branch-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .dept-branch-line {
+      position: absolute;
+      top: 0;
+      height: 2px;
+      background: var(--border);
+    }
+    .dept-columns {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .dept-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    /* vertical line above each dept box */
+    .dept-col::before {
+      content: '';
+      width: 2px;
+      height: 24px;
+      background: var(--border);
+      display: block;
+    }
+
+    /* Part columns under a dept */
+    .parts-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 0;
+    }
+    .parts-trunk {
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+    }
+    .parts-branch {
+      position: relative;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+    .parts-branch::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
+    .part-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .part-col::before {
+      content: '';
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+      display: block;
+    }
+    /* horizontal connector for parts siblings */
+    .parts-branch-line-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Single part (no siblings) */
+    .single-part {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .single-part-vline {
+      width: 2px;
+      height: 20px;
+      background: var(--border);
+    }
+
+    /* Horizontal connector */
+    .h-connector {
+      height: 2px;
+      background: var(--border);
+      align-self: flex-start;
+      margin-top: 0;
+    }
+
+    /* Responsive horizontal line that spans dept columns */
+    .dept-row-wrapper {
+      position: relative;
+    }
+    .dept-top-line {
+      position: absolute;
+      top: 24px; /* height of ::before vline */
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    /* org description cards */
+    .dept-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+    .dept-info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 18px 20px;
+    }
+    .dept-info-card.accent {
+      border-left-color: var(--accent);
+    }
+    .dept-info-card .card-dept-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+    .dept-info-card .card-dept-name.accent {
+      color: var(--accent);
+    }
+    .dept-info-card p {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .dept-info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">MS</div>
+        <div class="logo-text">
+          <div class="logo-name">만성코프레이션</div>
+          <div class="logo-sub">MANSUNG CORPORATION</div>
+        </div>
+      </a>
+      <nav class="gnb">
+        <div class="gnb-item">
+          <a href="/company/greeting" class="gnb-link">회사소개</a>
+          <div class="snb">
+            <a href="/company/greeting">인사말</a>
+            <a href="/company/history">회사연혁</a>
+            <a href="/company/organization">조직도</a>
+            <a href="/company/location">오시는길</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+                    <a href="/products/product01" class="gnb-link">제품소개</a>
+          <div class="snb">
+            <a href="/products/product01">양어장 부속자재</a>
+            <a href="/products/product02">FTA 부속자재</a>
+            <a href="/products/product03">각관60×60 부속자재</a>
+            <a href="/products/product04">각관75×75 부속자재</a>
+            <a href="/products/product05">연단동 부속자재</a>
+            <a href="/products/product06">고설(수경) 부속자재</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+          <a href="/support/notices" class="gnb-link">고객지원</a>
+          <div class="snb">
+            <a href="/support/notices">공지사항</a>
+            <a href="/support/documents">자료실</a>
+            <a href="/support/contact">문의하기</a>
+            <a href="/support/location">찾아오시는길</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <span class="header-tel">031-000-0000</span>
+        <button class="hamburger" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-overlay"></div>
+  <nav class="mobile-nav">
+    <span class="mobile-nav-close" aria-label="닫기">✕</span>
+    <div style="clear:both; padding-top: 16px;"></div>
+    <ul class="mobile-nav-menu">
+      <li class="m-menu-item">
+        <span class="m-menu-title">회사소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/company/greeting">인사말</a></li>
+          <li><a href="/company/history">회사연혁</a></li>
+          <li><a href="/company/organization">조직도</a></li>
+          <li><a href="/company/location">오시는길</a></li>
+        </ul>
+      </li>
+      <li class="m-menu-item">
+                  <span class="m-menu-title">제품소개 ▾</span>
+          <ul class="m-sub-menu">
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+      </li>
+      <li class="m-menu-item">
+        <span class="m-menu-title">고객지원 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/support/notices">공지사항</a></li>
+          <li><a href="/support/documents">자료실</a></li>
+          <li><a href="/support/contact">문의하기</a></li>
+          <li><a href="/support/location">찾아오시는길</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+      <div>📞 031-000-0000</div>
+      <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">COMPANY</span>
+      <h1 class="page-hero-title">회사소개</h1>
+      <nav class="breadcrumb">
+        <a href="/">홈</a>
+        <span>›</span>
+        <a href="/company/greeting">회사소개</a>
+        <span>›</span>
+        <span>조직도</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- SUB LAYOUT -->
+  <div class="sub-layout container">
+
+    <!-- LNB -->
+    <aside class="lnb">
+      <div class="lnb-title">회사소개</div>
+      <ul>
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization" class="active">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="sub-content">
+      <div class="section">
+        <h2 class="section-title" style="font-size:1.5rem; font-weight:800; color:var(--primary-dark); margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--border);">조직도</h2>
+
+        <div class="org-chart">
+          <div class="org-chart-inner">
+
+            <!-- Level 1: CEO -->
+            <div style="display:flex; justify-content:center; margin-bottom:0;">
+              <div style="display:inline-block; background:var(--primary); color:var(--white); font-size:1.05rem; font-weight:800; padding:14px 40px; border-radius:10px; box-shadow:0 4px 16px rgba(27,107,58,0.25); letter-spacing:0.5px;">
+                대표이사
+              </div>
+            </div>
+
+            <!-- Trunk line -->
+            <div style="width:2px; height:32px; background:var(--border); margin:0 auto;"></div>
+
+            <!-- Horizontal bar + 4 dept verticals -->
+            <!--
+              We draw this with an SVG-free CSS approach:
+              A flex row of 4 dept columns.
+              A pseudo-element connects them horizontally.
+            -->
+            <div style="position:relative; display:flex; justify-content:center;">
+              <!-- horizontal line across all 4 -->
+              <div style="position:absolute; top:0; left:calc(12.5%); right:calc(12.5%); height:2px; background:var(--border);"></div>
+
+              <!-- 4 dept columns -->
+              <div style="display:flex; gap:0; justify-content:center; width:100%;">
+
+                <!-- 영업팀 -->
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:2px; height:24px; background:var(--border);"></div>
+                  <div style="background:var(--primary-dark); color:#fff; font-size:0.9rem; font-weight:700; padding:12px 0; border-radius:8px; text-align:center; width:100%; max-width:120px;">영업팀</div>
+                </div>
+
+                <!-- 생산팀 -->
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:2px; height:24px; background:var(--border);"></div>
+                  <div style="background:var(--primary-dark); color:#fff; font-size:0.9rem; font-weight:700; padding:12px 0; border-radius:8px; text-align:center; width:100%; max-width:120px;">생산팀</div>
+                  <!-- sub-parts under 생산팀 -->
+                  <div style="width:2px; height:20px; background:var(--border);"></div>
+                  <div style="position:relative; display:flex; justify-content:center; width:100%;">
+                    <!-- horizontal connector between 2 parts -->
+                    <div style="position:absolute; top:0; left:calc(25%); right:calc(25%); height:2px; background:var(--border);"></div>
+                    <div style="display:flex; gap:8px; width:100%; justify-content:center;">
+                      <div style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:2px; height:20px; background:var(--border);"></div>
+                        <div style="background:var(--bg-card); color:var(--primary-dark); border:2px solid var(--primary-light); font-size:0.75rem; font-weight:600; padding:9px 4px; border-radius:6px; text-align:center; width:100%; line-height:1.4;">비닐하우스<br>자재파트</div>
+                      </div>
+                      <div style="flex:1; max-width:110px; display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:2px; height:20px; background:var(--border);"></div>
+                        <div style="background:var(--bg-card); color:var(--primary-dark); border:2px solid var(--primary-light); font-size:0.75rem; font-weight:600; padding:9px 4px; border-radius:6px; text-align:center; width:100%; line-height:1.4;">프레스<br>생산파트</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 품질관리팀 -->
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:2px; height:24px; background:var(--border);"></div>
+                  <div style="background:var(--primary-dark); color:#fff; font-size:0.9rem; font-weight:700; padding:12px 0; border-radius:8px; text-align:center; width:100%; max-width:120px;">품질관리팀</div>
+                  <!-- sub-part under 품질관리팀 -->
+                  <div style="width:2px; height:20px; background:var(--border);"></div>
+                  <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div style="background:var(--bg-card); color:var(--primary-dark); border:2px solid var(--primary-light); font-size:0.8rem; font-weight:600; padding:9px 0; border-radius:6px; text-align:center; width:100%; max-width:110px;">검사파트</div>
+                  </div>
+                </div>
+
+                <!-- 관리팀 -->
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:2px; height:24px; background:var(--border);"></div>
+                  <div style="background:var(--primary-dark); color:#fff; font-size:0.9rem; font-weight:700; padding:12px 0; border-radius:8px; text-align:center; width:100%; max-width:120px;">관리팀</div>
+                </div>
+
+              </div>
+            </div>
+            <!-- /dept row -->
+
+          </div>
+        </div>
+        <!-- /org-chart -->
+
+        <!-- Department description cards -->
+        <div class="dept-info-grid">
+          <div class="dept-info-card">
+            <div class="card-dept-name">영업팀</div>
+            <p>국내외 고객사 관리 및 신규 거래처 개발을 담당합니다. 제품 견적 및 계약, 납품 일정 조율 등 영업 전반 업무를 수행합니다.</p>
+          </div>
+          <div class="dept-info-card">
+            <div class="card-dept-name">생산팀</div>
+            <p>비닐하우스자재파트와 프레스생산파트로 구성되어 있으며, 제품의 제조·가공·포장 등 생산 전 과정을 담당합니다.</p>
+          </div>
+          <div class="dept-info-card">
+            <div class="card-dept-name">품질관리팀</div>
+            <p>ISO 9001 기반의 품질경영 시스템을 운영하며, 검사파트를 통해 원자재 입고부터 완제품 출하까지 전 과정의 품질을 관리합니다.</p>
+          </div>
+          <div class="dept-info-card">
+            <div class="card-dept-name">관리팀</div>
+            <p>인사·총무·재무·회계 등 경영 지원 전반을 담당합니다. 안정적인 사업 운영을 위한 내부 인프라를 책임집니다.</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">MS</div>
+            <div class="logo-text">
+              <div class="logo-name">만성코프레이션</div>
+              <div class="logo-sub">MANSUNG CORPORATION</div>
+            </div>
+          </div>
+          <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+        </div>
+        <div class="footer-sitemap">
+          <div>
+            <h4>회사소개</h4>
+            <ul>
+              <li><a href="/company/greeting">인사말</a></li>
+              <li><a href="/company/history">회사연혁</a></li>
+              <li><a href="/company/organization">조직도</a></li>
+              <li><a href="/company/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>제품소개</h4>
+            <ul>
+                            <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product02">FTA 부속자재</a></li>
+              <li><a href="/products/product03">각관60×60 부속자재</a></li>
+              <li><a href="/products/product04">각관75×75 부속자재</a></li>
+              <li><a href="/products/product05">연단동 부속자재</a></li>
+              <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>고객지원</h4>
+            <ul>
+              <li><a href="/support/notices">공지사항</a></li>
+              <li><a href="/support/documents">자료실</a></li>
+              <li><a href="/support/contact">문의하기</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>바로가기</h4>
+            <ul>
+              <li><a href="/support/location">찾아오시는길</a></li>
+              <li><a href="/support/contact">견적 문의</a></li>
+              <li><a href="tel:031-000-0000">전화 상담</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+        <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

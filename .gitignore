@@ -1,0 +1,43 @@
+# 환경변수 (절대 커밋 금지)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+.venv/
+env/
+
+# SQLite DB (런타임 생성)
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Claude
+.claude/
+
+# 스크래핑 스크립트 (배포 불필요)
+scrape_products.py
+get_titles.py
+generate_product_pages.py
+products_report.txt
+commend.md
+Claude_MS.md

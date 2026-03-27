@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>만성코프레이션 | 비닐하우스 자재 전문 제조기업</title>
+  <meta name="description" content="만성코프레이션은 30년 이상의 기술력으로 비닐하우스 자재 및 프레스 제품을 생산하는 전문 제조기업입니다.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* 메인 페이지 추가 스타일 */
+    .hero { height: 600px; }
+
+    /* 강점 섹션 */
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .strength-card {
+      text-align: center;
+      padding: 36px 24px;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border-top: 4px solid var(--primary);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .strength-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .strength-icon {
+      font-size: 2.6rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .strength-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+    .strength-desc {
+      font-size: .85rem;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+
+    /* 연혁 타임라인 배너 */
+    .history-banner {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: var(--white);
+      padding: 56px 0;
+    }
+    .history-banner .sec-title { color: var(--white); }
+    .history-banner .sec-desc { color: rgba(255,255,255,.8); }
+    .history-items {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-top: 40px;
+      position: relative;
+    }
+    .history-items::before {
+      content: "";
+      position: absolute;
+      top: 28px;
+      left: 10%; right: 10%;
+      height: 2px;
+      background: rgba(255,255,255,.3);
+    }
+    .h-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      max-width: 200px;
+    }
+    .h-dot {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      border: 3px solid rgba(255,255,255,.6);
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      position: relative;
+      z-index: 1;
+    }
+    .h-item.current .h-dot {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .h-year {
+      font-size: .85rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .h-text {
+      font-size: .78rem;
+      opacity: .75;
+      line-height: 1.5;
+    }
+
+    /* CTA 배너 */
+    .cta-banner {
+      background: var(--accent);
+      padding: 48px 0;
+      color: var(--white);
+      text-align: center;
+    }
+    .cta-banner h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .cta-banner p {
+      opacity: .9;
+      margin-bottom: 28px;
+    }
+    .cta-banner .btn-white {
+      background: var(--white);
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .cta-banner .btn-white:hover { background: #FEF3E2; }
+    .cta-banner .btn-border {
+      border: 2px solid rgba(255,255,255,.7);
+      color: var(--white);
+    }
+    .cta-banner .btn-border:hover { background: rgba(255,255,255,.15); }
+    .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+    @media (max-width: 768px) {
+      .strengths-grid { grid-template-columns: repeat(2, 1fr); }
+      .history-items { flex-wrap: wrap; gap: 24px; }
+      .history-items::before { display: none; }
+      .h-item { flex: 0 0 calc(50% - 12px); max-width: none; }
+    }
+    @media (max-width: 480px) {
+      .strengths-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <!-- 로고 -->
+    <a href="/" class="logo">
+      <div class="logo-icon">MS</div>
+      <div class="logo-text">
+        <div class="logo-name">만성코프레이션</div>
+        <div class="logo-sub">MANSUNG CORPORATION</div>
+      </div>
+    </a>
+
+    <!-- GNB -->
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="/company/greeting" class="gnb-link">회사소개</a>
+        <div class="snb">
+          <a href="/company/greeting">인사말</a>
+          <a href="/company/history">회사연혁</a>
+          <a href="/company/organization">조직도</a>
+          <a href="/company/location">오시는길</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="/products/product01" class="gnb-link">제품소개</a>
+        <div class="snb">
+          <a href="/products/product01">양어장 부속자재</a>
+          <a href="/products/product02">FTA 부속자재</a>
+          <a href="/products/product03">각관60×60 부속자재</a>
+          <a href="/products/product04">각관75×75 부속자재</a>
+          <a href="/products/product05">연단동 부속자재</a>
+          <a href="/products/product06">고설(수경) 부속자재</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="/support/notices" class="gnb-link">고객지원</a>
+        <div class="snb">
+          <a href="/support/notices">공지사항</a>
+          <a href="/support/documents">자료실</a>
+          <a href="/support/contact">문의하기</a>
+          <a href="/support/location">찾아오시는길</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 헤더 우측 -->
+    <div class="header-actions">
+      <span class="header-tel">031-000-0000</span>
+      <!-- 햄버거 (모바일) -->
+      <button class="hamburger" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 모바일 드로어 -->
+<div class="mobile-overlay"></div>
+<nav class="mobile-nav">
+  <span class="mobile-nav-close" aria-label="닫기">✕</span>
+  <div style="clear:both; padding-top: 16px;"></div>
+  <ul class="mobile-nav-menu">
+    <li class="m-menu-item">
+      <span class="m-menu-title">회사소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">제품소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/products/product01">양어장 부속자재</a></li>
+        <li><a href="/products/product02">FTA 부속자재</a></li>
+        <li><a href="/products/product03">각관60×60 부속자재</a></li>
+        <li><a href="/products/product04">각관75×75 부속자재</a></li>
+        <li><a href="/products/product05">연단동 부속자재</a></li>
+        <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">고객지원 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/support/notices">공지사항</a></li>
+        <li><a href="/support/documents">자료실</a></li>
+        <li><a href="/support/contact">문의하기</a></li>
+        <li><a href="/support/location">찾아오시는길</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div>📞 031-000-0000</div>
+    <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+  </div>
+</nav>
+
+<!-- ════════════ HERO 슬라이더 ════════════ -->
+<section class="hero">
+  <!-- 슬라이드 1 -->
+  <div class="hero-slide active">
+    <div class="hero-slide-bg slide-bg-1"></div>
+    <div class="hero-content">
+      <span class="hero-badge">양식장 자재 전문</span>
+      <h1 class="hero-title">
+        농업의 미래를<br>
+        만성코프레이션이<br>
+        함께 만들어갑니다
+      </h1>
+      <p class="hero-desc">30년 이상의 기술력으로 양어장·비닐하우스·각관 부속자재를 전문 생산합니다.</p>
+      <div class="hero-actions">
+        <a href="/products/product01" class="btn btn-primary btn-lg">제품 보기</a>
+        <a href="/support/contact" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">문의하기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 슬라이드 2 -->
+  <div class="hero-slide">
+    <div class="hero-slide-bg slide-bg-2"></div>
+    <div class="hero-content">
+      <span class="hero-badge">각관·연단동 전문</span>
+      <h1 class="hero-title">
+        고품질 각관 자재로<br>
+        신뢰할 수 있는<br>
+        제품을 공급합니다
+      </h1>
+      <p class="hero-desc">60×60, 75×75 각관 및 연단동 부속자재를 고객 요구에 맞게 맞춤 제작합니다.</p>
+      <div class="hero-actions">
+        <a href="/products/product03" class="btn btn-accent btn-lg">각관 자재</a>
+        <a href="/company/history" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">회사소개</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 슬라이드 3 -->
+  <div class="hero-slide">
+    <div class="hero-slide-bg slide-bg-3"></div>
+    <div class="hero-content">
+      <span class="hero-badge">고객 최우선</span>
+      <h1 class="hero-title">
+        전국 어디서나<br>
+        빠른 납기와<br>
+        안정적 공급
+      </h1>
+      <p class="hero-desc">전국 유통망과 물류 시스템으로 신속하고 안정적인 제품 공급을 약속드립니다.</p>
+      <div class="hero-actions">
+        <a href="/support/contact" class="btn btn-primary btn-lg">견적 문의</a>
+        <a href="/company/location" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">찾아오시는길</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 도트 & 화살표 -->
+  <div class="hero-dots">
+    <span class="hero-dot active"></span>
+    <span class="hero-dot"></span>
+    <span class="hero-dot"></span>
+  </div>
+  <button class="hero-arrow prev" aria-label="이전">‹</button>
+  <button class="hero-arrow next" aria-label="다음">›</button>
+</section>
+
+<!-- ════════════ 퀵 메뉴 ════════════ -->
+<div class="quick-menu">
+  <div class="quick-menu-grid">
+    <a href="/products/product01" class="quick-item">
+      <span class="quick-icon">🐟</span>
+      <div>
+        <div class="quick-label">PRODUCTS</div>
+        <div class="quick-title">양어장 부속자재</div>
+      </div>
+    </a>
+    <a href="/products/product03" class="quick-item">
+      <span class="quick-icon">⚙️</span>
+      <div>
+        <div class="quick-label">PRODUCTS</div>
+        <div class="quick-title">각관 부속자재</div>
+      </div>
+    </a>
+    <a href="/support/contact" class="quick-item">
+      <span class="quick-icon">📋</span>
+      <div>
+        <div class="quick-label">SERVICE</div>
+        <div class="quick-title">견적 · 문의</div>
+      </div>
+    </a>
+    <a href="/support/location" class="quick-item">
+      <span class="quick-icon">📍</span>
+      <div>
+        <div class="quick-label">LOCATION</div>
+        <div class="quick-title">오시는길</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ════════════ 회사 소개 ════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="about-grid">
+      <!-- 이미지 영역 -->
+      <div class="about-img">🏭</div>
+
+      <!-- 텍스트 영역 -->
+      <div>
+        <div class="sec-label">ABOUT US</div>
+        <h2 class="sec-title">
+          30년 이상의 신뢰<br>
+          <span>만성코프레이션</span>
+        </h2>
+        <p style="margin-top:16px; color:var(--text-sub); line-height:1.8; font-size:.95rem;">
+          만성코프레이션은 비닐하우스 자재 및 프레스 기반 제품의 전문 제조기업으로,
+          창립 이래 고품질 제품과 고객 만족을 최우선 가치로 삼아 성장해왔습니다.
+          최신 설비와 엄격한 품질 관리 시스템을 통해 농업용 자재부터 산업용 프레스 제품까지
+          다양한 분야의 고객 요구에 부응하고 있습니다.
+        </p>
+
+        <!-- 통계 -->
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-value" data-count="30" data-suffix="+">0</div>
+            <div class="stat-unit">업력 (년)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" data-count="500" data-suffix="+">0</div>
+            <div class="stat-unit">고객사 (개)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" data-count="200" data-suffix="+">0</div>
+            <div class="stat-unit">제품 종류</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" data-count="99" data-suffix="%">0</div>
+            <div class="stat-unit">고객 만족도</div>
+          </div>
+        </div>
+
+        <a href="/company/greeting" class="btn btn-primary">회사소개 보기 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 핵심 강점 ════════════ -->
+<section class="section" style="background: var(--bg-card);">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">WHY MANSUNG</span>
+      <h2 class="sec-title">만성코프레이션을 선택하는 이유</h2>
+      <p class="sec-desc">30년 이상의 경험과 최첨단 설비를 통해 최고의 품질과 서비스를 제공합니다</p>
+    </div>
+    <div class="strengths-grid">
+      <div class="strength-card">
+        <span class="strength-icon">🏆</span>
+        <div class="strength-title">검증된 품질</div>
+        <p class="strength-desc">ISO 인증 기반의 엄격한 품질관리로 불량률 제로에 도전합니다</p>
+      </div>
+      <div class="strength-card">
+        <span class="strength-icon">⚡</span>
+        <div class="strength-title">빠른 납기</div>
+        <p class="strength-desc">전국 물류망과 재고 시스템으로 주문 후 최단 시간 내 납품합니다</p>
+      </div>
+      <div class="strength-card">
+        <span class="strength-icon">🔧</span>
+        <div class="strength-title">맞춤 제작</div>
+        <p class="strength-desc">고객이 원하는 규격과 형태로 정밀 맞춤 제작 서비스를 제공합니다</p>
+      </div>
+      <div class="strength-card">
+        <span class="strength-icon">💬</span>
+        <div class="strength-title">전문 상담</div>
+        <p class="strength-desc">30년 경력의 전문가가 제품 선택부터 시공까지 밀착 상담합니다</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 제품 소개 ════════════ -->
+<section class="section products-bg">
+  <div class="container">
+    <div class="sec-header">
+      <span class="sec-label">PRODUCTS</span>
+      <h2 class="sec-title">주요 <span>제품</span></h2>
+      <p class="sec-desc">양어장·각관·연단동·고설 등 다양한 부속자재 제품 라인업을 보유하고 있습니다</p>
+    </div>
+
+    <!-- 제품 카테고리 카드 그리드 -->
+    <div id="cat-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:32px;">
+      <!-- 카테고리 카드들은 JS로 렌더링 -->
+    </div>
+
+    <div style="text-align:center; margin-top:40px;">
+      <a href="/products/product01" class="btn btn-outline">전체 제품 보기</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const cats = [
+    {id:"product01", name:"양어장 부속자재", icon:"🐟", desc:"어류 양식용 비닐하우스 구조물 설치에 필요한 스테인리스·도금 부속자재"},
+    {id:"product02", name:"FTA 부속자재",   icon:"🔗", desc:"FTA 하우스 시공에 최적화된 고강도 연결 및 고정 부속자재"},
+    {id:"product03", name:"각관60×60 부속자재", icon:"⬛", desc:"60×60 각관 구조물용 클램프·브라켓·연결 부속자재 전 라인업"},
+    {id:"product04", name:"각관75×75 부속자재", icon:"🔲", desc:"75×75 각관 대형 구조물 전용 고내구성 부속자재"},
+    {id:"product05", name:"연단동 부속자재", icon:"⚙️", desc:"연동형 비닐하우스 단동 연결에 사용되는 다양한 규격 부속자재"},
+    {id:"product06", name:"고설(수경) 부속자재", icon:"🌿", desc:"수경재배 고설 베드 설치용 전용 부속자재 및 지지대 시스템"},
+  ];
+  const grid = document.getElementById('cat-grid');
+  if(!grid) return;
+  grid.innerHTML = cats.map(c => `
+    <a href="/products/${c.id}" class="card" style="text-decoration:none; display:block; transition:transform .2s; cursor:pointer;"
+       onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
+      <div class="card-img" style="font-size:3rem; background:linear-gradient(135deg,#e6f4eb,#b8dfc4);">${c.icon}</div>
+      <div class="card-body">
+        <div class="p-cat">제품소개</div>
+        <div class="p-name">${c.name}</div>
+        <p class="p-desc">${c.desc}</p>
+        <span class="p-more">자세히 보기 →</span>
+      </div>
+    </a>
+  `).join('');
+})();
+</script>
+
+<!-- ════════════ 연혁 배너 ════════════ -->
+<section class="history-banner">
+  <div class="container">
+    <div class="sec-header" style="margin-bottom:0;">
+      <span class="sec-label" style="color:rgba(255,255,255,.7);">OUR HISTORY</span>
+      <h2 class="sec-title" style="color:var(--white);">만성코프레이션의 <span style="color:var(--accent-light);">성장 역사</span></h2>
+    </div>
+    <div class="history-items">
+      <div class="h-item">
+        <div class="h-dot">🏭</div>
+        <div class="h-year">1993년</div>
+        <div class="h-text">창립<br>비닐하우스 자재<br>사업 시작</div>
+      </div>
+      <div class="h-item">
+        <div class="h-dot">📈</div>
+        <div class="h-year">2000년</div>
+        <div class="h-text">프레스 사업부<br>신설 및<br>생산 확대</div>
+      </div>
+      <div class="h-item">
+        <div class="h-dot">🏆</div>
+        <div class="h-year">2008년</div>
+        <div class="h-text">ISO 9001<br>품질경영<br>인증 취득</div>
+      </div>
+      <div class="h-item">
+        <div class="h-dot">🌏</div>
+        <div class="h-year">2015년</div>
+        <div class="h-text">수출 시작<br>해외 시장<br>진출</div>
+      </div>
+      <div class="h-item current">
+        <div class="h-dot">🚀</div>
+        <div class="h-year">현재</div>
+        <div class="h-text">연매출 100억+<br>전국 500+<br>고객사 보유</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:40px;">
+      <a href="/company/history" class="btn btn-outline" style="border-color:rgba(255,255,255,.6); color:var(--white);">연혁 전체 보기</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 공지사항 ════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="news-grid">
+      <!-- 공지사항 -->
+      <div class="news-panel">
+        <h3>
+          공지사항
+          <a href="/support/notices">더보기 +</a>
+        </h3>
+        <ul class="notice-list notice-api-list">
+          <li><span class="badge badge-primary">공지</span><span class="n-title">공지사항을 불러오는 중...</span><span class="n-date">-</span></li>
+        </ul>
+      </div>
+
+      <!-- 회사 정보 / 연락처 -->
+      <div class="news-panel">
+        <h3>고객 상담 안내</h3>
+        <div style="background: var(--bg); border-radius: var(--radius-md); padding: 24px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
+            <div style="text-align:center; padding:16px; background:var(--bg-card); border-radius:var(--radius-sm); border-top:3px solid var(--primary);">
+              <div style="font-size:1.6rem; margin-bottom:8px;">📞</div>
+              <div style="font-size:.75rem; color:var(--gray); margin-bottom:4px;">전화 상담</div>
+              <div style="font-weight:800; color:var(--primary-dark);">031-000-0000</div>
+            </div>
+            <div style="text-align:center; padding:16px; background:var(--bg-card); border-radius:var(--radius-sm); border-top:3px solid var(--accent);">
+              <div style="font-size:1.6rem; margin-bottom:8px;">📧</div>
+              <div style="font-size:.75rem; color:var(--gray); margin-bottom:4px;">이메일 문의</div>
+              <div style="font-weight:800; color:var(--accent);">info@mansung.co.kr</div>
+            </div>
+          </div>
+          <div style="font-size:.85rem; color:var(--text-sub); line-height:1.8; margin-bottom:16px;">
+            📅 상담 시간: 평일 09:00 ~ 18:00<br>
+            🏠 주소: 경기도 OO시 OO구 OO로 000<br>
+            📠 팩스: 031-000-0001
+          </div>
+          <a href="/support/contact" class="btn btn-primary" style="width:100%; justify-content:center;">온라인 문의하기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CTA 배너 ════════════ -->
+<section class="cta-banner">
+  <div class="container">
+    <h2>지금 바로 견적을 요청해 보세요!</h2>
+    <p>전문 상담원이 빠르게 최적의 솔루션을 제안해 드립니다</p>
+    <div class="cta-actions">
+      <a href="/support/contact" class="btn btn-white btn-lg">견적 문의하기</a>
+      <a href="tel:031-000-0000" class="btn btn-border btn-lg">📞 전화 상담</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- 브랜드 -->
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">MS</div>
+          <div class="logo-text">
+            <div class="logo-name">만성코프레이션</div>
+            <div class="logo-sub">MANSUNG CORPORATION</div>
+          </div>
+        </div>
+        <p class="footer-tagline">
+          비닐하우스 자재 및 프레스 제품 전문 제조기업<br>
+          30년의 기술력으로 고객과 함께 성장합니다
+        </p>
+        <div class="footer-address">
+          경기도 OO시 OO구 OO로 000<br>
+          TEL: 031-000-0000 | FAX: 031-000-0001<br>
+          E-mail: info@mansung.co.kr
+        </div>
+      </div>
+
+      <!-- 사이트맵 -->
+      <div class="footer-sitemap">
+        <div>
+          <h4>회사소개</h4>
+          <ul>
+            <li><a href="/company/greeting">인사말</a></li>
+            <li><a href="/company/history">회사연혁</a></li>
+            <li><a href="/company/organization">조직도</a></li>
+            <li><a href="/company/location">오시는길</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>제품소개</h4>
+          <ul>
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>고객지원</h4>
+          <ul>
+            <li><a href="/support/notices">공지사항</a></li>
+            <li><a href="/support/documents">자료실</a></li>
+            <li><a href="/support/contact">문의하기</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>바로가기</h4>
+          <ul>
+            <li><a href="/support/location">찾아오시는길</a></li>
+            <li><a href="/support/contact">견적 문의</a></li>
+            <li><a href="tel:031-000-0000">전화 상담</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+      <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

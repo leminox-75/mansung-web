@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기타 제품 | 만성코프레이션</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* Page Hero */
+    .page-hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: #fff;
+      padding: 60px 0 50px;
+      text-align: center;
+    }
+    .page-hero h1 { font-size: 2rem; font-weight: 700; margin: 0 0 12px; }
+    .breadcrumb { display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 0.85rem; opacity: 0.85; }
+    .breadcrumb a { color: #fff; text-decoration: none; }
+    .breadcrumb span { opacity: 0.6; }
+
+    /* Sub Layout */
+    .sub-layout { display: flex; gap: 32px; max-width: 1200px; margin: 48px auto; padding: 0 24px; align-items: flex-start; }
+    .lnb { width: 200px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lnb-title { background: var(--primary); color: #fff; padding: 14px 20px; font-weight: 700; font-size: 0.95rem; }
+    .lnb a { display: block; padding: 11px 20px; color: var(--dark); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--border); transition: background 0.2s, color 0.2s; }
+    .lnb a:last-child { border-bottom: none; }
+    .lnb a:hover { background: var(--bg); color: var(--primary); }
+    .lnb a.active { background: var(--bg); color: var(--primary); font-weight: 700; border-left: 3px solid var(--primary); }
+    .sub-content { flex: 1; min-width: 0; }
+    @media (max-width: 700px) { .sub-layout { flex-direction: column; } .lnb { width: 100%; } }
+
+    /* Section Header */
+    .section-header { margin-bottom: 28px; }
+    .section-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--dark); margin: 0 0 6px; padding-bottom: 12px; border-bottom: 2px solid var(--primary); }
+    .section-header p { color: var(--gray); font-size: 0.92rem; margin: 8px 0 0; line-height: 1.7; }
+
+    /* Product Grid 2x2 */
+    .product-grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (max-width: 640px) { .product-grid-2x2 { grid-template-columns: 1fr; } }
+
+    /* Product Card (Others) */
+    .other-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; }
+    .other-card:hover { box-shadow: 0 8px 28px rgba(27,107,58,0.13); transform: translateY(-3px); }
+    .other-card-header { background: linear-gradient(135deg, #d4edde 0%, #e8f5ec 100%); padding: 28px 20px; display: flex; align-items: center; gap: 16px; }
+    .other-card-icon { font-size: 2.8rem; line-height: 1; }
+    .other-card-header-text h3 { font-size: 1.05rem; font-weight: 700; color: var(--primary-dark); margin: 0 0 4px; }
+    .other-card-header-text p { font-size: 0.82rem; color: var(--gray); margin: 0; }
+    .other-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .other-card-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+    .spec-list { list-style: none; padding: 0; margin: 0 0 16px; }
+    .spec-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.84rem; color: var(--dark); padding: 5px 0; border-bottom: 1px dashed var(--border); }
+    .spec-list li:last-child { border-bottom: none; }
+    .spec-list li::before { content: '▪'; color: var(--primary); font-size: 0.7rem; margin-top: 3px; flex-shrink: 0; }
+    .spec-label { color: var(--gray); min-width: 64px; font-size: 0.82rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { display: inline-block; padding: 3px 10px; background: #e8f4ed; color: var(--primary-dark); border-radius: 12px; font-size: 0.78rem; font-weight: 500; }
+    .btn-inquiry { display: block; width: 100%; padding: 10px 0; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: background 0.2s; }
+    .btn-inquiry:hover { background: var(--primary-dark); }
+
+    /* Note Banner */
+    .note-banner { background: #fff9f0; border: 1px solid #f5d78a; border-left: 4px solid var(--accent); border-radius: 8px; padding: 16px 20px; margin-top: 32px; font-size: 0.88rem; color: #7a5200; line-height: 1.7; }
+    .note-banner strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo"><div class="logo-icon">MS</div><div class="logo-text"><div class="logo-name">만성코프레이션</div><div class="logo-sub">MANSUNG CORPORATION</div></div></a>
+    <nav class="gnb">
+      <div class="gnb-item"><a href="/company/greeting" class="gnb-link">회사소개</a><div class="snb"><a href="/company/greeting">인사말</a><a href="/company/history">회사연혁</a><a href="/company/organization">조직도</a><a href="/company/location">오시는길</a></div></div>
+      <div class="gnb-item"><a href="/products/vinyl" class="gnb-link">제품소개</a><div class="snb"><a href="/products/vinyl">비닐하우스 자재</a><a href="/products/press">프레스 제품</a><a href="/products/others">기타 제품</a></div></div>
+      <div class="gnb-item"><a href="/support/notices" class="gnb-link">고객지원</a><div class="snb"><a href="/support/notices">공지사항</a><a href="/support/documents">자료실</a><a href="/support/contact">문의하기</a><a href="/support/location">찾아오시는길</a></div></div>
+    </nav>
+    <div class="header-actions"><span class="header-tel">031-000-0000</span><button class="hamburger" aria-label="메뉴 열기"><span></span><span></span><span></span></button></div>
+  </div>
+</header>
+<div class="mobile-overlay"></div>
+<nav class="mobile-nav">
+  <span class="mobile-nav-close">✕</span>
+  <div style="clear:both;padding-top:16px;"></div>
+  <ul class="mobile-nav-menu">
+    <li class="m-menu-item"><span class="m-menu-title">회사소개 ▾</span><ul class="m-sub-menu"><li><a href="/company/greeting">인사말</a></li><li><a href="/company/history">회사연혁</a></li><li><a href="/company/organization">조직도</a></li><li><a href="/company/location">오시는길</a></li></ul></li>
+    <li class="m-menu-item"><span class="m-menu-title">제품소개 ▾</span><ul class="m-sub-menu"><li><a href="/products/vinyl">비닐하우스 자재</a></li><li><a href="/products/press">프레스 제품</a></li><li><a href="/products/others">기타 제품</a></li></ul></li>
+    <li class="m-menu-item"><span class="m-menu-title">고객지원 ▾</span><ul class="m-sub-menu"><li><a href="/support/notices">공지사항</a></li><li><a href="/support/documents">자료실</a></li><li><a href="/support/contact">문의하기</a></li><li><a href="/support/location">찾아오시는길</a></li></ul></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <h1>기타 제품</h1>
+  <div class="breadcrumb">
+    <a href="/">Home</a>
+    <span>›</span>
+    <span>제품소개</span>
+    <span>›</span>
+    <span>기타 제품</span>
+  </div>
+</div>
+
+<div class="sub-layout">
+  <!-- LNB -->
+  <aside class="lnb">
+    <div class="lnb-title">제품소개</div>
+    <a href="/products/vinyl">비닐하우스 자재</a>
+    <a href="/products/press">프레스 제품</a>
+    <a href="/products/others" class="active">기타 제품</a>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="sub-content">
+    <div class="section-header">
+      <h2>기타 제품</h2>
+      <p>비닐하우스 자재와 프레스 제품 외에도 원예 및 시설 농업에 필요한 다양한 지원 자재를 공급합니다. 농업 현장의 필요에 따라 최적화된 제품으로 생산성 향상을 도와드립니다.</p>
+    </div>
+
+    <!-- 2x2 Product Grid -->
+    <div class="product-grid-2x2">
+
+      <!-- Card 1: 원예용 지지대 -->
+      <div class="other-card">
+        <div class="other-card-header">
+          <div class="other-card-icon">🌱</div>
+          <div class="other-card-header-text">
+            <h3>원예용 지지대</h3>
+            <p>토마토 / 오이 / 고추용</p>
+          </div>
+        </div>
+        <div class="other-card-body">
+          <p class="other-card-desc">시설 원예 작물의 직립 재배를 위한 전용 지지대입니다. 작물별 특성에 맞게 설계되어 최적의 지지력을 제공하며, 내식성 처리로 장기간 사용이 가능합니다.</p>
+          <ul class="spec-list">
+            <li><span class="spec-label">적용 작물</span> 토마토, 오이, 고추, 파프리카</li>
+            <li><span class="spec-label">재질</span> 아연도금 강관 / 알루미늄관</li>
+            <li><span class="spec-label">규격</span> Φ11mm / Φ16mm, L=1.2~2.4m</li>
+            <li><span class="spec-label">표면처리</span> 전기아연도금 또는 분체도장</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">토마토용</span>
+            <span class="tag">오이용</span>
+            <span class="tag">고추용</span>
+            <span class="tag">범용</span>
+          </div>
+          <a href="/support/contact" class="btn-inquiry">견적 문의</a>
+        </div>
+      </div>
+
+      <!-- Card 2: 멀칭 고정핀 -->
+      <div class="other-card">
+        <div class="other-card-header">
+          <div class="other-card-icon">📌</div>
+          <div class="other-card-header-text">
+            <h3>멀칭 고정핀</h3>
+            <p>비닐 멀칭 필름 고정용</p>
+          </div>
+        </div>
+        <div class="other-card-body">
+          <p class="other-card-desc">멀칭 비닐을 토양에 고정하는 U형 또는 T형 고정핀입니다. 정밀 프레스 성형으로 균일한 형태를 유지하며 삽입이 쉽고 고정력이 우수합니다. 대량 생산으로 합리적인 가격을 제공합니다.</p>
+          <ul class="spec-list">
+            <li><span class="spec-label">형상</span> U형 / T형 / L형</li>
+            <li><span class="spec-label">재질</span> 탄소강 (아연도금)</li>
+            <li><span class="spec-label">규격</span> 폭 25~50mm, L=100~200mm</li>
+            <li><span class="spec-label">포장</span> 1,000개 / 박스</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">U형</span>
+            <span class="tag">T형</span>
+            <span class="tag">대량구매 가능</span>
+          </div>
+          <a href="/support/contact" class="btn-inquiry">견적 문의</a>
+        </div>
+      </div>
+
+      <!-- Card 3: 보온 커튼 레일 -->
+      <div class="other-card">
+        <div class="other-card-header">
+          <div class="other-card-icon">🏠</div>
+          <div class="other-card-header-text">
+            <h3>보온 커튼 레일</h3>
+            <p>내부 보온 커튼 설치용</p>
+          </div>
+        </div>
+        <div class="other-card-body">
+          <p class="other-card-desc">비닐하우스 내부 보온 커튼을 지지하고 이동시키는 레일 시스템입니다. 매끄러운 표면 처리로 커튼 이동 시 마찰이 최소화되며, 알루미늄 소재로 가볍고 내부식성이 우수합니다.</p>
+          <ul class="spec-list">
+            <li><span class="spec-label">재질</span> 알루미늄 압출 / 아연도금 강</li>
+            <li><span class="spec-label">규격</span> 단면 25×15mm, L=6,000mm</li>
+            <li><span class="spec-label">부속품</span> 롤러 클립, 조인트, 고정 브라켓</li>
+            <li><span class="spec-label">하중</span> 최대 15kg/m</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">알루미늄형</span>
+            <span class="tag">아연도금형</span>
+            <span class="tag">세트 구성</span>
+          </div>
+          <a href="/support/contact" class="btn-inquiry">견적 문의</a>
+        </div>
+      </div>
+
+      <!-- Card 4: 환기창 개폐기 부품 -->
+      <div class="other-card">
+        <div class="other-card-header">
+          <div class="other-card-icon">💨</div>
+          <div class="other-card-header-text">
+            <h3>환기창 개폐기 부품</h3>
+            <p>측창·천창 개폐 시스템</p>
+          </div>
+        </div>
+        <div class="other-card-body">
+          <p class="other-card-desc">비닐하우스의 측창 및 천창 개폐에 사용되는 구동 부품입니다. 감속기어, 작동 샤프트, 연결 브라켓 등의 정밀 부품을 공급하며 수동 및 자동 시스템 모두에 적용 가능합니다.</p>
+          <ul class="spec-list">
+            <li><span class="spec-label">구성품</span> 감속기어, 샤프트, 크랭크 암</li>
+            <li><span class="spec-label">재질</span> 탄소강 / 주철 / 아연합금</li>
+            <li><span class="spec-label">구동방식</span> 수동 핸들 / 전동 모터 연결</li>
+            <li><span class="spec-label">적용범위</span> 측창, 천창, 출입문</li>
+          </ul>
+          <div class="tag-list">
+            <span class="tag">수동형</span>
+            <span class="tag">전동형 호환</span>
+            <span class="tag">측창용</span>
+            <span class="tag">천창용</span>
+          </div>
+          <a href="/support/contact" class="btn-inquiry">견적 문의</a>
+        </div>
+      </div>
+
+    </div><!-- /product-grid-2x2 -->
+
+    <div class="note-banner">
+      <strong>맞춤 제작 안내:</strong> 위 제품 외에도 고객의 요구 사양에 따른 맞춤 제작이 가능합니다. 도면이나 샘플 제품을 지참하여 문의주시면 적극 검토해 드리겠습니다. 대량 주문 시 별도 단가 협의가 가능합니다.
+      <br><a href="/support/contact" style="color:var(--accent); font-weight:600; text-decoration:none;">→ 지금 바로 문의하기</a>
+    </div>
+
+  </div><!-- /sub-content -->
+</div><!-- /sub-layout -->
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo"><div class="logo-icon">MS</div><div class="logo-text"><div class="logo-name">만성코프레이션</div><div class="logo-sub">MANSUNG CORPORATION</div></div></div>
+        <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+        <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+      </div>
+      <div class="footer-sitemap">
+        <div><h4>회사소개</h4><ul><li><a href="/company/greeting">인사말</a></li><li><a href="/company/history">회사연혁</a></li><li><a href="/company/organization">조직도</a></li><li><a href="/company/location">오시는길</a></li></ul></div>
+        <div><h4>제품소개</h4><ul><li><a href="/products/vinyl">비닐하우스 자재</a></li><li><a href="/products/press">프레스 제품</a></li><li><a href="/products/others">기타 제품</a></li></ul></div>
+        <div><h4>고객지원</h4><ul><li><a href="/support/notices">공지사항</a></li><li><a href="/support/documents">자료실</a></li><li><a href="/support/contact">문의하기</a></li></ul></div>
+        <div><h4>바로가기</h4><ul><li><a href="/support/location">찾아오시는길</a></li><li><a href="/support/contact">견적 문의</a></li><li><a href="tel:031-000-0000">전화 상담</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 만성코프레이션. All Rights Reserved.</span><span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span></div>
+  </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

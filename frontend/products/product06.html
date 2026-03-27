@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고설(수경) 부속자재 | 만성코프레이션 제품소개</title>
+  <meta name="description" content="베드 고설재배·수경재배 시설 설치용 경량 알루미늄 부속자재">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* ── 제품 그리드 ── */
+    .prod-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .prod-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .prod-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .prod-thumb {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e6f4eb, #b8dfc4);
+    }
+    .prod-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+    .prod-card:hover .prod-thumb img { transform: scale(1.08); }
+    .prod-no-img {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      font-size: 2.5rem; color: var(--gray-light);
+    }
+    .prod-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(27,107,58,.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .prod-card:hover .prod-overlay { opacity: 1; }
+    .prod-overlay span {
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 700;
+      background: rgba(0,0,0,.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    .prod-info {
+      padding: 14px 16px;
+    }
+    .prod-name {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .prod-img-count {
+      font-size: .75rem;
+      color: var(--gray);
+    }
+
+    /* ── 라이트박스 ── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.hidden { display: none; }
+    .lb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.82);
+      cursor: pointer;
+    }
+    .lb-box {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      max-width: 780px;
+      width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    }
+    .lb-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .lb-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+    .lb-close {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      color: var(--gray);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      font-family: var(--font);
+    }
+    .lb-close:hover { background: #fde8e8; color: #c0392b; border-color: #c0392b; }
+    .lb-imgs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .lb-imgs img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+    }
+    .lb-imgs img:only-child {
+      grid-column: span 2;
+    }
+    .lb-note {
+      margin-top: 16px;
+      font-size: .82rem;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    /* ── 카테고리 소개 배너 ── */
+    .cat-banner {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .cat-banner-icon { font-size: 2.8rem; }
+    .cat-banner-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .cat-banner-desc { font-size: .9rem; opacity: .88; line-height: 1.6; }
+
+    /* ── 제품 수 배지 ── */
+    .prod-count-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .prod-count-bar h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+    .prod-count-badge {
+      font-size: .82rem;
+      background: #e6f4eb;
+      color: var(--primary);
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* ── 문의 CTA ── */
+    .prod-cta {
+      margin-top: 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      text-align: center;
+    }
+    .prod-cta p {
+      font-size: .95rem;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 1024px) { .prod-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px)  { .prod-grid { grid-template-columns: repeat(2, 1fr); } .lb-imgs { grid-template-columns: 1fr; } .lb-imgs img:only-child { grid-column: span 1; } }
+    @media (max-width: 480px)  { .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .cat-banner { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">MS</div>
+      <div class="logo-text">
+        <div class="logo-name">만성코프레이션</div>
+        <div class="logo-sub">MANSUNG CORPORATION</div>
+      </div>
+    </a>
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="/company/greeting" class="gnb-link">회사소개</a>
+        <div class="snb">
+          <a href="/company/greeting">인사말</a>
+          <a href="/company/history">회사연혁</a>
+          <a href="/company/organization">조직도</a>
+          <a href="/company/location">오시는길</a>
+        </div>
+      </div>
+      <div class="gnb-item active">
+        <a href="/products/product01" class="gnb-link">제품소개</a>
+        <div class="snb">
+          <a href="/products/product01">양어장 부속자재</a>
+          <a href="/products/product02">FTA 부속자재</a>
+          <a href="/products/product03">각관60×60 부속자재</a>
+          <a href="/products/product04">각관75×75 부속자재</a>
+          <a href="/products/product05">연단동 부속자재</a>
+          <a href="/products/product06">고설(수경) 부속자재</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="/support/notices" class="gnb-link">고객지원</a>
+        <div class="snb">
+          <a href="/support/notices">공지사항</a>
+          <a href="/support/documents">자료실</a>
+          <a href="/support/contact">문의하기</a>
+          <a href="/support/location">찾아오시는길</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <span class="header-tel">031-000-0000</span>
+      <button class="hamburger" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-overlay"></div>
+<nav class="mobile-nav">
+  <span class="mobile-nav-close" aria-label="닫기">✕</span>
+  <div style="clear:both; padding-top: 16px;"></div>
+  <ul class="mobile-nav-menu">
+    <li class="m-menu-item">
+      <span class="m-menu-title">회사소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">제품소개 ▾</span>
+      <ul class="m-sub-menu open">
+        <li><a href="/products/product01">양어장 부속자재</a></li>
+        <li><a href="/products/product02">FTA 부속자재</a></li>
+        <li><a href="/products/product03">각관60×60 부속자재</a></li>
+        <li><a href="/products/product04">각관75×75 부속자재</a></li>
+        <li><a href="/products/product05">연단동 부속자재</a></li>
+        <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">고객지원 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/support/notices">공지사항</a></li>
+        <li><a href="/support/documents">자료실</a></li>
+        <li><a href="/support/contact">문의하기</a></li>
+        <li><a href="/support/location">찾아오시는길</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div>📞 031-000-0000</div>
+    <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+  </div>
+</nav>
+
+<!-- ════ PAGE HERO ════ -->
+<section class="page-hero">
+  <div class="container">
+    <span class="page-hero-label">PRODUCTS</span>
+    <h1 class="page-hero-title">제품소개</h1>
+    <nav class="breadcrumb">
+      <a href="/">홈</a><span class="sep">›</span>
+      <a href="/products/product01">제품소개</a><span class="sep">›</span>
+      <span class="current">고설(수경) 부속자재</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ════ SUB LAYOUT ════ -->
+<div class="sub-layout">
+
+  <!-- LNB -->
+  <aside class="lnb">
+    <div class="lnb-title">제품소개</div>
+    <ul>
+      <li><a href="/products/product01">양어장 부속자재</a></li>
+      <li><a href="/products/product02">FTA 부속자재</a></li>
+      <li><a href="/products/product03">각관60×60 부속자재</a></li>
+      <li><a href="/products/product04">각관75×75 부속자재</a></li>
+      <li><a href="/products/product05">연단동 부속자재</a></li>
+      <li><a href="/products/product06" class="active">고설(수경) 부속자재</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="sub-content">
+
+    <!-- 카테고리 배너 -->
+    <div class="cat-banner">
+      <div class="cat-banner-icon">💧</div>
+      <div>
+        <div class="cat-banner-title">고설(수경) 부속자재</div>
+        <div class="cat-banner-desc">베드 고설재배·수경재배 시설 설치용 경량 알루미늄 부속자재</div>
+      </div>
+    </div>
+
+    <!-- 제품 수 -->
+    <div class="prod-count-bar">
+      <h2>제품 목록</h2>
+      <span class="prod-count-badge">총 11개 제품</span>
+    </div>
+
+    <!-- 제품 그리드 -->
+    <div class="prod-grid">
+      <div class="prod-card" onclick="openLightbox('운반레일판', [&quot;/static/images/products/product06/product06_4_1.jpg&quot;, &quot;/static/images/products/product06/product06_4_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_4_1.jpg" alt="운반레일판" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">운반레일판</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('강판조리개', [&quot;/static/images/products/product06/product06_5_1.jpg&quot;, &quot;/static/images/products/product06/product06_5_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_5_1.jpg" alt="강판조리개" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">강판조리개</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('X반도', [&quot;/static/images/products/product06/product06_6_1.jpg&quot;, &quot;/static/images/products/product06/product06_6_2.jpg&quot;, &quot;/static/images/products/product06/product06_6_3.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_6_1.jpg" alt="X반도" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">X반도</div>
+          <div class="prod-img-count">3장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('유볼트,평철', [&quot;/static/images/products/product06/product06_7_1.jpg&quot;, &quot;/static/images/products/product06/product06_7_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_7_1.jpg" alt="유볼트,평철" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">유볼트,평철</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('속티고정구', [&quot;/static/images/products/product06/product06_8_1.jpg&quot;, &quot;/static/images/products/product06/product06_8_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_8_1.jpg" alt="속티고정구" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">속티고정구</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('속티고정구', [&quot;/static/images/products/product06/product06_9_1.jpg&quot;, &quot;/static/images/products/product06/product06_9_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_9_1.jpg" alt="속티고정구" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">속티고정구</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('속티고정구', [&quot;/static/images/products/product06/product06_10_1.jpg&quot;, &quot;/static/images/products/product06/product06_10_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_10_1.jpg" alt="속티고정구" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">속티고정구</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('배드걸이(파이프)', [&quot;/static/images/products/product06/product06_11_1.jpg&quot;, &quot;/static/images/products/product06/product06_11_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_11_1.jpg" alt="배드걸이(파이프)" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">배드걸이(파이프)</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('배드걸이', [&quot;/static/images/products/product06/product06_12_1.jpg&quot;, &quot;/static/images/products/product06/product06_12_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_12_1.jpg" alt="배드걸이" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">배드걸이</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('바닥레일', [&quot;/static/images/products/product06/product06_13_1.jpg&quot;, &quot;/static/images/products/product06/product06_13_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_13_1.jpg" alt="바닥레일" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">바닥레일</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+      <div class="prod-card" onclick="openLightbox('바닥레일', [&quot;/static/images/products/product06/product06_14_1.jpg&quot;, &quot;/static/images/products/product06/product06_14_2.jpg&quot;])">
+        <div class="prod-thumb">
+          <img src="/static/images/products/product06/product06_14_1.jpg" alt="바닥레일" loading="lazy">
+          <div class="prod-overlay"><span>🔍 크게 보기</span></div>
+        </div>
+        <div class="prod-info">
+          <div class="prod-name">바닥레일</div>
+          <div class="prod-img-count">2장의 사진</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 문의 CTA -->
+    <div class="prod-cta">
+      <p>원하시는 규격이나 맞춤 제작이 필요하신가요? 전문 상담원이 빠르게 도와드립니다.</p>
+      <a href="/support/contact" class="btn btn-primary">견적 · 제품 문의</a>
+      &nbsp;
+      <a href="tel:031-000-0000" class="btn btn-outline">📞 전화 상담</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════ LIGHTBOX ════ -->
+<div id="lightbox" class="lightbox hidden">
+  <div class="lb-overlay" onclick="closeLightbox()"></div>
+  <div class="lb-box">
+    <div class="lb-header">
+      <div class="lb-title" id="lb-title"></div>
+      <button class="lb-close" onclick="closeLightbox()">✕</button>
+    </div>
+    <div class="lb-imgs" id="lb-imgs"></div>
+    <div class="lb-note">이미지를 클릭하면 원본 크기로 볼 수 있습니다</div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">MS</div>
+          <div class="logo-text">
+            <div class="logo-name">만성코프레이션</div>
+            <div class="logo-sub">MANSUNG CORPORATION</div>
+          </div>
+        </div>
+        <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+        <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+      </div>
+      <div class="footer-sitemap">
+        <div>
+          <h4>회사소개</h4>
+          <ul>
+            <li><a href="/company/greeting">인사말</a></li>
+            <li><a href="/company/history">회사연혁</a></li>
+            <li><a href="/company/organization">조직도</a></li>
+            <li><a href="/company/location">오시는길</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>제품소개</h4>
+          <ul>
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>고객지원</h4>
+          <ul>
+            <li><a href="/support/notices">공지사항</a></li>
+            <li><a href="/support/documents">자료실</a></li>
+            <li><a href="/support/contact">문의하기</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>바로가기</h4>
+          <ul>
+            <li><a href="/support/location">찾아오시는길</a></li>
+            <li><a href="/support/contact">견적 문의</a></li>
+            <li><a href="tel:031-000-0000">전화 상담</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+      <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+<script>
+  /**
+   * 라이트박스 열기
+   * @param {string} name - 제품명
+   * @param {string[]} imgs - 이미지 경로 배열
+   */
+  function openLightbox(name, imgs) {
+    document.getElementById('lb-title').textContent = name;
+    const container = document.getElementById('lb-imgs');
+    container.innerHTML = '';
+    if (!imgs || !imgs.length) {
+      container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:20px;">이미지가 없습니다.</p>';
+    } else {
+      imgs.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = name;
+        img.onclick = () => window.open(src, '_blank');
+        container.appendChild(img);
+      });
+    }
+    document.getElementById('lightbox').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /** 라이트박스 닫기 */
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  // ESC 키로 닫기
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>

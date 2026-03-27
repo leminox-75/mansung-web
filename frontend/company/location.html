@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오시는길 | 만성코프레이션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* Map placeholder */
+    .map-container {
+      width: 100%;
+      height: 400px;
+      background: #e8f0e8;
+      border-radius: 12px;
+      border: 2px dashed var(--primary-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    #kakao-map {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+    }
+    .map-placeholder-content {
+      text-align: center;
+      color: var(--primary);
+    }
+    .map-placeholder-content .map-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .map-placeholder-content .map-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+    .map-placeholder-content .map-note {
+      font-size: 0.8rem;
+      color: var(--gray);
+      background: rgba(255,255,255,0.8);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    /* Address info card */
+    .addr-info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .addr-info-badge {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 8px;
+      padding: 12px 18px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      flex-shrink: 0;
+    }
+    .addr-info-body {
+      flex: 1;
+      min-width: 200px;
+    }
+    .addr-info-body .addr-company {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+    .addr-info-body .addr-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .addr-info-body .addr-row .addr-key {
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 56px;
+      flex-shrink: 0;
+    }
+    .addr-info-body .addr-row .addr-val {
+      color: var(--dark);
+      line-height: 1.5;
+    }
+    .addr-info-body .addr-row a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .addr-info-body .addr-row a:hover {
+      text-decoration: underline;
+    }
+
+    /* Business hours */
+    .biz-hours {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .biz-hours-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      color: var(--gray);
+    }
+    .biz-hours-item strong {
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    /* Transport section */
+    .transport-section {
+      margin-top: 32px;
+    }
+    .transport-heading {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+    .transport-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .transport-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 24px 20px;
+    }
+    .transport-card.car { border-top-color: var(--accent); }
+    .transport-card.bus { border-top-color: var(--primary-light); }
+    .transport-card.subway { border-top-color: var(--primary-dark); }
+    .transport-card .t-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .transport-card .t-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .transport-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .transport-card ul li {
+      font-size: 0.88rem;
+      color: var(--gray);
+      line-height: 1.75;
+      padding-left: 12px;
+      position: relative;
+    }
+    .transport-card ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+    .transport-card .t-note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--primary);
+      background: #f0f8f0;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-weight: 500;
+    }
+
+    /* Map API notice */
+    .map-api-notice {
+      background: #fff8e6;
+      border: 1px solid #ffd97d;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.82rem;
+      color: #7a5800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .map-api-notice .notice-icon {
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    @media (max-width: 768px) {
+      .transport-grid {
+        grid-template-columns: 1fr;
+      }
+      .map-container {
+        height: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">MS</div>
+        <div class="logo-text">
+          <div class="logo-name">만성코프레이션</div>
+          <div class="logo-sub">MANSUNG CORPORATION</div>
+        </div>
+      </a>
+      <nav class="gnb">
+        <div class="gnb-item">
+          <a href="/company/greeting" class="gnb-link">회사소개</a>
+          <div class="snb">
+            <a href="/company/greeting">인사말</a>
+            <a href="/company/history">회사연혁</a>
+            <a href="/company/organization">조직도</a>
+            <a href="/company/location">오시는길</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+                    <a href="/products/product01" class="gnb-link">제품소개</a>
+          <div class="snb">
+            <a href="/products/product01">양어장 부속자재</a>
+            <a href="/products/product02">FTA 부속자재</a>
+            <a href="/products/product03">각관60×60 부속자재</a>
+            <a href="/products/product04">각관75×75 부속자재</a>
+            <a href="/products/product05">연단동 부속자재</a>
+            <a href="/products/product06">고설(수경) 부속자재</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+          <a href="/support/notices" class="gnb-link">고객지원</a>
+          <div class="snb">
+            <a href="/support/notices">공지사항</a>
+            <a href="/support/documents">자료실</a>
+            <a href="/support/contact">문의하기</a>
+            <a href="/support/location">찾아오시는길</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <span class="header-tel">031-000-0000</span>
+        <button class="hamburger" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-overlay"></div>
+  <nav class="mobile-nav">
+    <span class="mobile-nav-close" aria-label="닫기">✕</span>
+    <div style="clear:both; padding-top: 16px;"></div>
+    <ul class="mobile-nav-menu">
+      <li class="m-menu-item">
+        <span class="m-menu-title">회사소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/company/greeting">인사말</a></li>
+          <li><a href="/company/history">회사연혁</a></li>
+          <li><a href="/company/organization">조직도</a></li>
+          <li><a href="/company/location">오시는길</a></li>
+        </ul>
+      </li>
+      <li class="m-menu-item">
+                  <span class="m-menu-title">제품소개 ▾</span>
+          <ul class="m-sub-menu">
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+      </li>
+      <li class="m-menu-item">
+        <span class="m-menu-title">고객지원 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/support/notices">공지사항</a></li>
+          <li><a href="/support/documents">자료실</a></li>
+          <li><a href="/support/contact">문의하기</a></li>
+          <li><a href="/support/location">찾아오시는길</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+      <div>📞 031-000-0000</div>
+      <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">COMPANY</span>
+      <h1 class="page-hero-title">회사소개</h1>
+      <nav class="breadcrumb">
+        <a href="/">홈</a>
+        <span>›</span>
+        <a href="/company/greeting">회사소개</a>
+        <span>›</span>
+        <span>오시는길</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- SUB LAYOUT -->
+  <div class="sub-layout container">
+
+    <!-- LNB -->
+    <aside class="lnb">
+      <div class="lnb-title">회사소개</div>
+      <ul>
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location" class="active">오시는길</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="sub-content">
+      <div class="section">
+        <h2 class="section-title" style="font-size:1.5rem; font-weight:800; color:var(--primary-dark); margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--border);">오시는길</h2>
+
+        <!-- Kakao Map API notice -->
+        <div class="map-api-notice">
+          <span class="notice-icon">ℹ</span>
+          <span>
+            카카오맵을 표시하려면 <strong>KAKAO_MAP_API_KEY</strong>가 필요합니다.
+            <code style="background:#fff3cd; padding:1px 6px; border-radius:3px; font-size:0.8rem;">YOUR_KAKAO_APP_KEY</code>를
+            실제 카카오 개발자 앱 키로 교체하고, 아래 스크립트 주석을 해제하여 사용하세요.
+          </span>
+        </div>
+
+        <!-- Map container -->
+        <div class="map-container">
+          <div id="kakao-map" style="display:none;"></div>
+          <div class="map-placeholder-content" id="map-placeholder">
+            <span class="map-icon">🗺️</span>
+            <div class="map-label">만성코프레이션 위치</div>
+            <div style="font-size:0.9rem; color:var(--gray); margin-top:4px;">경기도 OO시 OO구 OO로 000</div>
+            <span class="map-note">KAKAO_MAP_API_KEY 설정 후 지도가 표시됩니다</span>
+          </div>
+        </div>
+
+        <!--
+        카카오맵 연동 방법:
+        1. https://developers.kakao.com 에서 앱 등록 후 JavaScript 앱 키 발급
+        2. 아래 스크립트 src의 YOUR_KAKAO_APP_KEY를 실제 키로 교체
+        3. 주석 해제 후 사용
+
+        <script type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_APP_KEY">
+        </script>
+        <script>
+          document.getElementById('kakao-map').style.display = 'block';
+          document.getElementById('map-placeholder').style.display = 'none';
+          var mapContainer = document.getElementById('kakao-map');
+          var mapOption = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 실제 좌표로 교체
+            level: 3
+          };
+          var map = new kakao.maps.Map(mapContainer, mapOption);
+          var markerPosition = new kakao.maps.LatLng(37.5665, 126.9780);
+          var marker = new kakao.maps.Marker({ position: markerPosition });
+          marker.setMap(map);
+          var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="padding:8px 12px; font-size:13px; font-weight:700; color:#1B6B3A;">만성코프레이션</div>'
+          });
+          infowindow.open(map, marker);
+        </script>
+        -->
+
+        <!-- Address Info Card -->
+        <div class="addr-info-card">
+          <div class="addr-info-badge">🏭</div>
+          <div class="addr-info-body">
+            <div class="addr-company">(주)만성코프레이션 본사 / 공장</div>
+            <div class="addr-row">
+              <span class="addr-key">주소</span>
+              <span class="addr-val">경기도 OO시 OO구 OO로 000 (우편번호 00000)</span>
+            </div>
+            <div class="addr-row">
+              <span class="addr-key">대표전화</span>
+              <span class="addr-val"><a href="tel:031-000-0000">031-000-0000</a></span>
+            </div>
+            <div class="addr-row">
+              <span class="addr-key">팩스</span>
+              <span class="addr-val">031-000-0001</span>
+            </div>
+            <div class="addr-row">
+              <span class="addr-key">이메일</span>
+              <span class="addr-val"><a href="mailto:info@mansung.co.kr">info@mansung.co.kr</a></span>
+            </div>
+            <div class="addr-row">
+              <span class="addr-key">운영시간</span>
+              <span class="addr-val">
+                <div class="biz-hours">
+                  <div class="biz-hours-item"><strong>평일</strong> 09:00 ~ 18:00</div>
+                  <div class="biz-hours-item"><strong>점심</strong> 12:00 ~ 13:00</div>
+                  <div class="biz-hours-item"><strong>토/일/공휴일</strong> 휴무</div>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transport Guide -->
+        <div class="transport-section">
+          <div class="transport-heading">교통 안내</div>
+          <div class="transport-grid">
+
+            <!-- By Car -->
+            <div class="transport-card car">
+              <div class="t-icon">🚗</div>
+              <div class="t-title">자가용 이용 시</div>
+              <ul>
+                <li>서울 방면: 경부고속도로 → OO IC 출구 → 00방향 5분</li>
+                <li>수원 방면: OO대로 → OO사거리 우회전 → 직진 3분</li>
+                <li>인천 방면: 제2경인고속도로 → OO IC → OO로 우회전</li>
+              </ul>
+              <div class="t-note">주차장 완비 (대형차 가능)</div>
+            </div>
+
+            <!-- By Bus -->
+            <div class="transport-card bus">
+              <div class="t-icon">🚌</div>
+              <div class="t-title">버스 이용 시</div>
+              <ul>
+                <li>간선버스: OO번, OO번 → <strong>OO공단 정류장</strong> 하차</li>
+                <li>지선버스: OOO번 → <strong>만성코프레이션 앞</strong> 하차</li>
+                <li>마을버스: OO번 → <strong>OO공장지구</strong> 하차 후 도보 5분</li>
+              </ul>
+              <div class="t-note">정류장에서 도보 약 3분 거리</div>
+            </div>
+
+            <!-- By Subway -->
+            <div class="transport-card subway">
+              <div class="t-icon">🚇</div>
+              <div class="t-title">지하철 이용 시</div>
+              <ul>
+                <li>수도권 전철 OO선 → <strong>OO역</strong> 하차</li>
+                <li>OO역 O번 출구 → 버스 환승 (OO번 탑승)</li>
+                <li>OO공단 정류장에서 하차 후 도보 3분</li>
+              </ul>
+              <div class="t-note">역에서 총 소요시간 약 15분</div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /transport -->
+
+        <!-- CTA -->
+        <div style="margin-top:36px; background:var(--primary); border-radius:12px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+          <div>
+            <div style="color:var(--white); font-size:1.1rem; font-weight:700; margin-bottom:4px;">방문 전 사전 연락 주세요!</div>
+            <div style="color:rgba(255,255,255,0.85); font-size:0.9rem;">원활한 안내를 위해 방문 전 전화 또는 이메일로 사전에 연락해 주시면 감사하겠습니다.</div>
+          </div>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <a href="tel:031-000-0000" class="btn" style="background:var(--white); color:var(--primary); font-weight:700; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:0.95rem;">
+              📞 031-000-0000
+            </a>
+            <a href="/support/contact" class="btn" style="background:transparent; color:var(--white); border:2px solid rgba(255,255,255,0.6); font-weight:700; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:0.95rem;">
+              온라인 문의
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">MS</div>
+            <div class="logo-text">
+              <div class="logo-name">만성코프레이션</div>
+              <div class="logo-sub">MANSUNG CORPORATION</div>
+            </div>
+          </div>
+          <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+        </div>
+        <div class="footer-sitemap">
+          <div>
+            <h4>회사소개</h4>
+            <ul>
+              <li><a href="/company/greeting">인사말</a></li>
+              <li><a href="/company/history">회사연혁</a></li>
+              <li><a href="/company/organization">조직도</a></li>
+              <li><a href="/company/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>제품소개</h4>
+            <ul>
+                            <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product02">FTA 부속자재</a></li>
+              <li><a href="/products/product03">각관60×60 부속자재</a></li>
+              <li><a href="/products/product04">각관75×75 부속자재</a></li>
+              <li><a href="/products/product05">연단동 부속자재</a></li>
+              <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>고객지원</h4>
+            <ul>
+              <li><a href="/support/notices">공지사항</a></li>
+              <li><a href="/support/documents">자료실</a></li>
+              <li><a href="/support/contact">문의하기</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>바로가기</h4>
+            <ul>
+              <li><a href="/support/location">찾아오시는길</a></li>
+              <li><a href="/support/contact">견적 문의</a></li>
+              <li><a href="tel:031-000-0000">전화 상담</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+        <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

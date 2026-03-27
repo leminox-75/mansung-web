@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>찾아오시는길 | 만성코프레이션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    /* ── 찾아오시는길 전용 스타일 ── */
+
+    /* 지도 */
+    #map {
+      width: 100%;
+      height: 420px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+    }
+
+    /* 주소 정보 카드 */
+    .address-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .address-icon { font-size: 2.4rem; flex-shrink: 0; }
+    .address-main { font-size: 1.15rem; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+    .address-sub  { font-size: .9rem; color: var(--text-sub); line-height: 1.8; }
+
+    /* 교통 수단 탭 */
+    .transport-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .transport-tab {
+      padding: 10px 24px;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--gray);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color .2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font);
+    }
+    .transport-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .transport-tab:hover  { color: var(--primary); }
+
+    .transport-panel { display: none; }
+    .transport-panel.active { display: block; }
+
+    /* 교통 정보 그리드 */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .transport-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+    }
+    .transport-card h4 {
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .transport-card ul { padding: 0; }
+    .transport-card li {
+      font-size: .875rem;
+      color: var(--text-sub);
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--border);
+      line-height: 1.6;
+    }
+    .transport-card li:last-child { border-bottom: none; }
+    .transport-card li strong { color: var(--dark); }
+
+    /* 버스 카드 전체 너비 */
+    .transport-card.full { grid-column: span 2; }
+
+    /* 운영 시간 */
+    .hours-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .hours-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+    }
+    .hours-card .h-icon  { font-size: 1.8rem; margin-bottom: 10px; }
+    .hours-card .h-label { font-size: .8rem; color: var(--gray); margin-bottom: 6px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+    .hours-card .h-value { font-size: .95rem; font-weight: 700; color: var(--dark); line-height: 1.5; }
+    .hours-card .h-sub   { font-size: .78rem; color: var(--gray-light); margin-top: 4px; }
+
+    /* 주변 정보 칩 */
+    .landmark-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .landmark-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: .8rem;
+      background: #E6F4EB;
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .transport-grid { grid-template-columns: 1fr; }
+      .transport-card.full { grid-column: span 1; }
+      .hours-grid { grid-template-columns: 1fr; }
+      #map { height: 300px; }
+      .address-card { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">MS</div>
+      <div class="logo-text">
+        <div class="logo-name">만성코프레이션</div>
+        <div class="logo-sub">MANSUNG CORPORATION</div>
+      </div>
+    </a>
+    <nav class="gnb">
+      <div class="gnb-item">
+        <a href="/company/greeting" class="gnb-link">회사소개</a>
+        <div class="snb">
+          <a href="/company/greeting">인사말</a>
+          <a href="/company/history">회사연혁</a>
+          <a href="/company/organization">조직도</a>
+          <a href="/company/location">오시는길</a>
+        </div>
+      </div>
+      <div class="gnb-item">
+        <a href="/products/product01" class="gnb-link">제품소개</a>
+        <div class="snb">
+          <a href="/products/product01">양어장 부속자재</a>
+          <a href="/products/product02">FTA 부속자재</a>
+          <a href="/products/product03">각관60×60 부속자재</a>
+          <a href="/products/product04">각관75×75 부속자재</a>
+          <a href="/products/product05">연단동 부속자재</a>
+          <a href="/products/product06">고설(수경) 부속자재</a>
+        </div>
+      </div>
+      <div class="gnb-item active">
+        <a href="/support/notices" class="gnb-link">고객지원</a>
+        <div class="snb">
+          <a href="/support/notices">공지사항</a>
+          <a href="/support/documents">자료실</a>
+          <a href="/support/contact">문의하기</a>
+          <a href="/support/location">찾아오시는길</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <span class="header-tel">031-000-0000</span>
+      <button class="hamburger" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- 모바일 드로어 -->
+<div class="mobile-overlay"></div>
+<nav class="mobile-nav">
+  <span class="mobile-nav-close" aria-label="닫기">✕</span>
+  <div style="clear:both; padding-top: 16px;"></div>
+  <ul class="mobile-nav-menu">
+    <li class="m-menu-item">
+      <span class="m-menu-title">회사소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">제품소개 ▾</span>
+      <ul class="m-sub-menu">
+        <li><a href="/products/product01">양어장 부속자재</a></li>
+        <li><a href="/products/product02">FTA 부속자재</a></li>
+        <li><a href="/products/product03">각관60×60 부속자재</a></li>
+        <li><a href="/products/product04">각관75×75 부속자재</a></li>
+        <li><a href="/products/product05">연단동 부속자재</a></li>
+        <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+      </ul>
+    </li>
+    <li class="m-menu-item">
+      <span class="m-menu-title">고객지원 ▾</span>
+      <ul class="m-sub-menu open">
+        <li><a href="/support/notices">공지사항</a></li>
+        <li><a href="/support/documents">자료실</a></li>
+        <li><a href="/support/contact">문의하기</a></li>
+        <li><a href="/support/location">찾아오시는길</a></li>
+      </ul>
+    </li>
+  </ul>
+  <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div>📞 031-000-0000</div>
+    <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+  </div>
+</nav>
+
+<!-- ════════════ PAGE HERO ════════════ -->
+<section class="page-hero">
+  <div class="container">
+    <span class="page-hero-label">CUSTOMER SUPPORT</span>
+    <h1 class="page-hero-title">찾아오시는길</h1>
+    <nav class="breadcrumb">
+      <a href="/">홈</a>
+      <span class="sep">›</span>
+      <a href="/support/notices">고객지원</a>
+      <span class="sep">›</span>
+      <span class="current">찾아오시는길</span>
+    </nav>
+  </div>
+</section>
+
+<!-- ════════════ SUB LAYOUT ════════════ -->
+<div class="sub-layout">
+
+  <!-- LNB -->
+  <aside class="lnb">
+    <div class="lnb-title">고객지원</div>
+    <ul>
+      <li><a href="/support/notices">공지사항</a></li>
+      <li><a href="/support/documents">자료실</a></li>
+      <li><a href="/support/contact">문의하기</a></li>
+      <li><a href="/support/location" class="active">찾아오시는길</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="sub-content">
+
+    <!-- 지도 -->
+    <div id="map"></div>
+
+    <!-- 주소 카드 -->
+    <div class="address-card">
+      <div class="address-icon">📍</div>
+      <div>
+        <div class="address-main">경기도 OO시 OO구 OO로 000 만성코프레이션</div>
+        <div class="address-sub">
+          TEL: 031-000-0000 &nbsp;|&nbsp; FAX: 031-000-0001 &nbsp;|&nbsp; E-mail: info@mansung.co.kr
+        </div>
+        <div class="landmark-chips" style="margin-top:10px;">
+          <span class="landmark-chip">🏢 본사·공장 통합</span>
+          <span class="landmark-chip">🚗 주차 가능</span>
+          <span class="landmark-chip">🏭 공장 견학 사전 예약</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 운영 시간 -->
+    <div class="hours-grid">
+      <div class="hours-card">
+        <div class="h-icon">📅</div>
+        <div class="h-label">평일</div>
+        <div class="h-value">09:00 ~ 18:00</div>
+        <div class="h-sub">점심 12:00 ~ 13:00</div>
+      </div>
+      <div class="hours-card">
+        <div class="h-icon">🗓️</div>
+        <div class="h-label">토요일</div>
+        <div class="h-value">09:00 ~ 13:00</div>
+        <div class="h-sub">격주 운영 (사전 확인)</div>
+      </div>
+      <div class="hours-card" style="border-top-color: var(--gray-light);">
+        <div class="h-icon">🔒</div>
+        <div class="h-label">일요일 · 공휴일</div>
+        <div class="h-value" style="color:var(--gray);">휴무</div>
+        <div class="h-sub">긴급 문의: 031-000-0000</div>
+      </div>
+    </div>
+
+    <!-- 교통 안내 탭 -->
+    <div style="margin-top: 36px;">
+      <h3 style="font-size:1.1rem; font-weight:800; color:var(--dark); margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid var(--primary);">교통 안내</h3>
+
+      <div class="transport-tabs">
+        <button class="transport-tab active" data-tab="car">🚗 자가용</button>
+        <button class="transport-tab" data-tab="bus">🚌 버스</button>
+        <button class="transport-tab" data-tab="train">🚆 기차/전철</button>
+      </div>
+
+      <!-- 자가용 -->
+      <div class="transport-panel active" id="tab-car">
+        <div class="transport-grid">
+          <div class="transport-card">
+            <h4>🛣️ 서울 방면</h4>
+            <ul>
+              <li><strong>경부고속도로</strong> → OO IC 진출 → OO 방면 → 약 10분</li>
+              <li><strong>서해안고속도로</strong> → OO JCT → 경부고속도로 → OO IC</li>
+              <li>IC 기준 약 <strong>10~15분</strong> 소요</li>
+            </ul>
+          </div>
+          <div class="transport-card">
+            <h4>🛣️ 부산/대전 방면</h4>
+            <ul>
+              <li><strong>경부고속도로</strong> → OO IC 진출 → OO 방면 → 약 10분</li>
+              <li><strong>네비게이션:</strong> "만성코프레이션" 검색</li>
+              <li>주차장: 본사 내 <strong>20대</strong> 무료 주차 가능</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 버스 -->
+      <div class="transport-panel" id="tab-bus">
+        <div class="transport-grid">
+          <div class="transport-card full">
+            <h4>🚌 버스 이용 안내</h4>
+            <ul>
+              <li><strong>OO역 앞 버스 정류장</strong>에서 승차</li>
+              <li>직행버스 <strong>OO번</strong> 승차 → "OO사거리" 하차 → 도보 5분</li>
+              <li>일반버스 <strong>OO번</strong> 승차 → "OO산업단지입구" 하차 → 도보 3분</li>
+              <li>배차 간격: 약 15~20분 / 운행 시간: 05:30 ~ 23:00</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 기차/전철 -->
+      <div class="transport-panel" id="tab-train">
+        <div class="transport-grid">
+          <div class="transport-card">
+            <h4>🚆 KTX / 일반열차</h4>
+            <ul>
+              <li><strong>OO역</strong> 하차 (서울역 기준 약 30분)</li>
+              <li>역 앞 택시 이용 → 약 15분 소요</li>
+              <li>역 앞 버스 이용 시 OO번 탑승</li>
+            </ul>
+          </div>
+          <div class="transport-card">
+            <h4>🚇 수도권 전철</h4>
+            <ul>
+              <li><strong>1호선 OO역</strong> 하차</li>
+              <li>역 2번 출구 → 마을버스 환승</li>
+              <li>또는 택시 이용 약 10분</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">MS</div>
+          <div class="logo-text">
+            <div class="logo-name">만성코프레이션</div>
+            <div class="logo-sub">MANSUNG CORPORATION</div>
+          </div>
+        </div>
+        <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+        <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+      </div>
+      <div class="footer-sitemap">
+        <div><h4>회사소개</h4><ul><li><a href="/company/greeting">인사말</a></li><li><a href="/company/history">회사연혁</a></li><li><a href="/company/organization">조직도</a></li><li><a href="/company/location">오시는길</a></li></ul></div>
+        <div><h4>제품소개</h4><ul><li><a href="/products/vinyl">비닐하우스 자재</a></li><li><a href="/products/press">프레스 제품</a></li><li><a href="/products/others">기타 제품</a></li></ul></div>
+        <div><h4>고객지원</h4><ul><li><a href="/support/notices">공지사항</a></li><li><a href="/support/documents">자료실</a></li><li><a href="/support/contact">문의하기</a></li></ul></div>
+        <div><h4>바로가기</h4><ul><li><a href="/support/location">찾아오시는길</a></li><li><a href="/support/contact">견적 문의</a></li><li><a href="tel:031-000-0000">전화 상담</a></li></ul></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+      <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/static/js/main.js"></script>
+<script>
+  /**
+   * Leaflet 지도 초기화
+   * 경기도 남부 산업단지 일대 기본 위치 표시 (실제 주소 확정 시 좌표 교체)
+   */
+  (function initMap() {
+    // 경기도 남부 일대 좌표 (실제 주소 확정 시 교체)
+    const LAT = 37.0700;
+    const LNG = 127.0500;
+    const ZOOM = 15;
+
+    const map = L.map('map', {
+      center: [LAT, LNG],
+      zoom: ZOOM,
+      scrollWheelZoom: false,   // 스크롤 줌 비활성화 (UX 개선)
+    });
+
+    // OpenStreetMap 타일 레이어
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19,
+    }).addTo(map);
+
+    // 커스텀 마커 아이콘
+    const markerIcon = L.divIcon({
+      html: `
+        <div style="
+          width:44px; height:44px;
+          background: #1B6B3A;
+          border: 4px solid #fff;
+          border-radius: 50% 50% 50% 0;
+          transform: rotate(-45deg);
+          box-shadow: 0 4px 16px rgba(0,0,0,.3);
+          display:flex; align-items:center; justify-content:center;
+        ">
+          <span style="transform:rotate(45deg); font-size:18px; line-height:1; color:#fff;">🏭</span>
+        </div>`,
+      iconSize: [44, 44],
+      iconAnchor: [22, 44],
+      popupAnchor: [0, -48],
+      className: '',
+    });
+
+    // 마커 + 팝업
+    L.marker([LAT, LNG], { icon: markerIcon })
+      .addTo(map)
+      .bindPopup(`
+        <div style="font-family:'Noto Sans KR',sans-serif; min-width:200px;">
+          <div style="font-size:.95rem; font-weight:800; color:#1B6B3A; margin-bottom:6px;">만성코프레이션</div>
+          <div style="font-size:.82rem; color:#555; line-height:1.6;">
+            경기도 OO시 OO구 OO로 000<br>
+            📞 031-000-0000<br>
+            ✉️ info@mansung.co.kr
+          </div>
+          <a href="/support/contact" style="display:inline-block; margin-top:10px; padding:5px 12px; background:#1B6B3A; color:#fff; border-radius:4px; font-size:.78rem; font-weight:600; text-decoration:none;">문의하기</a>
+        </div>
+      `, { maxWidth: 260 })
+      .openPopup();
+  })();
+
+  /**
+   * 교통 탭 전환
+   */
+  document.querySelectorAll('.transport-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.transport-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.transport-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

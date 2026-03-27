@@ -1,0 +1,918 @@
+{
+  "product01": [
+    {
+      "id": 24,
+      "name": "하부와이자",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_24_1.jpg",
+        "/static/images/products/product01/product01_24_2.jpg",
+        "/static/images/products/product01/product01_24_3.jpg",
+        "/static/images/products/product01/product01_24_4.jpg"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "하부반와이자",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_25_1.jpg",
+        "/static/images/products/product01/product01_25_2.jpg"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "스프링(사철)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_26_1.jpg",
+        "/static/images/products/product01/product01_26_2.jpg"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "스텐육각볼트,스텐너트",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_27_1.jpg"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "스텐턴버클(SUS304)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_28_1.jpg"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "오류안내 페이지",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": []
+    },
+    {
+      "id": 30,
+      "name": "스텐와이어클립(SUS304)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_30_1.jpg"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "스텐아이너트(SUS304)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_31_1.jpg"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "스텐셋트앙카(SUS304)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_32_1.jpg"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "포스멕칼라패드",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_33_1.jpg",
+        "/static/images/products/product01/product01_33_2.jpg"
+      ]
+    },
+    {
+      "id": 34,
+      "name": "고정구",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_34_1.jpg"
+      ]
+    },
+    {
+      "id": 35,
+      "name": "유반도(스텐유볼트,스텐너트)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_35_1.jpg"
+      ]
+    },
+    {
+      "id": 36,
+      "name": "유반도(스텐유볼트,스텐너트)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_36_1.jpg",
+        "/static/images/products/product01/product01_36_2.jpg"
+      ]
+    },
+    {
+      "id": 37,
+      "name": "유반도(스텐유볼트,스텐너트)",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_37_1.jpg",
+        "/static/images/products/product01/product01_37_2.jpg"
+      ]
+    },
+    {
+      "id": 38,
+      "name": "스타트반도",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_38_1.jpg"
+      ]
+    },
+    {
+      "id": 39,
+      "name": "스텐베이스판",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_39_1.jpg"
+      ]
+    },
+    {
+      "id": 40,
+      "name": "기둥베이스판",
+      "category": "product01",
+      "category_name": "양어장 부속자재",
+      "images": [
+        "/static/images/products/product01/product01_40_1.jpg",
+        "/static/images/products/product01/product01_40_2.jpg"
+      ]
+    }
+  ],
+  "product02": [
+    {
+      "id": 141,
+      "name": "유반도셋트",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_141_1.jpg"
+      ]
+    },
+    {
+      "id": 142,
+      "name": "유반도셋트",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_142_1.jpg",
+        "/static/images/products/product02/product02_142_2.jpg"
+      ]
+    },
+    {
+      "id": 143,
+      "name": "유반도셋트",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_143_1.jpg",
+        "/static/images/products/product02/product02_143_2.jpg"
+      ]
+    },
+    {
+      "id": 144,
+      "name": "스타트반도",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_144_1.jpg"
+      ]
+    },
+    {
+      "id": 145,
+      "name": "스타트반도",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_145_1.jpg",
+        "/static/images/products/product02/product02_145_2.jpg"
+      ]
+    },
+    {
+      "id": 146,
+      "name": "스타트반도",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_146_1.jpg"
+      ]
+    },
+    {
+      "id": 147,
+      "name": "스타트반도",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_147_1.jpg",
+        "/static/images/products/product02/product02_147_2.jpg"
+      ]
+    },
+    {
+      "id": 148,
+      "name": "스타트반도",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_148_1.jpg",
+        "/static/images/products/product02/product02_148_2.jpg"
+      ]
+    },
+    {
+      "id": 149,
+      "name": "각관반와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_149_1.jpg"
+      ]
+    },
+    {
+      "id": 150,
+      "name": "각관와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_150_1.jpg"
+      ]
+    },
+    {
+      "id": 151,
+      "name": "바람막이반와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_151_1.jpg",
+        "/static/images/products/product02/product02_151_2.jpg"
+      ]
+    },
+    {
+      "id": 152,
+      "name": "컷팅반와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_152_1.jpg",
+        "/static/images/products/product02/product02_152_2.jpg"
+      ]
+    },
+    {
+      "id": 153,
+      "name": "반와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_153_1.jpg",
+        "/static/images/products/product02/product02_153_2.jpg"
+      ]
+    },
+    {
+      "id": 154,
+      "name": "반와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_154_1.jpg",
+        "/static/images/products/product02/product02_154_2.jpg"
+      ]
+    },
+    {
+      "id": 155,
+      "name": "와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_155_1.jpg",
+        "/static/images/products/product02/product02_155_2.jpg"
+      ]
+    },
+    {
+      "id": 156,
+      "name": "와이자",
+      "category": "product02",
+      "category_name": "FTA 부속자재",
+      "images": [
+        "/static/images/products/product02/product02_156_1.jpg",
+        "/static/images/products/product02/product02_156_2.jpg"
+      ]
+    }
+  ],
+  "product03": [
+    {
+      "id": 19,
+      "name": "크램프고리고정구",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_19_1.jpg",
+        "/static/images/products/product03/product03_19_2.jpg",
+        "/static/images/products/product03/product03_19_3.jpg",
+        "/static/images/products/product03/product03_19_4.jpg"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "포스멕칼라패드",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_20_1.jpg",
+        "/static/images/products/product03/product03_20_2.jpg"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "티클립",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_21_1.jpg",
+        "/static/images/products/product03/product03_21_2.jpg"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "새들",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_22_1.jpg",
+        "/static/images/products/product03/product03_22_2.jpg"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "새들",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_23_1.jpg",
+        "/static/images/products/product03/product03_23_2.jpg"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "새들",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_24_1.jpg",
+        "/static/images/products/product03/product03_24_2.jpg"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "각관조정기",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_25_1.jpg",
+        "/static/images/products/product03/product03_25_2.jpg",
+        "/static/images/products/product03/product03_25_3.jpg",
+        "/static/images/products/product03/product03_25_4.jpg"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "연결봉",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_26_1.jpg",
+        "/static/images/products/product03/product03_26_2.jpg"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "각이중외봉",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_27_1.jpg",
+        "/static/images/products/product03/product03_27_2.jpg"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "각이중쌍봉",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_28_1.jpg",
+        "/static/images/products/product03/product03_28_2.jpg"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "빗장티클립",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_29_1.jpg",
+        "/static/images/products/product03/product03_29_2.jpg"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "각관보호벽꽂이",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_30_1.jpg",
+        "/static/images/products/product03/product03_30_2.jpg"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "각유반도",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_31_1.jpg",
+        "/static/images/products/product03/product03_31_2.jpg"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "각유반도",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_32_1.jpg",
+        "/static/images/products/product03/product03_32_2.jpg"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "각외벽반도",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_33_1.jpg",
+        "/static/images/products/product03/product03_33_2.jpg"
+      ]
+    },
+    {
+      "id": 34,
+      "name": "각외벽반도",
+      "category": "product03",
+      "category_name": "각관60×60 부속자재",
+      "images": [
+        "/static/images/products/product03/product03_34_1.jpg",
+        "/static/images/products/product03/product03_34_2.jpg"
+      ]
+    }
+  ],
+  "product04": [
+    {
+      "id": 14,
+      "name": "출입문로라",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_14_1.jpg",
+        "/static/images/products/product04/product04_14_2.jpg",
+        "/static/images/products/product04/product04_14_3.jpg",
+        "/static/images/products/product04/product04_14_4.jpg"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "마무리 스타트",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_16_1.jpg",
+        "/static/images/products/product04/product04_16_2.jpg",
+        "/static/images/products/product04/product04_16_3.jpg",
+        "/static/images/products/product04/product04_16_4.jpg"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "크램프고리고정구",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_18_1.jpg",
+        "/static/images/products/product04/product04_18_2.jpg"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "각연결핀",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": []
+    },
+    {
+      "id": 20,
+      "name": "각유반도",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_20_1.jpg"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "각티보호벽꽂이",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_22_1.jpg"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "각관보호벽꽂이",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_24_1.jpg",
+        "/static/images/products/product04/product04_24_2.jpg"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "각외벽반도",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_25_1.jpg"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "각티외꽂이",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_26_1.jpg"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "각티쌍꽂이",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_27_1.jpg"
+      ]
+    },
+    {
+      "id": 28,
+      "name": "포스멕칼라패드",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_28_1.jpg",
+        "/static/images/products/product04/product04_28_2.jpg"
+      ]
+    },
+    {
+      "id": 29,
+      "name": "용융턴버클",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_29_1.jpg",
+        "/static/images/products/product04/product04_29_2.jpg"
+      ]
+    },
+    {
+      "id": 30,
+      "name": "지구베아링",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_30_1.jpg",
+        "/static/images/products/product04/product04_30_2.jpg"
+      ]
+    },
+    {
+      "id": 31,
+      "name": "각관지구베아링",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_31_1.jpg",
+        "/static/images/products/product04/product04_31_2.jpg"
+      ]
+    },
+    {
+      "id": 32,
+      "name": "새들",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_32_1.jpg",
+        "/static/images/products/product04/product04_32_2.jpg"
+      ]
+    },
+    {
+      "id": 33,
+      "name": "새들",
+      "category": "product04",
+      "category_name": "각관75×75 부속자재",
+      "images": [
+        "/static/images/products/product04/product04_33_1.jpg",
+        "/static/images/products/product04/product04_33_2.jpg"
+      ]
+    }
+  ],
+  "product05": [
+    {
+      "id": 110,
+      "name": "1중외봉",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_110_1.jpg",
+        "/static/images/products/product05/product05_110_2.jpg",
+        "/static/images/products/product05/product05_110_3.jpg"
+      ]
+    },
+    {
+      "id": 111,
+      "name": "1중외봉",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_111_1.jpg",
+        "/static/images/products/product05/product05_111_2.jpg",
+        "/static/images/products/product05/product05_111_3.jpg"
+      ]
+    },
+    {
+      "id": 112,
+      "name": "1중쌍봉",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_112_1.jpg",
+        "/static/images/products/product05/product05_112_2.jpg"
+      ]
+    },
+    {
+      "id": 113,
+      "name": "1중쌍봉",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_113_1.jpg",
+        "/static/images/products/product05/product05_113_2.jpg"
+      ]
+    },
+    {
+      "id": 114,
+      "name": "1중연동외꽂이",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_114_1.jpg",
+        "/static/images/products/product05/product05_114_2.jpg"
+      ]
+    },
+    {
+      "id": 115,
+      "name": "1중연동외꽂이",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_115_1.jpg",
+        "/static/images/products/product05/product05_115_2.jpg"
+      ]
+    },
+    {
+      "id": 116,
+      "name": "1중연동쌍꽂이",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_116_1.jpg",
+        "/static/images/products/product05/product05_116_2.jpg",
+        "/static/images/products/product05/product05_116_3.jpg"
+      ]
+    },
+    {
+      "id": 117,
+      "name": "1중연동쌍꽂이",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_117_1.jpg",
+        "/static/images/products/product05/product05_117_2.jpg",
+        "/static/images/products/product05/product05_117_3.jpg"
+      ]
+    },
+    {
+      "id": 118,
+      "name": "운반고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_118_1.jpg",
+        "/static/images/products/product05/product05_118_2.jpg"
+      ]
+    },
+    {
+      "id": 119,
+      "name": "운반고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_119_1.jpg",
+        "/static/images/products/product05/product05_119_2.jpg"
+      ]
+    },
+    {
+      "id": 120,
+      "name": "운반고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_120_1.jpg",
+        "/static/images/products/product05/product05_120_2.jpg"
+      ]
+    },
+    {
+      "id": 121,
+      "name": "이중고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_121_1.jpg"
+      ]
+    },
+    {
+      "id": 122,
+      "name": "연동고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_122_1.jpg",
+        "/static/images/products/product05/product05_122_2.jpg"
+      ]
+    },
+    {
+      "id": 123,
+      "name": "연동고리",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_123_1.jpg"
+      ]
+    },
+    {
+      "id": 124,
+      "name": "약줄로라",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": [
+        "/static/images/products/product05/product05_124_1.jpg"
+      ]
+    },
+    {
+      "id": 125,
+      "name": "양날개",
+      "category": "product05",
+      "category_name": "연단동 부속자재",
+      "images": []
+    }
+  ],
+  "product06": [
+    {
+      "id": 4,
+      "name": "운반레일판",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_4_1.jpg",
+        "/static/images/products/product06/product06_4_2.jpg"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "강판조리개",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_5_1.jpg",
+        "/static/images/products/product06/product06_5_2.jpg"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "X반도",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_6_1.jpg",
+        "/static/images/products/product06/product06_6_2.jpg",
+        "/static/images/products/product06/product06_6_3.jpg"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "유볼트,평철",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_7_1.jpg",
+        "/static/images/products/product06/product06_7_2.jpg"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "속티고정구",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_8_1.jpg",
+        "/static/images/products/product06/product06_8_2.jpg"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "속티고정구",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_9_1.jpg",
+        "/static/images/products/product06/product06_9_2.jpg"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "속티고정구",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_10_1.jpg",
+        "/static/images/products/product06/product06_10_2.jpg"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "배드걸이(파이프)",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_11_1.jpg",
+        "/static/images/products/product06/product06_11_2.jpg"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "배드걸이",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_12_1.jpg",
+        "/static/images/products/product06/product06_12_2.jpg"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "바닥레일",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_13_1.jpg",
+        "/static/images/products/product06/product06_13_2.jpg"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "바닥레일",
+      "category": "product06",
+      "category_name": "고설(수경) 부속자재",
+      "images": [
+        "/static/images/products/product06/product06_14_1.jpg",
+        "/static/images/products/product06/product06_14_2.jpg"
+      ]
+    }
+  ]
+}

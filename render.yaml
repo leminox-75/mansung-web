@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mansung-web
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./mansung.db
+      - key: CORS_ORIGINS
+        generateValue: false
+        value: https://mansung-web.onrender.com
+      - key: PYTHON_VERSION
+        value: "3.11.0"

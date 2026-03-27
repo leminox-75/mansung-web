@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사연혁 | 만성코프레이션</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    .timeline {
+      position: relative;
+      padding: 16px 0 32px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--border);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 0 48px 40px 0;
+      box-sizing: border-box;
+    }
+    .timeline-item.right {
+      left: 50%;
+      padding: 0 0 40px 48px;
+    }
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 3px var(--primary-light);
+      z-index: 1;
+    }
+    .timeline-item.right::after {
+      left: -10px;
+      right: auto;
+    }
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .timeline-card:hover {
+      box-shadow: 0 6px 24px rgba(27,107,58,0.12);
+      transform: translateY(-2px);
+    }
+    .timeline-year {
+      display: inline-block;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    .timeline-events {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .timeline-events li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 4px;
+    }
+    .timeline-events li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--primary-light);
+      font-weight: 700;
+    }
+    .timeline-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+      vertical-align: middle;
+      letter-spacing: 0.3px;
+    }
+    .history-summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .summary-card {
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .summary-card .s-num {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .summary-card .s-label {
+      font-size: 0.85rem;
+      opacity: 0.88;
+    }
+    @media (max-width: 860px) {
+      .timeline::before {
+        left: 16px;
+      }
+      .timeline-item,
+      .timeline-item.right {
+        width: 100%;
+        left: 0;
+        padding: 0 0 32px 52px;
+      }
+      .timeline-item::after,
+      .timeline-item.right::after {
+        left: 6px;
+        right: auto;
+      }
+      .history-summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .history-summary {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <div class="logo-icon">MS</div>
+        <div class="logo-text">
+          <div class="logo-name">만성코프레이션</div>
+          <div class="logo-sub">MANSUNG CORPORATION</div>
+        </div>
+      </a>
+      <nav class="gnb">
+        <div class="gnb-item">
+          <a href="/company/greeting" class="gnb-link">회사소개</a>
+          <div class="snb">
+            <a href="/company/greeting">인사말</a>
+            <a href="/company/history">회사연혁</a>
+            <a href="/company/organization">조직도</a>
+            <a href="/company/location">오시는길</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+                    <a href="/products/product01" class="gnb-link">제품소개</a>
+          <div class="snb">
+            <a href="/products/product01">양어장 부속자재</a>
+            <a href="/products/product02">FTA 부속자재</a>
+            <a href="/products/product03">각관60×60 부속자재</a>
+            <a href="/products/product04">각관75×75 부속자재</a>
+            <a href="/products/product05">연단동 부속자재</a>
+            <a href="/products/product06">고설(수경) 부속자재</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+          <a href="/support/notices" class="gnb-link">고객지원</a>
+          <div class="snb">
+            <a href="/support/notices">공지사항</a>
+            <a href="/support/documents">자료실</a>
+            <a href="/support/contact">문의하기</a>
+            <a href="/support/location">찾아오시는길</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <span class="header-tel">031-000-0000</span>
+        <button class="hamburger" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-overlay"></div>
+  <nav class="mobile-nav">
+    <span class="mobile-nav-close" aria-label="닫기">✕</span>
+    <div style="clear:both; padding-top: 16px;"></div>
+    <ul class="mobile-nav-menu">
+      <li class="m-menu-item">
+        <span class="m-menu-title">회사소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/company/greeting">인사말</a></li>
+          <li><a href="/company/history">회사연혁</a></li>
+          <li><a href="/company/organization">조직도</a></li>
+          <li><a href="/company/location">오시는길</a></li>
+        </ul>
+      </li>
+      <li class="m-menu-item">
+                  <span class="m-menu-title">제품소개 ▾</span>
+          <ul class="m-sub-menu">
+            <li><a href="/products/product01">양어장 부속자재</a></li>
+            <li><a href="/products/product02">FTA 부속자재</a></li>
+            <li><a href="/products/product03">각관60×60 부속자재</a></li>
+            <li><a href="/products/product04">각관75×75 부속자재</a></li>
+            <li><a href="/products/product05">연단동 부속자재</a></li>
+            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+          </ul>
+      </li>
+      <li class="m-menu-item">
+        <span class="m-menu-title">고객지원 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/support/notices">공지사항</a></li>
+          <li><a href="/support/documents">자료실</a></li>
+          <li><a href="/support/contact">문의하기</a></li>
+          <li><a href="/support/location">찾아오시는길</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+      <div>📞 031-000-0000</div>
+      <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">COMPANY</span>
+      <h1 class="page-hero-title">회사소개</h1>
+      <nav class="breadcrumb">
+        <a href="/">홈</a>
+        <span>›</span>
+        <a href="/company/greeting">회사소개</a>
+        <span>›</span>
+        <span>회사연혁</span>
+      </nav>
+    </div>
+  </section>
+
+  <!-- SUB LAYOUT -->
+  <div class="sub-layout container">
+
+    <!-- LNB -->
+    <aside class="lnb">
+      <div class="lnb-title">회사소개</div>
+      <ul>
+        <li><a href="/company/greeting">인사말</a></li>
+        <li><a href="/company/history" class="active">회사연혁</a></li>
+        <li><a href="/company/organization">조직도</a></li>
+        <li><a href="/company/location">오시는길</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="sub-content">
+      <div class="section">
+        <h2 class="section-title" style="font-size:1.5rem; font-weight:800; color:var(--primary-dark); margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--border);">회사연혁</h2>
+
+        <!-- Summary Stats -->
+        <div class="history-summary">
+          <div class="summary-card">
+            <div class="s-num">30+</div>
+            <div class="s-label">년의 역사</div>
+          </div>
+          <div class="summary-card" style="background:var(--accent);">
+            <div class="s-num">500+</div>
+            <div class="s-label">고객사</div>
+          </div>
+          <div class="summary-card" style="background:var(--primary-dark);">
+            <div class="s-num">100억</div>
+            <div class="s-label">연매출 달성</div>
+          </div>
+          <div class="summary-card" style="background:var(--primary-light);">
+            <div class="s-num">ISO</div>
+            <div class="s-label">9001 인증</div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+
+          <!-- 2023 - LEFT -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">2023</span>
+              <span class="timeline-badge">최근</span>
+              <ul class="timeline-events">
+                <li>연매출 100억 달성</li>
+                <li>고객사 500개 돌파</li>
+                <li>스마트 제조 시스템 도입</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2020 - RIGHT -->
+          <div class="timeline-item right">
+            <div class="timeline-card">
+              <span class="timeline-year">2020</span>
+              <ul class="timeline-events">
+                <li>친환경 제품 라인 추가</li>
+                <li>재활용 소재 활용 기술 개발</li>
+                <li>환경경영 방침 수립</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2018 - LEFT -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">2018</span>
+              <ul class="timeline-events">
+                <li>연매출 50억 달성</li>
+                <li>우수 중소기업 인증 획득</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2015 - RIGHT -->
+          <div class="timeline-item right">
+            <div class="timeline-card">
+              <span class="timeline-year">2015</span>
+              <ul class="timeline-events">
+                <li>신공장 완공 (경기도 OO시)</li>
+                <li>생산 설비 전면 현대화</li>
+                <li>자동화 라인 구축</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2012 - LEFT -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">2012</span>
+              <ul class="timeline-events">
+                <li>수출 시작 (동남아시아 진출)</li>
+                <li>베트남·태국 파트너십 체결</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2008 - RIGHT -->
+          <div class="timeline-item right">
+            <div class="timeline-card">
+              <span class="timeline-year">2008</span>
+              <ul class="timeline-events">
+                <li>ISO 9001 품질경영 인증 취득</li>
+                <li>품질관리팀 신설</li>
+                <li>고객만족 경영 선포</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2004 - LEFT -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">2004</span>
+              <ul class="timeline-events">
+                <li>법인 전환 (주식회사 만성코프레이션)</li>
+                <li>대표이사 홍길동 취임</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2000 - RIGHT -->
+          <div class="timeline-item right">
+            <div class="timeline-card">
+              <span class="timeline-year">2000</span>
+              <ul class="timeline-events">
+                <li>프레스 사업부 신설</li>
+                <li>프레스 제품 생산 라인 구축</li>
+                <li>신규 사업 영역 확장</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 1997 - LEFT -->
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <span class="timeline-year">1997</span>
+              <ul class="timeline-events">
+                <li>공장 증설 (제2공장 준공)</li>
+                <li>생산 설비 대폭 확충</li>
+                <li>직원 50명 달성</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 1993 - RIGHT -->
+          <div class="timeline-item right">
+            <div class="timeline-card">
+              <span class="timeline-year">1993</span>
+              <span class="timeline-badge" style="background:var(--accent);">창립</span>
+              <ul class="timeline-events">
+                <li>만성산업사 창립</li>
+                <li>비닐하우스 자재 제조 시작</li>
+                <li>경기도 OO시 소재 제1공장 설립</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <!-- /timeline -->
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo">
+            <div class="logo-icon">MS</div>
+            <div class="logo-text">
+              <div class="logo-name">만성코프레이션</div>
+              <div class="logo-sub">MANSUNG CORPORATION</div>
+            </div>
+          </div>
+          <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+        </div>
+        <div class="footer-sitemap">
+          <div>
+            <h4>회사소개</h4>
+            <ul>
+              <li><a href="/company/greeting">인사말</a></li>
+              <li><a href="/company/history">회사연혁</a></li>
+              <li><a href="/company/organization">조직도</a></li>
+              <li><a href="/company/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>제품소개</h4>
+            <ul>
+                            <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product02">FTA 부속자재</a></li>
+              <li><a href="/products/product03">각관60×60 부속자재</a></li>
+              <li><a href="/products/product04">각관75×75 부속자재</a></li>
+              <li><a href="/products/product05">연단동 부속자재</a></li>
+              <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>고객지원</h4>
+            <ul>
+              <li><a href="/support/notices">공지사항</a></li>
+              <li><a href="/support/documents">자료실</a></li>
+              <li><a href="/support/contact">문의하기</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>바로가기</h4>
+            <ul>
+              <li><a href="/support/location">찾아오시는길</a></li>
+              <li><a href="/support/contact">견적 문의</a></li>
+              <li><a href="tel:031-000-0000">전화 상담</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+        <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
