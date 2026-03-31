@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>회사연혁 | 만성코프레이션</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>회사연혁 | 만성코프레이션</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <style>
     .timeline {
@@ -19,7 +19,7 @@
       top: 0;
       bottom: 0;
       width: 3px;
-      background: var(--border);
+      background: var(--surface-container-high);
       transform: translateX(-50%);
     }
     .timeline-item {
@@ -41,8 +41,8 @@
       height: 20px;
       border-radius: 50%;
       background: var(--primary);
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 3px var(--primary-light);
+      border: 3px solid var(--surface-container-lowest);
+      box-shadow: 0 0 0 3px var(--primary-fixed);
       z-index: 1;
     }
     .timeline-item.right::after {
@@ -50,15 +50,14 @@
       right: auto;
     }
     .timeline-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: var(--surface-container-lowest);
       border-radius: 10px;
       padding: 22px 24px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: var(--shadow-card);
       transition: box-shadow 0.2s, transform 0.2s;
     }
     .timeline-card:hover {
-      box-shadow: 0 6px 24px rgba(27,107,58,0.12);
+      box-shadow: 0 6px 24px rgba(26,28,26,0.14);
       transform: translateY(-2px);
     }
     .timeline-year {
@@ -78,7 +77,7 @@
       position: relative;
       padding-left: 16px;
       font-size: 0.95rem;
-      color: var(--text);
+      color: var(--on-surface);
       line-height: 1.7;
       margin-bottom: 4px;
     }
@@ -86,15 +85,16 @@
       content: '•';
       position: absolute;
       left: 0;
-      color: var(--primary-light);
+      color: var(--on-secondary-container);
       font-weight: 700;
     }
     .timeline-badge {
       display: inline-block;
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary-fixed);
+      color: var(--on-secondary-container);
       font-size: 0.7rem;
       font-weight: 700;
+      font-family: 'Manrope', sans-serif;
       padding: 2px 8px;
       border-radius: 20px;
       margin-left: 8px;
@@ -109,8 +109,8 @@
     }
     .summary-card {
       background: var(--primary);
-      color: var(--white);
-      border-radius: 10px;
+      color: var(--surface-container-lowest);
+      border-radius: var(--r-lg);
       padding: 24px 16px;
       text-align: center;
     }
@@ -151,15 +151,11 @@
   </style>
 </head>
 <body>
-
-  <header class="site-header">
+    <header class="site-header">
     <div class="header-inner">
-      <a href="/" class="logo">
-        <div class="logo-icon">MS</div>
-        <div class="logo-text">
-          <div class="logo-name">만성코프레이션</div>
-          <div class="logo-sub">MANSUNG CORPORATION</div>
-        </div>
+      <a href="/" style="text-decoration:none;">
+        <div class="logo-wordmark">만성코프레이션</div>
+        <div class="logo-sub">Mansung Corporation</div>
       </a>
       <nav class="gnb">
         <div class="gnb-item">
@@ -172,7 +168,7 @@
           </div>
         </div>
         <div class="gnb-item">
-                    <a href="/products/product01" class="gnb-link">제품소개</a>
+          <a href="/products/product01" class="gnb-link">제품소개</a>
           <div class="snb">
             <a href="/products/product01">양어장 부속자재</a>
             <a href="/products/product02">FTA 부속자재</a>
@@ -203,7 +199,7 @@
   <div class="mobile-overlay"></div>
   <nav class="mobile-nav">
     <span class="mobile-nav-close" aria-label="닫기">✕</span>
-    <div style="clear:both; padding-top: 16px;"></div>
+    <div style="clear:both; padding-top:16px;"></div>
     <ul class="mobile-nav-menu">
       <li class="m-menu-item">
         <span class="m-menu-title">회사소개 ▾</span>
@@ -215,15 +211,15 @@
         </ul>
       </li>
       <li class="m-menu-item">
-                  <span class="m-menu-title">제품소개 ▾</span>
-          <ul class="m-sub-menu">
-            <li><a href="/products/product01">양어장 부속자재</a></li>
-            <li><a href="/products/product02">FTA 부속자재</a></li>
-            <li><a href="/products/product03">각관60×60 부속자재</a></li>
-            <li><a href="/products/product04">각관75×75 부속자재</a></li>
-            <li><a href="/products/product05">연단동 부속자재</a></li>
-            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
-          </ul>
+        <span class="m-menu-title">제품소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/products/product01">양어장 부속자재</a></li>
+          <li><a href="/products/product02">FTA 부속자재</a></li>
+          <li><a href="/products/product03">각관60×60 부속자재</a></li>
+          <li><a href="/products/product04">각관75×75 부속자재</a></li>
+          <li><a href="/products/product05">연단동 부속자재</a></li>
+          <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+        </ul>
       </li>
       <li class="m-menu-item">
         <span class="m-menu-title">고객지원 ▾</span>
@@ -235,9 +231,9 @@
         </ul>
       </li>
     </ul>
-    <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div style="margin-top:24px; font-size:.85rem; color:var(--outline);">
       <div>📞 031-000-0000</div>
-      <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+      <div style="margin-top:6px;">평일 09:00 ~ 18:00</div>
     </div>
   </nav>
 
@@ -273,7 +269,9 @@
     <!-- MAIN CONTENT -->
     <main class="sub-content">
       <div class="section">
-        <h2 class="section-title" style="font-size:1.5rem; font-weight:800; color:var(--primary-dark); margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--border);">회사연혁</h2>
+        <span class="sec-label">TIMELINE</span>
+        <h2 class="sec-headline">회사 <em>연혁</em></h2>
+        <div class="rule-bar"></div>
 
         <!-- Summary Stats -->
         <div class="history-summary">
@@ -281,15 +279,15 @@
             <div class="s-num">30+</div>
             <div class="s-label">년의 역사</div>
           </div>
-          <div class="summary-card" style="background:var(--accent);">
+          <div class="summary-card" style="background:var(--primary-container);">
             <div class="s-num">500+</div>
             <div class="s-label">고객사</div>
           </div>
-          <div class="summary-card" style="background:var(--primary-dark);">
+          <div class="summary-card" style="background:var(--on-primary-fixed);">
             <div class="s-num">100억</div>
             <div class="s-label">연매출 달성</div>
           </div>
-          <div class="summary-card" style="background:var(--primary-light);">
+          <div class="summary-card" style="background:var(--surface-tint);">
             <div class="s-num">ISO</div>
             <div class="s-label">9001 인증</div>
           </div>
@@ -408,7 +406,7 @@
           <div class="timeline-item right">
             <div class="timeline-card">
               <span class="timeline-year">1993</span>
-              <span class="timeline-badge" style="background:var(--accent);">창립</span>
+              <span class="timeline-badge">창립</span>
               <ul class="timeline-events">
                 <li>만성산업사 창립</li>
                 <li>비닐하우스 자재 제조 시작</li>
@@ -426,19 +424,19 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="site-footer">
+          <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo">
-            <div class="logo-icon">MS</div>
-            <div class="logo-text">
-              <div class="logo-name">만성코프레이션</div>
-              <div class="logo-sub">MANSUNG CORPORATION</div>
-            </div>
+        <div>
+          <div class="f-wordmark">만성코프레이션</div>
+          <div class="f-sub">MANSUNG CORPORATION</div>
+          <div class="f-rule"></div>
+          <p class="f-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="f-address">
+            경기도 OO시 OO구 OO로 000<br>
+            TEL: 031-000-0000 | FAX: 031-000-0001<br>
+            E-mail: info@mansung.co.kr
           </div>
-          <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
-          <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
         </div>
         <div class="footer-sitemap">
           <div>
@@ -453,7 +451,7 @@
           <div>
             <h4>제품소개</h4>
             <ul>
-                            <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product01">양어장 부속자재</a></li>
               <li><a href="/products/product02">FTA 부속자재</a></li>
               <li><a href="/products/product03">각관60×60 부속자재</a></li>
               <li><a href="/products/product04">각관75×75 부속자재</a></li>
@@ -479,13 +477,13 @@
           </div>
         </div>
       </div>
+      <div class="footer-divider"></div>
       <div class="footer-bottom">
         <span>© 2024 만성코프레이션. All Rights Reserved.</span>
         <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
       </div>
     </div>
   </footer>
-
   <script src="/static/js/main.js"></script>
 </body>
 </html>

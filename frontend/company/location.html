@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오시는길 | 만성코프레이션</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>오시는길 | 만성코프레이션</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <style>
     /* Map placeholder */
     .map-container {
       width: 100%;
       height: 400px;
-      background: #e8f0e8;
-      border-radius: 12px;
-      border: 2px dashed var(--primary-light);
+      background: var(--surface-container-low);
+      border-radius: var(--r-lg);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -22,11 +21,12 @@
       margin-bottom: 32px;
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow-card);
     }
     #kakao-map {
       width: 100%;
       height: 100%;
-      border-radius: 10px;
+      border-radius: var(--r-lg);
     }
     .map-placeholder-content {
       text-align: center;
@@ -40,35 +40,34 @@
     .map-placeholder-content .map-label {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--primary-dark);
+      color: var(--on-surface);
       margin-bottom: 6px;
     }
     .map-placeholder-content .map-note {
       font-size: 0.8rem;
-      color: var(--gray);
-      background: rgba(255,255,255,0.8);
+      color: var(--on-surface-variant);
+      background: var(--surface-container-lowest);
       padding: 6px 14px;
-      border-radius: 20px;
+      border-radius: var(--r-full);
       display: inline-block;
       margin-top: 8px;
     }
 
     /* Address info card */
     .addr-info-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: var(--surface-container-lowest);
+      border-radius: var(--r-lg);
       padding: 28px 32px;
       margin-bottom: 28px;
       display: flex;
       flex-wrap: wrap;
       gap: 24px;
       align-items: flex-start;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: var(--shadow-card);
     }
     .addr-info-badge {
       background: var(--primary);
-      color: var(--white);
+      color: var(--surface-container-lowest);
       border-radius: 8px;
       padding: 12px 18px;
       font-size: 1.4rem;
@@ -86,7 +85,7 @@
     .addr-info-body .addr-company {
       font-size: 1.1rem;
       font-weight: 800;
-      color: var(--primary-dark);
+      color: var(--on-surface);
       margin-bottom: 10px;
     }
     .addr-info-body .addr-row {
@@ -95,7 +94,7 @@
       gap: 10px;
       margin-bottom: 8px;
       font-size: 0.9rem;
-      color: var(--text);
+      color: var(--on-surface);
     }
     .addr-info-body .addr-row .addr-key {
       font-weight: 700;
@@ -104,7 +103,7 @@
       flex-shrink: 0;
     }
     .addr-info-body .addr-row .addr-val {
-      color: var(--dark);
+      color: var(--on-surface);
       line-height: 1.5;
     }
     .addr-info-body .addr-row a {
@@ -124,15 +123,14 @@
       margin-top: 4px;
     }
     .biz-hours-item {
-      background: var(--bg);
-      border: 1px solid var(--border);
+      background: var(--surface-container-low);
       border-radius: 6px;
       padding: 8px 14px;
       font-size: 0.82rem;
-      color: var(--gray);
+      color: var(--on-surface-variant);
     }
     .biz-hours-item strong {
-      color: var(--dark);
+      color: var(--on-surface);
       font-weight: 700;
     }
 
@@ -143,10 +141,8 @@
     .transport-heading {
       font-size: 1.1rem;
       font-weight: 700;
-      color: var(--primary-dark);
+      color: var(--on-surface);
       margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--border);
     }
     .transport-grid {
       display: grid;
@@ -154,15 +150,10 @@
       gap: 20px;
     }
     .transport-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-top: 4px solid var(--primary);
-      border-radius: 8px;
+      background: var(--surface-container-low);
+      border-radius: var(--r-lg);
       padding: 24px 20px;
     }
-    .transport-card.car { border-top-color: var(--accent); }
-    .transport-card.bus { border-top-color: var(--primary-light); }
-    .transport-card.subway { border-top-color: var(--primary-dark); }
     .transport-card .t-icon {
       font-size: 1.8rem;
       margin-bottom: 10px;
@@ -170,7 +161,7 @@
     .transport-card .t-title {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--dark);
+      color: var(--on-surface);
       margin-bottom: 12px;
     }
     .transport-card ul {
@@ -180,7 +171,7 @@
     }
     .transport-card ul li {
       font-size: 0.88rem;
-      color: var(--gray);
+      color: var(--on-surface-variant);
       line-height: 1.75;
       padding-left: 12px;
       position: relative;
@@ -189,14 +180,14 @@
       content: '›';
       position: absolute;
       left: 0;
-      color: var(--primary-light);
+      color: var(--on-secondary-container);
       font-weight: 700;
     }
     .transport-card .t-note {
       margin-top: 10px;
       font-size: 0.8rem;
       color: var(--primary);
-      background: #f0f8f0;
+      background: var(--primary-fixed);
       border-radius: 4px;
       padding: 6px 10px;
       font-weight: 500;
@@ -204,16 +195,16 @@
 
     /* Map API notice */
     .map-api-notice {
-      background: #fff8e6;
-      border: 1px solid #ffd97d;
-      border-radius: 8px;
+      background: var(--surface-container-low);
+      border-radius: var(--r-lg);
       padding: 12px 16px;
       font-size: 0.82rem;
-      color: #7a5800;
+      color: var(--on-surface-variant);
       margin-bottom: 16px;
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      box-shadow: var(--shadow-card);
     }
     .map-api-notice .notice-icon {
       font-size: 1rem;
@@ -232,15 +223,11 @@
   </style>
 </head>
 <body>
-
-  <header class="site-header">
+    <header class="site-header">
     <div class="header-inner">
-      <a href="/" class="logo">
-        <div class="logo-icon">MS</div>
-        <div class="logo-text">
-          <div class="logo-name">만성코프레이션</div>
-          <div class="logo-sub">MANSUNG CORPORATION</div>
-        </div>
+      <a href="/" style="text-decoration:none;">
+        <div class="logo-wordmark">만성코프레이션</div>
+        <div class="logo-sub">Mansung Corporation</div>
       </a>
       <nav class="gnb">
         <div class="gnb-item">
@@ -253,7 +240,7 @@
           </div>
         </div>
         <div class="gnb-item">
-                    <a href="/products/product01" class="gnb-link">제품소개</a>
+          <a href="/products/product01" class="gnb-link">제품소개</a>
           <div class="snb">
             <a href="/products/product01">양어장 부속자재</a>
             <a href="/products/product02">FTA 부속자재</a>
@@ -284,7 +271,7 @@
   <div class="mobile-overlay"></div>
   <nav class="mobile-nav">
     <span class="mobile-nav-close" aria-label="닫기">✕</span>
-    <div style="clear:both; padding-top: 16px;"></div>
+    <div style="clear:both; padding-top:16px;"></div>
     <ul class="mobile-nav-menu">
       <li class="m-menu-item">
         <span class="m-menu-title">회사소개 ▾</span>
@@ -296,15 +283,15 @@
         </ul>
       </li>
       <li class="m-menu-item">
-                  <span class="m-menu-title">제품소개 ▾</span>
-          <ul class="m-sub-menu">
-            <li><a href="/products/product01">양어장 부속자재</a></li>
-            <li><a href="/products/product02">FTA 부속자재</a></li>
-            <li><a href="/products/product03">각관60×60 부속자재</a></li>
-            <li><a href="/products/product04">각관75×75 부속자재</a></li>
-            <li><a href="/products/product05">연단동 부속자재</a></li>
-            <li><a href="/products/product06">고설(수경) 부속자재</a></li>
-          </ul>
+        <span class="m-menu-title">제품소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/products/product01">양어장 부속자재</a></li>
+          <li><a href="/products/product02">FTA 부속자재</a></li>
+          <li><a href="/products/product03">각관60×60 부속자재</a></li>
+          <li><a href="/products/product04">각관75×75 부속자재</a></li>
+          <li><a href="/products/product05">연단동 부속자재</a></li>
+          <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+        </ul>
       </li>
       <li class="m-menu-item">
         <span class="m-menu-title">고객지원 ▾</span>
@@ -316,9 +303,9 @@
         </ul>
       </li>
     </ul>
-    <div style="margin-top: 24px; font-size: .85rem; color: #888;">
+    <div style="margin-top:24px; font-size:.85rem; color:var(--outline);">
       <div>📞 031-000-0000</div>
-      <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+      <div style="margin-top:6px;">평일 09:00 ~ 18:00</div>
     </div>
   </nav>
 
@@ -354,7 +341,9 @@
     <!-- MAIN CONTENT -->
     <main class="sub-content">
       <div class="section">
-        <h2 class="section-title" style="font-size:1.5rem; font-weight:800; color:var(--primary-dark); margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--border);">오시는길</h2>
+        <span class="sec-label">DIRECTIONS</span>
+        <h2 class="sec-headline">오시는 <em>길</em></h2>
+        <div class="rule-bar"></div>
 
         <!-- Kakao Map API notice -->
         <div class="map-api-notice">
@@ -485,16 +474,16 @@
         <!-- /transport -->
 
         <!-- CTA -->
-        <div style="margin-top:36px; background:var(--primary); border-radius:12px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+        <div style="margin-top:36px; background:linear-gradient(135deg,var(--primary),var(--primary-container)); border-radius:var(--r-lg); padding:28px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
           <div>
-            <div style="color:var(--white); font-size:1.1rem; font-weight:700; margin-bottom:4px;">방문 전 사전 연락 주세요!</div>
+            <div style="color:var(--surface-container-lowest); font-size:1.1rem; font-weight:700; margin-bottom:4px;">방문 전 사전 연락 주세요!</div>
             <div style="color:rgba(255,255,255,0.85); font-size:0.9rem;">원활한 안내를 위해 방문 전 전화 또는 이메일로 사전에 연락해 주시면 감사하겠습니다.</div>
           </div>
           <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <a href="tel:031-000-0000" class="btn" style="background:var(--white); color:var(--primary); font-weight:700; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:0.95rem;">
+            <a href="tel:031-000-0000" class="btn btn-pri" style="text-decoration:none; font-size:0.95rem;">
               📞 031-000-0000
             </a>
-            <a href="/support/contact" class="btn" style="background:transparent; color:var(--white); border:2px solid rgba(255,255,255,0.6); font-weight:700; padding:12px 24px; border-radius:8px; text-decoration:none; font-size:0.95rem;">
+            <a href="/support/contact" class="btn btn-ghost" style="text-decoration:none; font-size:0.95rem;">
               온라인 문의
             </a>
           </div>
@@ -506,19 +495,19 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="site-footer">
+          <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-top">
-        <div class="footer-brand">
-          <div class="logo">
-            <div class="logo-icon">MS</div>
-            <div class="logo-text">
-              <div class="logo-name">만성코프레이션</div>
-              <div class="logo-sub">MANSUNG CORPORATION</div>
-            </div>
+        <div>
+          <div class="f-wordmark">만성코프레이션</div>
+          <div class="f-sub">MANSUNG CORPORATION</div>
+          <div class="f-rule"></div>
+          <p class="f-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="f-address">
+            경기도 OO시 OO구 OO로 000<br>
+            TEL: 031-000-0000 | FAX: 031-000-0001<br>
+            E-mail: info@mansung.co.kr
           </div>
-          <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
-          <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
         </div>
         <div class="footer-sitemap">
           <div>
@@ -533,7 +522,7 @@
           <div>
             <h4>제품소개</h4>
             <ul>
-                            <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product01">양어장 부속자재</a></li>
               <li><a href="/products/product02">FTA 부속자재</a></li>
               <li><a href="/products/product03">각관60×60 부속자재</a></li>
               <li><a href="/products/product04">각관75×75 부속자재</a></li>
@@ -559,13 +548,13 @@
           </div>
         </div>
       </div>
+      <div class="footer-divider"></div>
       <div class="footer-bottom">
         <span>© 2024 만성코프레이션. All Rights Reserved.</span>
         <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
       </div>
     </div>
   </footer>
-
   <script src="/static/js/main.js"></script>
 </body>
 </html>

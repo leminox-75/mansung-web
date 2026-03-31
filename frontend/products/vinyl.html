@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <title>비닐하우스 자재 | 만성코프레이션</title>
   <link rel="stylesheet" href="/static/css/style.css">
   <style>
     /* Page Hero */
     .page-hero {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      background: linear-gradient(135deg, var(--primary-container) 0%, var(--primary) 100%);
       color: #fff;
       padding: 60px 0 50px;
       text-align: center;
@@ -20,24 +22,25 @@
 
     /* Sub Layout */
     .sub-layout { display: flex; gap: 32px; max-width: 1200px; margin: 48px auto; padding: 0 24px; align-items: flex-start; }
-    .lnb { width: 200px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .lnb { width: 200px; flex-shrink: 0; background: var(--surface-container-lowest); box-shadow: var(--shadow-card); border-radius: var(--r-lg); overflow: hidden; }
     .lnb-title { background: var(--primary); color: #fff; padding: 14px 20px; font-weight: 700; font-size: 0.95rem; }
-    .lnb a { display: block; padding: 11px 20px; color: var(--dark); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--border); transition: background 0.2s, color 0.2s; }
-    .lnb a:last-child { border-bottom: none; }
-    .lnb a:hover { background: var(--bg); color: var(--primary); }
-    .lnb a.active { background: var(--bg); color: var(--primary); font-weight: 700; border-left: 3px solid var(--primary); }
+    .lnb a { display: block; padding: 11px 20px; color: var(--on-surface); text-decoration: none; font-size: 0.9rem; transition: background var(--ease), color var(--ease); }
+    .lnb a:hover { background: var(--surface-container-low); color: var(--primary); }
+    .lnb a.active { background: var(--surface-container-low); color: var(--primary); font-weight: 700; }
     .sub-content { flex: 1; min-width: 0; }
 
     /* Section Header */
     .section-header { margin-bottom: 28px; }
-    .section-header h2 { font-size: 1.5rem; font-weight: 700; color: var(--dark); margin: 0 0 6px; padding-bottom: 12px; border-bottom: 2px solid var(--primary); }
-    .section-header p { color: var(--gray); font-size: 0.92rem; margin: 8px 0 0; }
+    .sec-label { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--surface-tint); margin-bottom: 6px; }
+    .sec-headline { font-size: 1.5rem; font-weight: 700; color: var(--on-surface); margin: 0 0 10px; }
+    .rule-bar { width: 48px; height: 4px; background: var(--primary-fixed); border-radius: var(--r-sm); margin-bottom: 10px; }
+    .section-header p { color: var(--outline); font-size: 0.92rem; margin: 8px 0 0; }
 
     /* Category Tabs */
     .cat-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
-    .cat-tab { padding: 7px 20px; border: 1px solid var(--border); border-radius: 20px; background: var(--bg-card); color: var(--gray); font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
-    .cat-tab:hover { border-color: var(--primary); color: var(--primary); }
-    .cat-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+    .cat-tab { padding: 7px 20px; border-radius: var(--r-full); background: var(--surface-container); color: var(--outline); font-size: 0.88rem; cursor: pointer; transition: background var(--ease), color var(--ease); border: none; }
+    .cat-tab:hover { background: var(--surface-container-high); color: var(--primary); }
+    .cat-tab.active { background: var(--primary); color: #fff; font-weight: 600; }
 
     /* Product Grid */
     .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -45,57 +48,109 @@
     @media (max-width: 600px) { .product-grid { grid-template-columns: 1fr; } .sub-layout { flex-direction: column; } .lnb { width: 100%; } }
 
     /* Product Card */
-    .product-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
-    .product-card:hover { box-shadow: 0 6px 24px rgba(27,107,58,0.12); transform: translateY(-2px); }
-    .product-card-img { background: linear-gradient(135deg, #e8f4ed 0%, #d0e8d8 100%); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .product-card { background: var(--surface-container-lowest); box-shadow: var(--shadow-card); border-radius: var(--r-lg); overflow: hidden; transition: box-shadow var(--ease), transform var(--ease); }
+    .product-card:hover { box-shadow: var(--shadow-float); transform: translateY(-2px) scale(1.02); }
+    .product-card-img { background: linear-gradient(135deg, var(--primary-fixed) 0%, var(--surface-container-high) 100%); height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
     .product-card-body { padding: 16px; }
-    .product-card-body h3 { font-size: 1rem; font-weight: 700; color: var(--dark); margin: 0 0 6px; }
-    .product-card-body p { font-size: 0.84rem; color: var(--gray); margin: 0 0 12px; line-height: 1.5; }
+    .product-card-body h3 { font-size: 1rem; font-weight: 700; color: var(--on-surface); margin: 0 0 6px; }
+    .product-card-body p { font-size: 0.84rem; color: var(--outline); margin: 0 0 12px; line-height: 1.5; }
     .spec-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 12px; }
-    .spec-table tr { border-bottom: 1px solid var(--border); }
-    .spec-table tr:last-child { border-bottom: none; }
-    .spec-table th { background: #f0f5f1; color: var(--primary-dark); padding: 5px 8px; text-align: left; font-weight: 600; width: 36%; white-space: nowrap; }
-    .spec-table td { padding: 5px 8px; color: var(--dark); }
-    .btn-inquiry { display: block; width: 100%; padding: 9px 0; background: var(--primary); color: #fff; border: none; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: background 0.2s; }
-    .btn-inquiry:hover { background: var(--primary-dark); }
+    .spec-table tr { background: transparent; }
+    .spec-table tr + tr td, .spec-table tr + tr th { padding-top: 6px; }
+    .spec-table th { background: var(--surface-container-low); color: var(--primary-container); padding: 5px 8px; text-align: left; font-weight: 600; width: 36%; white-space: nowrap; border-radius: var(--r-sm) 0 0 var(--r-sm); }
+    .spec-table td { padding: 5px 8px; color: var(--on-surface); background: var(--surface-container-lowest); }
+    .btn-inquiry { display: block; width: 100%; padding: 9px 0; background: var(--primary); color: #fff; border: none; border-radius: var(--r-md); font-size: 0.88rem; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: background var(--ease); }
+    .btn-inquiry:hover { background: var(--primary-container); }
   </style>
 </head>
 <body>
+    <header class="site-header">
+    <div class="header-inner">
+      <a href="/" style="text-decoration:none;">
+        <div class="logo-wordmark">만성코프레이션</div>
+        <div class="logo-sub">Mansung Corporation</div>
+      </a>
+      <nav class="gnb">
+        <div class="gnb-item">
+          <a href="/company/greeting" class="gnb-link">회사소개</a>
+          <div class="snb">
+            <a href="/company/greeting">인사말</a>
+            <a href="/company/history">회사연혁</a>
+            <a href="/company/organization">조직도</a>
+            <a href="/company/location">오시는길</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+          <a href="/products/product01" class="gnb-link">제품소개</a>
+          <div class="snb">
+            <a href="/products/product01">양어장 부속자재</a>
+            <a href="/products/product02">FTA 부속자재</a>
+            <a href="/products/product03">각관60×60 부속자재</a>
+            <a href="/products/product04">각관75×75 부속자재</a>
+            <a href="/products/product05">연단동 부속자재</a>
+            <a href="/products/product06">고설(수경) 부속자재</a>
+          </div>
+        </div>
+        <div class="gnb-item">
+          <a href="/support/notices" class="gnb-link">고객지원</a>
+          <div class="snb">
+            <a href="/support/notices">공지사항</a>
+            <a href="/support/documents">자료실</a>
+            <a href="/support/contact">문의하기</a>
+            <a href="/support/location">찾아오시는길</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-actions">
+        <span class="header-tel">031-000-0000</span>
+        <button class="hamburger" aria-label="메뉴 열기">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-overlay"></div>
+  <nav class="mobile-nav">
+    <span class="mobile-nav-close" aria-label="닫기">✕</span>
+    <div style="clear:both; padding-top:16px;"></div>
+    <ul class="mobile-nav-menu">
+      <li class="m-menu-item">
+        <span class="m-menu-title">회사소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/company/greeting">인사말</a></li>
+          <li><a href="/company/history">회사연혁</a></li>
+          <li><a href="/company/organization">조직도</a></li>
+          <li><a href="/company/location">오시는길</a></li>
+        </ul>
+      </li>
+      <li class="m-menu-item">
+        <span class="m-menu-title">제품소개 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/products/product01">양어장 부속자재</a></li>
+          <li><a href="/products/product02">FTA 부속자재</a></li>
+          <li><a href="/products/product03">각관60×60 부속자재</a></li>
+          <li><a href="/products/product04">각관75×75 부속자재</a></li>
+          <li><a href="/products/product05">연단동 부속자재</a></li>
+          <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+        </ul>
+      </li>
+      <li class="m-menu-item">
+        <span class="m-menu-title">고객지원 ▾</span>
+        <ul class="m-sub-menu">
+          <li><a href="/support/notices">공지사항</a></li>
+          <li><a href="/support/documents">자료실</a></li>
+          <li><a href="/support/contact">문의하기</a></li>
+          <li><a href="/support/location">찾아오시는길</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div style="margin-top:24px; font-size:.85rem; color:var(--outline);">
+      <div>📞 031-000-0000</div>
+      <div style="margin-top:6px;">평일 09:00 ~ 18:00</div>
+    </div>
+  </nav>
 
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="logo"><div class="logo-icon">MS</div><div class="logo-text"><div class="logo-name">만성코프레이션</div><div class="logo-sub">MANSUNG CORPORATION</div></div></a>
-    <nav class="gnb">
-      <div class="gnb-item"><a href="/company/greeting" class="gnb-link">회사소개</a><div class="snb"><a href="/company/greeting">인사말</a><a href="/company/history">회사연혁</a><a href="/company/organization">조직도</a><a href="/company/location">오시는길</a></div></div>
-      <div class="gnb-item"><a href="/products/vinyl" class="gnb-link">제품소개</a><div class="snb"><a href="/products/vinyl">비닐하우스 자재</a><a href="/products/press">프레스 제품</a><a href="/products/others">기타 제품</a></div></div>
-      <div class="gnb-item"><a href="/support/notices" class="gnb-link">고객지원</a><div class="snb"><a href="/support/notices">공지사항</a><a href="/support/documents">자료실</a><a href="/support/contact">문의하기</a><a href="/support/location">찾아오시는길</a></div></div>
-    </nav>
-    <div class="header-actions"><span class="header-tel">031-000-0000</span><button class="hamburger" aria-label="메뉴 열기"><span></span><span></span><span></span></button></div>
-  </div>
-</header>
-<div class="mobile-overlay"></div>
-<nav class="mobile-nav">
-  <span class="mobile-nav-close">✕</span>
-  <div style="clear:both;padding-top:16px;"></div>
-  <ul class="mobile-nav-menu">
-    <li class="m-menu-item"><span class="m-menu-title">회사소개 ▾</span><ul class="m-sub-menu"><li><a href="/company/greeting">인사말</a></li><li><a href="/company/history">회사연혁</a></li><li><a href="/company/organization">조직도</a></li><li><a href="/company/location">오시는길</a></li></ul></li>
-    <li class="m-menu-item"><span class="m-menu-title">제품소개 ▾</span><ul class="m-sub-menu"><li><a href="/products/vinyl">비닐하우스 자재</a></li><li><a href="/products/press">프레스 제품</a></li><li><a href="/products/others">기타 제품</a></li></ul></li>
-    <li class="m-menu-item"><span class="m-menu-title">고객지원 ▾</span><ul class="m-sub-menu"><li><a href="/support/notices">공지사항</a></li><li><a href="/support/documents">자료실</a></li><li><a href="/support/contact">문의하기</a></li><li><a href="/support/location">찾아오시는길</a></li></ul></li>
-  </ul>
-</nav>
-
-<div class="page-hero">
-  <h1>비닐하우스 자재</h1>
-  <div class="breadcrumb">
-    <a href="/">Home</a>
-    <span>›</span>
-    <span>제품소개</span>
-    <span>›</span>
-    <span>비닐하우스 자재</span>
-  </div>
-</div>
-
-<div class="sub-layout">
+  <div class="sub-layout">
   <!-- LNB -->
   <aside class="lnb">
     <div class="lnb-title">제품소개</div>
@@ -107,7 +162,9 @@
   <!-- Main Content -->
   <div class="sub-content">
     <div class="section-header">
-      <h2>비닐하우스 자재</h2>
+      <span class="sec-label">Products</span>
+      <h2 class="sec-headline">비닐하우스 자재</h2>
+      <div class="rule-bar"></div>
       <p>30년 이상의 노하우로 제조된 고품질 비닐하우스 자재입니다. 내식성과 강도를 겸비한 제품으로 안정적인 시설 농업을 지원합니다.</p>
     </div>
 
@@ -216,26 +273,67 @@
   </div><!-- /sub-content -->
 </div><!-- /sub-layout -->
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo"><div class="logo-icon">MS</div><div class="logo-text"><div class="logo-name">만성코프레이션</div><div class="logo-sub">MANSUNG CORPORATION</div></div></div>
-        <p class="footer-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
-        <div class="footer-address">경기도 OO시 OO구 OO로 000<br>TEL: 031-000-0000 | FAX: 031-000-0001<br>E-mail: info@mansung.co.kr</div>
+        <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="f-wordmark">만성코프레이션</div>
+          <div class="f-sub">MANSUNG CORPORATION</div>
+          <div class="f-rule"></div>
+          <p class="f-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+          <div class="f-address">
+            경기도 OO시 OO구 OO로 000<br>
+            TEL: 031-000-0000 | FAX: 031-000-0001<br>
+            E-mail: info@mansung.co.kr
+          </div>
+        </div>
+        <div class="footer-sitemap">
+          <div>
+            <h4>회사소개</h4>
+            <ul>
+              <li><a href="/company/greeting">인사말</a></li>
+              <li><a href="/company/history">회사연혁</a></li>
+              <li><a href="/company/organization">조직도</a></li>
+              <li><a href="/company/location">오시는길</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>제품소개</h4>
+            <ul>
+              <li><a href="/products/product01">양어장 부속자재</a></li>
+              <li><a href="/products/product02">FTA 부속자재</a></li>
+              <li><a href="/products/product03">각관60×60 부속자재</a></li>
+              <li><a href="/products/product04">각관75×75 부속자재</a></li>
+              <li><a href="/products/product05">연단동 부속자재</a></li>
+              <li><a href="/products/product06">고설(수경) 부속자재</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>고객지원</h4>
+            <ul>
+              <li><a href="/support/notices">공지사항</a></li>
+              <li><a href="/support/documents">자료실</a></li>
+              <li><a href="/support/contact">문의하기</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>바로가기</h4>
+            <ul>
+              <li><a href="/support/location">찾아오시는길</a></li>
+              <li><a href="/support/contact">견적 문의</a></li>
+              <li><a href="tel:031-000-0000">전화 상담</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="footer-sitemap">
-        <div><h4>회사소개</h4><ul><li><a href="/company/greeting">인사말</a></li><li><a href="/company/history">회사연혁</a></li><li><a href="/company/organization">조직도</a></li><li><a href="/company/location">오시는길</a></li></ul></div>
-        <div><h4>제품소개</h4><ul><li><a href="/products/vinyl">비닐하우스 자재</a></li><li><a href="/products/press">프레스 제품</a></li><li><a href="/products/others">기타 제품</a></li></ul></div>
-        <div><h4>고객지원</h4><ul><li><a href="/support/notices">공지사항</a></li><li><a href="/support/documents">자료실</a></li><li><a href="/support/contact">문의하기</a></li></ul></div>
-        <div><h4>바로가기</h4><ul><li><a href="/support/location">찾아오시는길</a></li><li><a href="/support/contact">견적 문의</a></li><li><a href="tel:031-000-0000">전화 상담</a></li></ul></div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <span>© 2024 만성코프레이션. All Rights Reserved.</span>
+        <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
       </div>
     </div>
-    <div class="footer-bottom"><span>© 2024 만성코프레이션. All Rights Reserved.</span><span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span></div>
-  </div>
-</footer>
-
-<script src="/static/js/main.js"></script>
+  </footer>
+  <script src="/static/js/main.js"></script>
 <script>
   function filterProducts(category, btn) {
     // Update active tab

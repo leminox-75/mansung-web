@@ -6,157 +6,583 @@
   <title>만성코프레이션 | 비닐하우스 자재 전문 제조기업</title>
   <meta name="description" content="만성코프레이션은 30년 이상의 기술력으로 비닐하우스 자재 및 프레스 제품을 생산하는 전문 제조기업입니다.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Manrope:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* 메인 페이지 추가 스타일 */
-    .hero { height: 600px; }
+    /* ================================================================
+       DESIGN SYSTEM — "The Architectural Editorial" (DESIGN.md)
+    ================================================================ */
+    :root {
+      /* Surface hierarchy (DESIGN.md §2) */
+      --surface:                   #faf9f5;
+      --surface-container-lowest:  #ffffff;
+      --surface-container-low:     #f4f4f0;
+      --surface-container:         #eeeeea;
+      --surface-container-high:    #e8e8e4;
+      --surface-container-highest: #e2e3df;
+      --surface-tint:              #496455;
+      --outline:                   #727973;
+      --outline-variant:           #c2c8c2;
+      /* Primary */
+      --primary:                   #173124;
+      --primary-container:         #2d4739;
+      --primary-fixed:             #ccead6;
+      --primary-fixed-dim:         #b0cdbb;
+      --on-primary:                #ffffff;
+      --on-primary-container:      #98b5a3;
+      --on-primary-fixed:          #062014;
+      /* Secondary */
+      --secondary-container:       #cbe7c8;
+      --on-secondary-container:    #506950;
+      /* Neutral text */
+      --on-surface:                #1a1c1a;
+      --on-surface-variant:        #424844;
+      --inverse-surface:           #2f312e;
+      --inverse-on-surface:        #f1f1ed;
+      /* Tonal shadow (DESIGN.md §4) */
+      --shadow-card:               0 8px 32px rgba(26,28,26,.08);
+      --shadow-float:              0 16px 48px rgba(26,28,26,.10);
+      /* Radius (DESIGN.md §4) */
+      --r-sm:   0.25rem;
+      --r-md:   0.5rem;
+      --r-lg:   1rem;
+      --r-xl:   1.5rem;
+      --r-full: 9999px;
+      --header-h: 72px;
+      --ease: .25s ease;
+    }
 
-    /* 강점 섹션 */
-    .strengths-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', 'Manrope', sans-serif;
+      color: var(--on-surface);         /* Never 100% black (DESIGN.md §6) */
+      background: var(--surface);
+      line-height: 1.6;
     }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .section    { padding: 96px 0; }
+
+    /* ── Typographic helpers ──────────────────────────────────── */
+    /* sec-label: Manrope all-caps paired with Newsreader headline (DESIGN.md §3) */
+    .sec-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .24em; text-transform: uppercase;
+      color: var(--surface-tint);
+      display: block; margin-bottom: 12px;
+    }
+    .sec-headline {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+      font-weight: 700; color: var(--on-surface);
+      line-height: 1.18; letter-spacing: -.02em;  /* DESIGN.md §3 */
+    }
+    .sec-headline em  { font-style: italic; }
+    .sec-headline span { color: var(--primary); }
+
+    /* 4px separator bar — allowed divider (DESIGN.md §6) */
+    .rule-bar { width: 48px; height: 4px; background: var(--primary-fixed); border-radius: 2px; margin-top: 20px; }
+    .rule-bar.center { margin-left: auto; margin-right: auto; }
+
+    /* Spec chips (DESIGN.md §5) */
+    .spec-chip {
+      display: inline-block;
+      background: var(--secondary-container);
+      color: var(--on-secondary-container);
+      font-family: 'Manrope', sans-serif;
+      font-size: .64rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: var(--r-sm); /* technical look */
+    }
+
+    /* ── Buttons (DESIGN.md §5) ──────────────────────────────── */
+    .btn-pri {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-container));
+      color: var(--on-primary);
+      font-family: 'Manrope', sans-serif;
+      font-size: .88rem; font-weight: 700; letter-spacing: .02em;
+      padding: 13px 28px; border-radius: var(--r-full);
+      transition: all var(--ease);
+    }
+    .btn-pri:hover { opacity: .88; transform: translateY(-1px); box-shadow: var(--shadow-card); }
+
+    .btn-sec {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface-container-highest);
+      color: var(--primary);
+      font-family: 'Manrope', sans-serif;
+      font-size: .88rem; font-weight: 700;
+      padding: 13px 28px; border-radius: var(--r-full);
+      transition: background var(--ease);
+    }
+    .btn-sec:hover { background: var(--surface-container-high); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(250,249,245,.13); backdrop-filter: blur(8px);
+      color: #fff; border: 1.5px solid rgba(255,255,255,.42);
+      font-family: 'Manrope', sans-serif;
+      font-size: .88rem; font-weight: 600;
+      padding: 13px 28px; border-radius: var(--r-full);
+      transition: all var(--ease);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.24); }
+
+    /* ================================================================
+       HEADER — Glassmorphism (DESIGN.md §2 Glass Rule)
+    ================================================================ */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: var(--header-h); z-index: 1000;
+      background: rgba(250,249,245,.70);   /* surface at 70% */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 32px 32px rgba(26,28,26,.06);
+      transition: box-shadow var(--ease);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 32px;
+    }
+    .logo-wordmark {
+      font-family: 'Newsreader', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--primary); letter-spacing: .04em; text-transform: uppercase;
+    }
+    .logo-sub {
+      font-family: 'Manrope', sans-serif;
+      font-size: .56rem; color: var(--outline);
+      letter-spacing: .12em; text-transform: uppercase; margin-top: 2px;
+    }
+    .gnb { display: flex; }
+    .gnb-item { position: relative; }
+    .gnb-link {
+      font-family: 'Newsreader', serif; font-style: italic;
+      display: flex; align-items: center;
+      height: var(--header-h); padding: 0 18px;
+      font-size: 1rem; font-weight: 600;
+      color: rgba(23,49,36,.62); transition: color var(--ease);
+    }
+    .gnb-link:hover { color: var(--primary); }
+    .snb {
+      display: none; position: absolute; top: var(--header-h); left: 0;
+      min-width: 190px;
+      background: rgba(250,249,245,.96); backdrop-filter: blur(16px);
+      border-radius: 0 0 var(--r-lg) var(--r-lg);
+      box-shadow: var(--shadow-float);
+      padding: 8px 0; z-index: 100;
+      /* No border — tonal only (DESIGN.md §2) */
+    }
+    .gnb-item:hover .snb { display: block; }
+    .snb a {
+      display: block; padding: 10px 20px;
+      font-size: .84rem; color: var(--on-surface-variant);
+      transition: all var(--ease);
+    }
+    .snb a:hover { background: var(--surface-container-low); color: var(--primary); padding-left: 26px; }
+    .header-actions { display: flex; align-items: center; gap: 16px; }
+    .header-tel {
+      font-family: 'Manrope', sans-serif;
+      font-size: .82rem; font-weight: 700; color: var(--primary);
+    }
+    .hamburger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--on-surface); border-radius: 2px; }
+
+    /* ── Mobile nav ────────────────────────────────────────────── */
+    .mobile-nav {
+      display: none; position: fixed; top: 0; right: 0;
+      width: 300px; height: 100%;
+      background: var(--surface-container-lowest);
+      z-index: 2000; box-shadow: -8px 0 48px rgba(26,28,26,.10);
+      padding: 24px; overflow-y: auto;
+      transform: translateX(100%); transition: transform .3s ease;
+    }
+    .mobile-nav.open { transform: translateX(0); display: block; }
+    .mobile-nav-close { float: right; font-size: 1.4rem; color: var(--outline); cursor: pointer; }
+    .mobile-nav-menu .m-menu-item { padding-bottom: 4px; }
+    .mobile-nav-menu .m-menu-title {
+      display: block; padding: 14px 0;
+      font-family: 'Newsreader', serif; font-style: italic;
+      font-size: 1rem; font-weight: 600; color: var(--primary); cursor: pointer;
+    }
+    .mobile-nav-menu .m-sub-menu { padding: 4px 0 10px 16px; display: none; }
+    .mobile-nav-menu .m-sub-menu.open { display: block; }
+    .mobile-nav-menu .m-sub-menu a { display: block; padding: 7px 0; font-size: .84rem; color: var(--on-surface-variant); }
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(26,28,26,.45); z-index: 1999; }
+    .mobile-overlay.open { display: block; }
+
+    /* ================================================================
+       HERO SLIDER
+    ================================================================ */
+    .hero {
+      position: relative; margin-top: var(--header-h);
+      height: min(90vh, 760px); min-height: 560px; overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute; inset: 0; opacity: 0;
+      transition: opacity 1s ease; display: flex; align-items: center;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide-bg { position: absolute; inset: 0; }
+    .hero-slide-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-slide-bg::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(23,49,36,.80) 0%, rgba(23,49,36,.44) 52%, rgba(23,49,36,.08) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 1280px; margin: 0 auto; padding: 0 40px;
+    }
+    .hero-overline {
+      font-family: 'Manrope', sans-serif;
+      font-size: .7rem; font-weight: 700;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--primary-fixed-dim);
+      display: block; margin-bottom: 20px;
+    }
+    .hero-headline {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(2.8rem, 7vw, 5.2rem);
+      font-weight: 700; line-height: 1.08;
+      letter-spacing: -.02em; color: var(--on-primary);
+      margin-bottom: 20px;
+    }
+    .hero-headline em { font-style: italic; color: var(--primary-fixed); }
+    .hero-body {
+      font-size: clamp(.9rem, 1.8vw, 1.05rem);
+      color: rgba(255,255,255,.82);
+      max-width: 460px; line-height: 1.82; margin-bottom: 40px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-dots {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 10px; z-index: 10;
+    }
+    .hero-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.36); cursor: pointer; transition: all .3s;
+    }
+    .hero-dot.active { background: var(--primary-fixed); width: 32px; border-radius: 4px; }
+    .hero-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(250,249,245,.14); backdrop-filter: blur(12px);
+      border: 1px solid rgba(250,249,245,.28);
+      color: #fff; font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all .25s;
+    }
+    .hero-arrow:hover { background: rgba(250,249,245,.28); }
+    .hero-arrow.prev { left: 28px; }
+    .hero-arrow.next { right: 28px; }
+
+    /* ================================================================
+       QUICK MENU — No 1px borders (DESIGN.md §2)
+    ================================================================ */
+    .quick-menu { background: var(--primary); }
+    .quick-menu-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .quick-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 24px 28px; color: rgba(255,255,255,.72);
+      transition: all var(--ease); cursor: pointer;
+      /* Color shift on hover — no border (DESIGN.md §5) */
+    }
+    .quick-item:hover { background: var(--primary-container); color: var(--on-primary); }
+    .quick-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .quick-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; opacity: .62; margin-bottom: 2px;
+    }
+    .quick-title { font-size: .9rem; font-weight: 700; }
+
+    /* ================================================================
+       ABOUT — surface-container-low bg, asymmetric 7/5 grid
+    ================================================================ */
+    .about-grid { display: grid; grid-template-columns: 7fr 5fr; gap: 80px; align-items: center; }
+    .about-img-wrap { position: relative; padding: 0 36px 36px 0; }
+    .about-img {
+      border-radius: var(--r-xl);    /* xl for hero imagery (DESIGN.md §4) */
+      overflow: hidden; box-shadow: var(--shadow-float);
+      aspect-ratio: 4/3;
+    }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+    .about-badge {
+      position: absolute; bottom: 0; right: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-container));
+      color: var(--on-primary);
+      padding: 24px 30px; border-radius: var(--r-lg);
+      box-shadow: var(--shadow-float); text-align: center;
+    }
+    .about-badge .yr {
+      font-family: 'Newsreader', serif;
+      font-size: 3rem; font-weight: 700; font-style: italic; line-height: 1;
+    }
+    .about-badge .lbl {
+      font-family: 'Manrope', sans-serif;
+      font-size: .64rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--on-primary-container); margin-top: 6px;
+    }
+    .about-body { font-size: .92rem; color: var(--on-surface-variant); line-height: 1.88; margin-top: 18px; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 32px 0; }
+    .stat-card {
+      background: var(--surface-container-low);    /* tonal lift, no border (DESIGN.md §2) */
+      border-radius: var(--r-lg); padding: 20px 22px;
+    }
+    .stat-num {
+      font-family: 'Newsreader', serif;
+      font-size: 2.2rem; font-weight: 700; font-style: italic;
+      color: var(--primary); line-height: 1;
+    }
+    .stat-lbl {
+      font-family: 'Manrope', sans-serif;
+      font-size: .72rem; font-weight: 600; color: var(--outline);
+      text-transform: uppercase; letter-spacing: .06em; margin-top: 5px;
+    }
+
+    /* ================================================================
+       STRENGTHS — surface bg, cards surface-container-lowest (lifted)
+    ================================================================ */
+    .strengths-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .strength-card {
-      text-align: center;
-      padding: 36px 24px;
-      background: var(--bg-card);
-      border-radius: var(--radius-md);
-      border-top: 4px solid var(--primary);
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
+      background: var(--surface-container-lowest);  /* lifted by light (DESIGN.md §2) */
+      border-radius: var(--r-lg);
+      padding: 36px 26px;
+      box-shadow: var(--shadow-card);
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .strength-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .strength-icon {
-      font-size: 2.6rem;
-      margin-bottom: 16px;
-      display: block;
+    .strength-card:hover { transform: scale(1.02); box-shadow: var(--shadow-float); }  /* 1.02x (DESIGN.md §5) */
+    .strength-icon-wrap {
+      width: 52px; height: 52px; border-radius: var(--r-md);
+      background: var(--secondary-container);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 20px;
     }
     .strength-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--dark);
-      margin-bottom: 10px;
+      font-family: 'Newsreader', serif;
+      font-size: 1.25rem; font-weight: 700; color: var(--on-surface); margin-bottom: 10px;
     }
-    .strength-desc {
-      font-size: .85rem;
-      color: var(--text-sub);
-      line-height: 1.7;
-    }
+    .strength-desc { font-size: .83rem; color: var(--on-surface-variant); line-height: 1.78; }
+    .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
 
-    /* 연혁 타임라인 배너 */
-    .history-banner {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-      color: var(--white);
-      padding: 56px 0;
+    /* ================================================================
+       PRODUCTS — surface-container-low bg, cards surface-container-lowest
+    ================================================================ */
+    .cat-card {
+      background: var(--surface-container-lowest);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform .35s ease, box-shadow .35s ease;
+      display: block; text-decoration: none;
     }
-    .history-banner .sec-title { color: var(--white); }
-    .history-banner .sec-desc { color: rgba(255,255,255,.8); }
+    .cat-card:hover { transform: scale(1.02); box-shadow: var(--shadow-float); }
+    .cat-card-header {
+      height: 152px; display: flex; align-items: center; justify-content: center;
+      font-size: 3.8rem; position: relative;
+    }
+    .cat-card-header::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(23,49,36,.20) 100%);
+    }
+    .cat-card-body { padding: 24px; }
+    .p-cat {
+      font-family: 'Manrope', sans-serif;
+      font-size: .64rem; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--surface-tint); margin-bottom: 7px;
+    }
+    .p-name {
+      font-family: 'Newsreader', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--on-surface); margin-bottom: 8px;
+    }
+    .p-desc { font-size: .82rem; color: var(--on-surface-variant); line-height: 1.65; }
+    .p-more {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Manrope', sans-serif;
+      font-size: .78rem; font-weight: 700; color: var(--primary); margin-top: 14px;
+      transition: gap .2s;
+    }
+    .cat-card:hover .p-more { gap: 10px; }
+
+    /* ================================================================
+       HISTORY — primary bg
+    ================================================================ */
+    .history-banner { background: var(--primary); padding: 80px 0; }
     .history-items {
-      display: flex;
-      justify-content: center;
-      gap: 0;
-      margin-top: 40px;
-      position: relative;
+      display: flex; justify-content: center; margin-top: 56px; position: relative;
     }
     .history-items::before {
-      content: "";
-      position: absolute;
-      top: 28px;
-      left: 10%; right: 10%;
-      height: 2px;
-      background: rgba(255,255,255,.3);
+      content: ""; position: absolute; top: 28px; left: 8%; right: 8%;
+      height: 1px; background: rgba(176,205,187,.18);
     }
-    .h-item {
-      flex: 1;
-      text-align: center;
-      position: relative;
-      max-width: 200px;
-    }
+    .h-item { flex: 1; text-align: center; position: relative; max-width: 200px; }
     .h-dot {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.2);
-      border: 3px solid rgba(255,255,255,.6);
-      margin: 0 auto 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      position: relative;
-      z-index: 1;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,255,255,.08); border: 1.5px solid rgba(176,205,187,.32);
+      margin: 0 auto 18px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; position: relative; z-index: 1;
     }
     .h-item.current .h-dot {
-      background: var(--accent);
-      border-color: var(--accent);
+      background: var(--primary-fixed); border-color: var(--primary-fixed);
+      box-shadow: 0 0 0 8px rgba(204,234,214,.15);
     }
     .h-year {
-      font-size: .85rem;
-      font-weight: 800;
-      margin-bottom: 6px;
+      font-family: 'Newsreader', serif;
+      font-size: .92rem; font-weight: 700; color: var(--primary-fixed-dim); margin-bottom: 8px;
     }
-    .h-text {
-      font-size: .78rem;
-      opacity: .75;
-      line-height: 1.5;
-    }
+    .h-text { font-size: .74rem; color: rgba(255,255,255,.52); line-height: 1.65; }
 
-    /* CTA 배너 */
+    /* ================================================================
+       NOTICES — surface bg, cards surface-container-lowest
+       No divider lines — spacing + hover bg shift (DESIGN.md §5)
+    ================================================================ */
+    .news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .news-panel {
+      background: var(--surface-container-lowest);
+      border-radius: var(--r-lg); padding: 32px;
+      box-shadow: var(--shadow-card);
+    }
+    .panel-title {
+      font-family: 'Newsreader', serif;
+      font-size: 1.25rem; font-weight: 700; color: var(--on-surface);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .panel-title a {
+      font-family: 'Manrope', sans-serif;
+      font-size: .74rem; font-weight: 600; color: var(--outline); letter-spacing: .04em;
+    }
+    .panel-title a:hover { color: var(--primary); }
+    .panel-rule { width: 40px; height: 4px; background: var(--primary-fixed); border-radius: 2px; margin: 16px 0 20px; }
+    /* No divider lines — use spacing-4 between items (DESIGN.md §5) */
+    .notice-list li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 12px; font-size: .84rem;
+      border-radius: var(--r-md);
+      transition: background var(--ease);
+      margin: 0 -12px;
+    }
+    .notice-list li:hover { background: var(--surface-container-low); }
+    .n-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--on-surface); }
+    .n-date { font-family: 'Manrope', sans-serif; font-size: .72rem; color: var(--outline); flex-shrink: 0; }
+    .badge { display: inline-block; padding: 3px 9px; border-radius: var(--r-sm); font-size: .64rem; font-weight: 700; flex-shrink: 0; }
+    .badge-primary { background: var(--secondary-container); color: var(--on-secondary-container); }
+    .contact-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+    .contact-tile {
+      text-align: center; padding: 18px 12px;
+      background: var(--surface-container-low);  /* tonal, no border */
+      border-radius: var(--r-lg);
+    }
+    .contact-tile .t-icon { font-size: 1.4rem; margin-bottom: 6px; }
+    .contact-tile .t-sub {
+      font-family: 'Manrope', sans-serif;
+      font-size: .66rem; color: var(--outline); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px;
+    }
+    .contact-tile .t-val { font-size: .86rem; font-weight: 800; color: var(--primary); }
+
+    /* ================================================================
+       CTA — primary gradient (DESIGN.md §2)
+    ================================================================ */
     .cta-banner {
-      background: var(--accent);
-      padding: 48px 0;
-      color: var(--white);
-      text-align: center;
+      background: linear-gradient(135deg, var(--primary), var(--primary-container));
+      padding: 64px 0; text-align: center;
     }
-    .cta-banner h2 {
-      font-size: 1.8rem;
-      font-weight: 900;
-      margin-bottom: 10px;
+    .cta-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
+    .btn-cta-inv {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface-container-lowest); color: var(--primary);
+      font-family: 'Manrope', sans-serif; font-size: .9rem; font-weight: 700;
+      padding: 14px 32px; border-radius: var(--r-full); transition: background var(--ease);
     }
-    .cta-banner p {
-      opacity: .9;
-      margin-bottom: 28px;
-    }
-    .cta-banner .btn-white {
-      background: var(--white);
-      color: var(--accent);
-      font-weight: 800;
-    }
-    .cta-banner .btn-white:hover { background: #FEF3E2; }
-    .cta-banner .btn-border {
-      border: 2px solid rgba(255,255,255,.7);
-      color: var(--white);
-    }
-    .cta-banner .btn-border:hover { background: rgba(255,255,255,.15); }
-    .cta-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    .btn-cta-inv:hover { background: var(--primary-fixed); }
 
+    /* ================================================================
+       FOOTER — inverse-surface bg
+    ================================================================ */
+    .site-footer { background: var(--inverse-surface); color: rgba(241,241,237,.52); }
+    .footer-inner { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+    .footer-top {
+      display: grid; grid-template-columns: 1fr 2.5fr; gap: 64px;
+      padding: 60px 0 40px;
+    }
+    .f-wordmark {
+      font-family: 'Newsreader', serif;
+      font-size: 1rem; font-weight: 700; color: var(--inverse-on-surface);
+      letter-spacing: .04em; text-transform: uppercase;
+    }
+    .f-sub { font-family: 'Manrope', sans-serif; font-size: .56rem; color: rgba(241,241,237,.28); letter-spacing: .1em; text-transform: uppercase; margin-top: 3px; }
+    .f-rule { width: 40px; height: 4px; background: var(--primary-fixed); border-radius: 2px; margin: 16px 0; opacity: .4; }
+    .f-tagline { font-size: .82rem; line-height: 1.78; color: rgba(241,241,237,.36); }
+    .f-address  { font-size: .76rem; line-height: 1.92; color: rgba(241,241,237,.28); margin-top: 12px; }
+    .footer-sitemap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .footer-sitemap h4 {
+      font-family: 'Manrope', sans-serif;
+      font-size: .7rem; font-weight: 700; color: rgba(241,241,237,.62);
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .footer-sitemap ul li { margin-bottom: 9px; }
+    .footer-sitemap ul a { font-size: .77rem; color: rgba(241,241,237,.32); transition: color var(--ease); }
+    .footer-sitemap ul a:hover { color: var(--primary-fixed); }
+    .footer-divider { height: 1px; background: rgba(241,241,237,.07); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 22px 0;
+      font-family: 'Manrope', sans-serif; font-size: .7rem; color: rgba(241,241,237,.2);
+      flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-img-wrap { max-width: 560px; }
+      .footer-sitemap { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 768px) {
+      :root { --header-h: 64px; }
+      .gnb, .header-tel, .hide-mobile { display: none; }
+      .hamburger { display: flex; }
+      .hero { height: min(78vh, 500px); min-height: 400px; }
+      .hero-headline { font-size: 2.2rem; }
+      .hero-content { padding: 0 24px; }
+      .quick-menu-grid { grid-template-columns: repeat(2, 1fr); }
       .strengths-grid { grid-template-columns: repeat(2, 1fr); }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .footer-sitemap { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
       .history-items { flex-wrap: wrap; gap: 24px; }
       .history-items::before { display: none; }
       .h-item { flex: 0 0 calc(50% - 12px); max-width: none; }
+      #cat-grid { grid-template-columns: 1fr !important; }
+      .section { padding: 64px 0; }
+      .container { padding: 0 20px; }
     }
     @media (max-width: 480px) {
       .strengths-grid { grid-template-columns: 1fr 1fr; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════ HEADER ════════════ -->
+<!-- ════════ HEADER ════════ -->
 <header class="site-header">
   <div class="header-inner">
-    <!-- 로고 -->
-    <a href="/" class="logo">
-      <div class="logo-icon">MS</div>
-      <div class="logo-text">
-        <div class="logo-name">만성코프레이션</div>
-        <div class="logo-sub">MANSUNG CORPORATION</div>
-      </div>
+    <a href="/" style="text-decoration:none;">
+      <div class="logo-wordmark">만성코프레이션</div>
+      <div class="logo-sub">MANSUNG CORPORATION</div>
     </a>
 
-    <!-- GNB -->
     <nav class="gnb">
       <div class="gnb-item">
         <a href="/company/greeting" class="gnb-link">회사소개</a>
@@ -189,10 +615,9 @@
       </div>
     </nav>
 
-    <!-- 헤더 우측 -->
     <div class="header-actions">
-      <span class="header-tel">031-000-0000</span>
-      <!-- 햄버거 (모바일) -->
+      <span class="header-tel hide-mobile">031-000-0000</span>
+      <a href="/support/contact" class="btn-pri hide-mobile" style="padding:9px 20px; font-size:.8rem;">견적 문의</a>
       <button class="hamburger" aria-label="메뉴 열기">
         <span></span><span></span><span></span>
       </button>
@@ -200,11 +625,10 @@
   </div>
 </header>
 
-<!-- 모바일 드로어 -->
 <div class="mobile-overlay"></div>
 <nav class="mobile-nav">
-  <span class="mobile-nav-close" aria-label="닫기">✕</span>
-  <div style="clear:both; padding-top: 16px;"></div>
+  <span class="mobile-nav-close">✕</span>
+  <div style="clear:both; padding-top:20px;"></div>
   <ul class="mobile-nav-menu">
     <li class="m-menu-item">
       <span class="m-menu-title">회사소개 ▾</span>
@@ -236,69 +660,59 @@
       </ul>
     </li>
   </ul>
-  <div style="margin-top: 24px; font-size: .85rem; color: #888;">
-    <div>📞 031-000-0000</div>
-    <div style="margin-top: 6px;">평일 09:00 ~ 18:00</div>
+  <div style="margin-top:28px; font-family:'Manrope',sans-serif; font-size:.82rem; color:var(--outline); line-height:1.9;">
+    <div>031-000-0000</div>
+    <div>평일 09:00 ~ 18:00</div>
   </div>
 </nav>
 
-<!-- ════════════ HERO 슬라이더 ════════════ -->
+<!-- ════════ HERO ════════ -->
 <section class="hero">
-  <!-- 슬라이드 1 -->
   <div class="hero-slide active">
-    <div class="hero-slide-bg slide-bg-1"></div>
+    <div class="hero-slide-bg">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5ZPlSx2BGZYCPi2ydBA1qQpMBX27VEU_KM1U983eWVtGEWV-JI1od7Wo-Ie-HMpC7RjE9Y1kKVZFzqgiX5KVLnWTvythBYRgOuQZWylOLIvbhptZSUOWmVkZ8Iq-OS7_jvIaXfEl7BkRBS9cwPAGc9CPcnW-g50biOLmD7yn3qLG5hYN4lG728IHU24Pgokv1f4e0JGiM-xHZjBgavmEzw43cfGgr4-5FnDQdkWzBar695DTr8GS4kDrCYUKJzZj0FBsbTtMLDXC8" alt="비닐하우스 전경" />
+    </div>
     <div class="hero-content">
-      <span class="hero-badge">양식장 자재 전문</span>
-      <h1 class="hero-title">
-        농업의 미래를<br>
-        만성코프레이션이<br>
-        함께 만들어갑니다
-      </h1>
-      <p class="hero-desc">30년 이상의 기술력으로 양어장·비닐하우스·각관 부속자재를 전문 생산합니다.</p>
+      <span class="hero-overline">Established Precision · 양식장 자재 전문</span>
+      <h1 class="hero-headline">농업의 미래를<br><em>함께 만들어갑니다.</em></h1>
+      <p class="hero-body">30년 이상의 기술력으로 양어장·비닐하우스·각관 부속자재를 전문 생산합니다.</p>
       <div class="hero-actions">
-        <a href="/products/product01" class="btn btn-primary btn-lg">제품 보기</a>
-        <a href="/support/contact" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">문의하기</a>
+        <a href="/products/product01" class="btn-pri">제품 보기</a>
+        <a href="/support/contact" class="btn-ghost">문의하기</a>
       </div>
     </div>
   </div>
 
-  <!-- 슬라이드 2 -->
   <div class="hero-slide">
-    <div class="hero-slide-bg slide-bg-2"></div>
+    <div class="hero-slide-bg">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZWhb21AKmZxtnKgLIcsaLlkOd7t_93piAS6CpdwEmhuKzGEx5__PM-UAbBrpZOai0nmYh6M6AgIbRBU5yRtWzg6-pXO5D7ia62iQv8h0R0fLukHYalZOc3Eczht6-2YmZbxfOotcL8FGQYDYDaSFzjH6dZY99ZhaHX-wAX2o3_e5XiKwMWJU-2aRMdcRey-IWzBG7aotB-b7wjNRyWWN9ZNOg3dseP4Db2nlpXztLDZEXEVsBUZb9NjnSOonxQnJBbChOwir2wl8C" alt="공장 내부" />
+    </div>
     <div class="hero-content">
-      <span class="hero-badge">각관·연단동 전문</span>
-      <h1 class="hero-title">
-        고품질 각관 자재로<br>
-        신뢰할 수 있는<br>
-        제품을 공급합니다
-      </h1>
-      <p class="hero-desc">60×60, 75×75 각관 및 연단동 부속자재를 고객 요구에 맞게 맞춤 제작합니다.</p>
+      <span class="hero-overline">Manufacturing Excellence · 각관·연단동 전문</span>
+      <h1 class="hero-headline">고품질 각관 자재로<br><em>신뢰를 공급합니다.</em></h1>
+      <p class="hero-body">60×60, 75×75 각관 및 연단동 부속자재를 고객 요구에 맞게 맞춤 제작합니다.</p>
       <div class="hero-actions">
-        <a href="/products/product03" class="btn btn-accent btn-lg">각관 자재</a>
-        <a href="/company/history" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">회사소개</a>
+        <a href="/products/product03" class="btn-pri">각관 자재</a>
+        <a href="/company/history" class="btn-ghost">회사소개</a>
       </div>
     </div>
   </div>
 
-  <!-- 슬라이드 3 -->
   <div class="hero-slide">
-    <div class="hero-slide-bg slide-bg-3"></div>
+    <div class="hero-slide-bg">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA62tVmK_HL-Ft-QLnCSHyQaHsJyyHmvpc8cHsYZd4XaldvRAjfocUI2xXB7l1g8mBaTpFfcX1NFmkdzNT5Mu-u1CPKgmoFErJCUJRtY3oiYiEoqKzsfCJ-OsADflEZyGKLGYYxKSQF--Db7x5w_kpM_RuC8VYySKQcKOinXDxERAV4vvS_BTHd1mwCrgL7W8MlW8tXiFK3IhepbS9rDiqQciI21u70w4pBd508AxKHGAOZ81khlYK9qOS2NCtrV2BtllISVyYkac0R" alt="하우스 내부 작물" />
+    </div>
     <div class="hero-content">
-      <span class="hero-badge">고객 최우선</span>
-      <h1 class="hero-title">
-        전국 어디서나<br>
-        빠른 납기와<br>
-        안정적 공급
-      </h1>
-      <p class="hero-desc">전국 유통망과 물류 시스템으로 신속하고 안정적인 제품 공급을 약속드립니다.</p>
+      <span class="hero-overline">Nationwide Delivery · 고객 최우선</span>
+      <h1 class="hero-headline">전국 어디서나<br><em>빠른 납기와 안정적 공급.</em></h1>
+      <p class="hero-body">전국 유통망과 물류 시스템으로 신속하고 안정적인 제품 공급을 약속드립니다.</p>
       <div class="hero-actions">
-        <a href="/support/contact" class="btn btn-primary btn-lg">견적 문의</a>
-        <a href="/company/location" class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,.7);color:#fff;">찾아오시는길</a>
+        <a href="/support/contact" class="btn-pri">견적 문의</a>
+        <a href="/company/location" class="btn-ghost">찾아오시는길</a>
       </div>
     </div>
   </div>
 
-  <!-- 도트 & 화살표 -->
   <div class="hero-dots">
     <span class="hero-dot active"></span>
     <span class="hero-dot"></span>
@@ -308,136 +722,115 @@
   <button class="hero-arrow next" aria-label="다음">›</button>
 </section>
 
-<!-- ════════════ 퀵 메뉴 ════════════ -->
+<!-- ════════ QUICK MENU ════════ -->
 <div class="quick-menu">
   <div class="quick-menu-grid">
     <a href="/products/product01" class="quick-item">
       <span class="quick-icon">🐟</span>
-      <div>
-        <div class="quick-label">PRODUCTS</div>
-        <div class="quick-title">양어장 부속자재</div>
-      </div>
+      <div><div class="quick-label">PRODUCTS</div><div class="quick-title">양어장 부속자재</div></div>
     </a>
     <a href="/products/product03" class="quick-item">
       <span class="quick-icon">⚙️</span>
-      <div>
-        <div class="quick-label">PRODUCTS</div>
-        <div class="quick-title">각관 부속자재</div>
-      </div>
+      <div><div class="quick-label">PRODUCTS</div><div class="quick-title">각관 부속자재</div></div>
     </a>
     <a href="/support/contact" class="quick-item">
       <span class="quick-icon">📋</span>
-      <div>
-        <div class="quick-label">SERVICE</div>
-        <div class="quick-title">견적 · 문의</div>
-      </div>
+      <div><div class="quick-label">SERVICE</div><div class="quick-title">견적 · 문의</div></div>
     </a>
     <a href="/support/location" class="quick-item">
       <span class="quick-icon">📍</span>
-      <div>
-        <div class="quick-label">LOCATION</div>
-        <div class="quick-title">오시는길</div>
-      </div>
+      <div><div class="quick-label">LOCATION</div><div class="quick-title">오시는길</div></div>
     </a>
   </div>
 </div>
 
-<!-- ════════════ 회사 소개 ════════════ -->
-<section class="section">
+<!-- ════════ ABOUT — surface-container-low ════════ -->
+<section class="section" style="background:var(--surface-container-low);">
   <div class="container">
     <div class="about-grid">
-      <!-- 이미지 영역 -->
-      <div class="about-img">🏭</div>
+      <div class="about-img-wrap">
+        <div class="about-img">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZWhb21AKmZxtnKgLIcsaLlkOd7t_93piAS6CpdwEmhuKzGEx5__PM-UAbBrpZOai0nmYh6M6AgIbRBU5yRtWzg6-pXO5D7ia62iQv8h0R0fLukHYalZOc3Eczht6-2YmZbxfOotcL8FGQYDYDaSFzjH6dZY99ZhaHX-wAX2o3_e5XiKwMWJU-2aRMdcRey-IWzBG7aotB-b7wjNRyWWN9ZNOg3dseP4Db2nlpXztLDZEXEVsBUZb9NjnSOonxQnJBbChOwir2wl8C" alt="만성코프레이션 공장" />
+        </div>
+        <div class="about-badge">
+          <div class="yr">30+</div>
+          <div class="lbl">Years of<br>Excellence</div>
+        </div>
+      </div>
 
-      <!-- 텍스트 영역 -->
       <div>
-        <div class="sec-label">ABOUT US</div>
-        <h2 class="sec-title">
-          30년 이상의 신뢰<br>
-          <span>만성코프레이션</span>
-        </h2>
-        <p style="margin-top:16px; color:var(--text-sub); line-height:1.8; font-size:.95rem;">
+        <span class="sec-label">ABOUT US</span>
+        <h2 class="sec-headline">30년 이상의 신뢰,<br><em>만성코프레이션</em></h2>
+        <div class="rule-bar"></div>
+        <p class="about-body">
           만성코프레이션은 비닐하우스 자재 및 프레스 기반 제품의 전문 제조기업으로,
           창립 이래 고품질 제품과 고객 만족을 최우선 가치로 삼아 성장해왔습니다.
           최신 설비와 엄격한 품질 관리 시스템을 통해 농업용 자재부터 산업용 프레스 제품까지
           다양한 분야의 고객 요구에 부응하고 있습니다.
         </p>
-
-        <!-- 통계 -->
         <div class="about-stats">
-          <div class="stat-item">
-            <div class="stat-value" data-count="30" data-suffix="+">0</div>
-            <div class="stat-unit">업력 (년)</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" data-count="500" data-suffix="+">0</div>
-            <div class="stat-unit">고객사 (개)</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" data-count="200" data-suffix="+">0</div>
-            <div class="stat-unit">제품 종류</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-value" data-count="99" data-suffix="%">0</div>
-            <div class="stat-unit">고객 만족도</div>
-          </div>
+          <div class="stat-card"><div class="stat-num" data-count="30" data-suffix="+">0</div><div class="stat-lbl">업력 (년)</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="500" data-suffix="+">0</div><div class="stat-lbl">고객사 (개)</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="200" data-suffix="+">0</div><div class="stat-lbl">제품 종류</div></div>
+          <div class="stat-card"><div class="stat-num" data-count="99" data-suffix="%">0</div><div class="stat-lbl">고객 만족도</div></div>
         </div>
-
-        <a href="/company/greeting" class="btn btn-primary">회사소개 보기 →</a>
+        <a href="/company/greeting" class="btn-pri">회사소개 보기 →</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════ 핵심 강점 ════════════ -->
-<section class="section" style="background: var(--bg-card);">
+<!-- ════════ STRENGTHS — surface (base) ════════ -->
+<section class="section" style="background:var(--surface);">
   <div class="container">
-    <div class="sec-header">
+    <div style="text-align:center; margin-bottom:56px;">
       <span class="sec-label">WHY MANSUNG</span>
-      <h2 class="sec-title">만성코프레이션을 선택하는 이유</h2>
-      <p class="sec-desc">30년 이상의 경험과 최첨단 설비를 통해 최고의 품질과 서비스를 제공합니다</p>
+      <h2 class="sec-headline" style="text-align:center;">만성코프레이션을 선택하는 이유</h2>
+      <div class="rule-bar center"></div>
     </div>
     <div class="strengths-grid">
       <div class="strength-card">
-        <span class="strength-icon">🏆</span>
+        <div class="strength-icon-wrap">🏆</div>
         <div class="strength-title">검증된 품질</div>
         <p class="strength-desc">ISO 인증 기반의 엄격한 품질관리로 불량률 제로에 도전합니다</p>
+        <div class="chip-row"><span class="spec-chip">ISO 9001</span><span class="spec-chip">Zero Defect</span></div>
       </div>
       <div class="strength-card">
-        <span class="strength-icon">⚡</span>
+        <div class="strength-icon-wrap">⚡</div>
         <div class="strength-title">빠른 납기</div>
         <p class="strength-desc">전국 물류망과 재고 시스템으로 주문 후 최단 시간 내 납품합니다</p>
+        <div class="chip-row"><span class="spec-chip">전국 배송</span><span class="spec-chip">당일 출고</span></div>
       </div>
       <div class="strength-card">
-        <span class="strength-icon">🔧</span>
+        <div class="strength-icon-wrap">🔧</div>
         <div class="strength-title">맞춤 제작</div>
         <p class="strength-desc">고객이 원하는 규격과 형태로 정밀 맞춤 제작 서비스를 제공합니다</p>
+        <div class="chip-row"><span class="spec-chip">Custom Spec</span><span class="spec-chip">Precision CNC</span></div>
       </div>
       <div class="strength-card">
-        <span class="strength-icon">💬</span>
+        <div class="strength-icon-wrap">💬</div>
         <div class="strength-title">전문 상담</div>
         <p class="strength-desc">30년 경력의 전문가가 제품 선택부터 시공까지 밀착 상담합니다</p>
+        <div class="chip-row"><span class="spec-chip">30yr Expert</span><span class="spec-chip">After-care</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════ 제품 소개 ════════════ -->
-<section class="section products-bg">
+<!-- ════════ PRODUCTS — surface-container-low ════════ -->
+<section class="section" style="background:var(--surface-container-low);">
   <div class="container">
-    <div class="sec-header">
+    <div style="text-align:center; margin-bottom:52px;">
       <span class="sec-label">PRODUCTS</span>
-      <h2 class="sec-title">주요 <span>제품</span></h2>
-      <p class="sec-desc">양어장·각관·연단동·고설 등 다양한 부속자재 제품 라인업을 보유하고 있습니다</p>
+      <h2 class="sec-headline" style="text-align:center;">주요 <span>제품</span></h2>
+      <p style="margin-top:14px; font-size:.92rem; color:var(--on-surface-variant); max-width:480px; margin-left:auto; margin-right:auto; line-height:1.78;">
+        양어장·각관·연단동·고설 등 다양한 부속자재 제품 라인업을 보유하고 있습니다
+      </p>
+      <div class="rule-bar center"></div>
     </div>
-
-    <!-- 제품 카테고리 카드 그리드 -->
-    <div id="cat-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:32px;">
-      <!-- 카테고리 카드들은 JS로 렌더링 -->
-    </div>
-
-    <div style="text-align:center; margin-top:40px;">
-      <a href="/products/product01" class="btn btn-outline">전체 제품 보기</a>
+    <div id="cat-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;"></div>
+    <div style="text-align:center; margin-top:52px;">
+      <a href="/products/product01" class="btn-sec">전체 제품 보기</a>
     </div>
   </div>
 </section>
@@ -445,23 +838,33 @@
 <script>
 (function(){
   const cats = [
-    {id:"product01", name:"양어장 부속자재", icon:"🐟", desc:"어류 양식용 비닐하우스 구조물 설치에 필요한 스테인리스·도금 부속자재"},
-    {id:"product02", name:"FTA 부속자재",   icon:"🔗", desc:"FTA 하우스 시공에 최적화된 고강도 연결 및 고정 부속자재"},
-    {id:"product03", name:"각관60×60 부속자재", icon:"⬛", desc:"60×60 각관 구조물용 클램프·브라켓·연결 부속자재 전 라인업"},
-    {id:"product04", name:"각관75×75 부속자재", icon:"🔲", desc:"75×75 각관 대형 구조물 전용 고내구성 부속자재"},
-    {id:"product05", name:"연단동 부속자재", icon:"⚙️", desc:"연동형 비닐하우스 단동 연결에 사용되는 다양한 규격 부속자재"},
-    {id:"product06", name:"고설(수경) 부속자재", icon:"🌿", desc:"수경재배 고설 베드 설치용 전용 부속자재 및 지지대 시스템"},
+    {id:"product01",name:"양어장 부속자재",   chips:["Stainless","UV-Resistant"],  icon:"🐟",desc:"어류 양식용 비닐하우스 구조물 설치에 필요한 스테인리스·도금 부속자재"},
+    {id:"product02",name:"FTA 부속자재",       chips:["High-Tensile","Galvanized"], icon:"🔗",desc:"FTA 하우스 시공에 최적화된 고강도 연결 및 고정 부속자재"},
+    {id:"product03",name:"각관60×60 부속자재",chips:["60×60","Reinforced Steel"],  icon:"⬛",desc:"60×60 각관 구조물용 클램프·브라켓·연결 부속자재 전 라인업"},
+    {id:"product04",name:"각관75×75 부속자재",chips:["75×75","Heavy-Duty"],        icon:"🔲",desc:"75×75 각관 대형 구조물 전용 고내구성 부속자재"},
+    {id:"product05",name:"연단동 부속자재",    chips:["Multi-Span","Anti-Rust"],    icon:"⚙️",desc:"연동형 비닐하우스 단동 연결에 사용되는 다양한 규격 부속자재"},
+    {id:"product06",name:"고설(수경) 부속자재",chips:["Hydroponic","Precision"],   icon:"🌿",desc:"수경재배 고설 베드 설치용 전용 부속자재 및 지지대 시스템"},
+  ];
+  const bg = [
+    'linear-gradient(140deg,#173124,#2d4739,#3d6050)',
+    'linear-gradient(140deg,#1a1000,#3d2800,#6e4800)',
+    'linear-gradient(140deg,#071525,#122a44,#1e4a68)',
+    'linear-gradient(140deg,#180520,#361055,#542282)',
+    'linear-gradient(140deg,#081808,#1a3018,#305830)',
+    'linear-gradient(140deg,#1a1000,#3d2e00,#6b5200)',
   ];
   const grid = document.getElementById('cat-grid');
-  if(!grid) return;
-  grid.innerHTML = cats.map(c => `
-    <a href="/products/${c.id}" class="card" style="text-decoration:none; display:block; transition:transform .2s; cursor:pointer;"
-       onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform=''">
-      <div class="card-img" style="font-size:3rem; background:linear-gradient(135deg,#e6f4eb,#b8dfc4);">${c.icon}</div>
-      <div class="card-body">
+  if (!grid) return;
+  grid.innerHTML = cats.map((c,i) => `
+    <a href="/products/${c.id}" class="cat-card">
+      <div class="cat-card-header" style="background:${bg[i]};">
+        <span style="filter:drop-shadow(0 4px 16px rgba(0,0,0,.28));position:relative;z-index:1;">${c.icon}</span>
+      </div>
+      <div class="cat-card-body">
         <div class="p-cat">제품소개</div>
         <div class="p-name">${c.name}</div>
         <p class="p-desc">${c.desc}</p>
+        <div class="chip-row">${c.chips.map(ch=>`<span class="spec-chip">${ch}</span>`).join('')}</div>
         <span class="p-more">자세히 보기 →</span>
       </div>
     </a>
@@ -469,126 +872,99 @@
 })();
 </script>
 
-<!-- ════════════ 연혁 배너 ════════════ -->
+<!-- ════════ HISTORY — primary bg ════════ -->
 <section class="history-banner">
-  <div class="container">
-    <div class="sec-header" style="margin-bottom:0;">
-      <span class="sec-label" style="color:rgba(255,255,255,.7);">OUR HISTORY</span>
-      <h2 class="sec-title" style="color:var(--white);">만성코프레이션의 <span style="color:var(--accent-light);">성장 역사</span></h2>
+  <div class="container" style="position:relative;z-index:1;">
+    <div style="text-align:center;">
+      <span class="sec-label" style="color:var(--primary-fixed-dim);">OUR HISTORY</span>
+      <h2 class="sec-headline" style="color:var(--on-primary);text-align:center;">
+        만성코프레이션의 <em style="color:var(--primary-fixed);">성장 역사</em>
+      </h2>
+      <div class="rule-bar center" style="background:var(--primary-fixed);opacity:.5;"></div>
     </div>
     <div class="history-items">
-      <div class="h-item">
-        <div class="h-dot">🏭</div>
-        <div class="h-year">1993년</div>
-        <div class="h-text">창립<br>비닐하우스 자재<br>사업 시작</div>
-      </div>
-      <div class="h-item">
-        <div class="h-dot">📈</div>
-        <div class="h-year">2000년</div>
-        <div class="h-text">프레스 사업부<br>신설 및<br>생산 확대</div>
-      </div>
-      <div class="h-item">
-        <div class="h-dot">🏆</div>
-        <div class="h-year">2008년</div>
-        <div class="h-text">ISO 9001<br>품질경영<br>인증 취득</div>
-      </div>
-      <div class="h-item">
-        <div class="h-dot">🌏</div>
-        <div class="h-year">2015년</div>
-        <div class="h-text">수출 시작<br>해외 시장<br>진출</div>
-      </div>
-      <div class="h-item current">
-        <div class="h-dot">🚀</div>
-        <div class="h-year">현재</div>
-        <div class="h-text">연매출 100억+<br>전국 500+<br>고객사 보유</div>
-      </div>
+      <div class="h-item"><div class="h-dot">🏭</div><div class="h-year">1993년</div><div class="h-text">창립<br>비닐하우스 자재<br>사업 시작</div></div>
+      <div class="h-item"><div class="h-dot">📈</div><div class="h-year">2000년</div><div class="h-text">프레스 사업부<br>신설 및<br>생산 확대</div></div>
+      <div class="h-item"><div class="h-dot">🏆</div><div class="h-year">2008년</div><div class="h-text">ISO 9001<br>품질경영<br>인증 취득</div></div>
+      <div class="h-item"><div class="h-dot">🌏</div><div class="h-year">2015년</div><div class="h-text">수출 시작<br>해외 시장<br>진출</div></div>
+      <div class="h-item current"><div class="h-dot">🚀</div><div class="h-year">현재</div><div class="h-text">연매출 100억+<br>전국 500+<br>고객사 보유</div></div>
     </div>
-    <div style="text-align:center; margin-top:40px;">
-      <a href="/company/history" class="btn btn-outline" style="border-color:rgba(255,255,255,.6); color:var(--white);">연혁 전체 보기</a>
+    <div style="text-align:center;margin-top:52px;">
+      <a href="/company/history"
+         style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(204,234,214,.38);color:var(--primary-fixed-dim);font-family:'Manrope',sans-serif;font-size:.86rem;font-weight:700;padding:12px 30px;border-radius:var(--r-full);transition:all .25s;"
+         onmouseover="this.style.background='rgba(204,234,214,.1)'" onmouseout="this.style.background='transparent'">
+        연혁 전체 보기
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ════════════ 공지사항 ════════════ -->
-<section class="section">
+<!-- ════════ NOTICES — surface ════════ -->
+<section class="section" style="background:var(--surface);">
   <div class="container">
     <div class="news-grid">
-      <!-- 공지사항 -->
       <div class="news-panel">
-        <h3>
-          공지사항
-          <a href="/support/notices">더보기 +</a>
-        </h3>
+        <div class="panel-title">공지사항 <a href="/support/notices">더보기 +</a></div>
+        <div class="panel-rule"></div>
         <ul class="notice-list notice-api-list">
-          <li><span class="badge badge-primary">공지</span><span class="n-title">공지사항을 불러오는 중...</span><span class="n-date">-</span></li>
+          <li><span class="badge badge-primary">공지</span><span class="n-title">공지사항을 불러오는 중...</span><span class="n-date">—</span></li>
         </ul>
       </div>
 
-      <!-- 회사 정보 / 연락처 -->
       <div class="news-panel">
-        <h3>고객 상담 안내</h3>
-        <div style="background: var(--bg); border-radius: var(--radius-md); padding: 24px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px;">
-            <div style="text-align:center; padding:16px; background:var(--bg-card); border-radius:var(--radius-sm); border-top:3px solid var(--primary);">
-              <div style="font-size:1.6rem; margin-bottom:8px;">📞</div>
-              <div style="font-size:.75rem; color:var(--gray); margin-bottom:4px;">전화 상담</div>
-              <div style="font-weight:800; color:var(--primary-dark);">031-000-0000</div>
-            </div>
-            <div style="text-align:center; padding:16px; background:var(--bg-card); border-radius:var(--radius-sm); border-top:3px solid var(--accent);">
-              <div style="font-size:1.6rem; margin-bottom:8px;">📧</div>
-              <div style="font-size:.75rem; color:var(--gray); margin-bottom:4px;">이메일 문의</div>
-              <div style="font-weight:800; color:var(--accent);">info@mansung.co.kr</div>
-            </div>
+        <div class="panel-title">고객 상담 안내</div>
+        <div class="panel-rule"></div>
+        <div class="contact-tiles">
+          <div class="contact-tile">
+            <div class="t-icon">📞</div>
+            <div class="t-sub">전화 상담</div>
+            <div class="t-val">031-000-0000</div>
           </div>
-          <div style="font-size:.85rem; color:var(--text-sub); line-height:1.8; margin-bottom:16px;">
-            📅 상담 시간: 평일 09:00 ~ 18:00<br>
-            🏠 주소: 경기도 OO시 OO구 OO로 000<br>
-            📠 팩스: 031-000-0001
+          <div class="contact-tile">
+            <div class="t-icon">📧</div>
+            <div class="t-sub">이메일</div>
+            <div class="t-val" style="font-size:.76rem;">info@mansung.co.kr</div>
           </div>
-          <a href="/support/contact" class="btn btn-primary" style="width:100%; justify-content:center;">온라인 문의하기</a>
         </div>
+        <div style="font-size:.84rem;color:var(--on-surface-variant);line-height:1.9;margin-bottom:24px;">
+          📅 상담 시간: 평일 09:00 ~ 18:00<br>
+          🏠 주소: 경기도 OO시 OO구 OO로 000<br>
+          📠 팩스: 031-000-0001
+        </div>
+        <a href="/support/contact" class="btn-pri" style="width:100%;justify-content:center;">온라인 문의하기</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════ CTA 배너 ════════════ -->
+<!-- ════════ CTA — primary gradient ════════ -->
 <section class="cta-banner">
   <div class="container">
-    <h2>지금 바로 견적을 요청해 보세요!</h2>
-    <p>전문 상담원이 빠르게 최적의 솔루션을 제안해 드립니다</p>
+    <span class="sec-label" style="color:var(--primary-fixed-dim);text-align:center;display:block;">GET IN TOUCH</span>
+    <h2 class="sec-headline" style="color:var(--on-primary);text-align:center;margin-top:8px;">지금 바로 견적을 요청해 보세요!</h2>
+    <p style="color:rgba(255,255,255,.78);font-size:.95rem;margin-top:12px;text-align:center;">전문 상담원이 빠르게 최적의 솔루션을 제안해 드립니다</p>
     <div class="cta-actions">
-      <a href="/support/contact" class="btn btn-white btn-lg">견적 문의하기</a>
-      <a href="tel:031-000-0000" class="btn btn-border btn-lg">📞 전화 상담</a>
+      <a href="/support/contact" class="btn-cta-inv">견적 문의하기</a>
+      <a href="tel:031-000-0000" class="btn-ghost">📞 전화 상담</a>
     </div>
   </div>
 </section>
 
-<!-- ════════════ FOOTER ════════════ -->
+<!-- ════════ FOOTER — inverse-surface ════════ -->
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-top">
-      <!-- 브랜드 -->
-      <div class="footer-brand">
-        <div class="logo">
-          <div class="logo-icon">MS</div>
-          <div class="logo-text">
-            <div class="logo-name">만성코프레이션</div>
-            <div class="logo-sub">MANSUNG CORPORATION</div>
-          </div>
-        </div>
-        <p class="footer-tagline">
-          비닐하우스 자재 및 프레스 제품 전문 제조기업<br>
-          30년의 기술력으로 고객과 함께 성장합니다
-        </p>
-        <div class="footer-address">
+      <div>
+        <div class="f-wordmark">만성코프레이션</div>
+        <div class="f-sub">MANSUNG CORPORATION</div>
+        <div class="f-rule"></div>
+        <p class="f-tagline">비닐하우스 자재 및 프레스 제품 전문 제조기업<br>30년의 기술력으로 고객과 함께 성장합니다</p>
+        <div class="f-address">
           경기도 OO시 OO구 OO로 000<br>
           TEL: 031-000-0000 | FAX: 031-000-0001<br>
           E-mail: info@mansung.co.kr
         </div>
       </div>
-
-      <!-- 사이트맵 -->
       <div class="footer-sitemap">
         <div>
           <h4>회사소개</h4>
@@ -628,7 +1004,7 @@
         </div>
       </div>
     </div>
-
+    <div class="footer-divider"></div>
     <div class="footer-bottom">
       <span>© 2024 만성코프레이션. All Rights Reserved.</span>
       <span>사업자등록번호: 000-00-00000 | 대표: 홍길동</span>
